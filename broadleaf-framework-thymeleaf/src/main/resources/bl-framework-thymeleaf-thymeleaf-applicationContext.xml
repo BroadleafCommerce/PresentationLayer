@@ -183,7 +183,7 @@
         <property name="sourceSet">
             <set>
                 <ref bean="blEmailClasspathTemplateResolver" />                
-                <!--  <ref bean="blEmailCustomTemplateResolver" /> -->
+                <ref bean="blEmailCustomTemplateResolver" />
             </set>
         </property>
     </bean>
