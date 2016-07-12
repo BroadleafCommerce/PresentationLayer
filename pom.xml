@@ -20,6 +20,9 @@
     <properties>
         <project.uri>${project.baseUri}</project.uri>
         <thymeleaf.version>2.1.4.RELEASE</thymeleaf.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <blc.version>5.0.3-SNAPSHOT</blc.version>
+        <attachSources>false</attachSources>
     </properties>
     
     <repositories>
@@ -105,18 +108,20 @@
         </plugins>
     </build>
     
-    <dependencies>
-        <dependency>
-            <groupId>org.thymeleaf</groupId>
-            <artifactId>thymeleaf</artifactId>
-            <version>${thymeleaf.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.thymeleaf</groupId>
-            <artifactId>thymeleaf-spring4</artifactId>
-            <version>${thymeleaf.version}</version>
-        </dependency>
-    </dependencies>
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.thymeleaf</groupId>
+                <artifactId>thymeleaf</artifactId>
+                <version>${thymeleaf.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.thymeleaf</groupId>
+                <artifactId>thymeleaf-spring4</artifactId>
+                <version>${thymeleaf.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
     <modules>
         <module>broadleaf-framework-thymeleaf</module>

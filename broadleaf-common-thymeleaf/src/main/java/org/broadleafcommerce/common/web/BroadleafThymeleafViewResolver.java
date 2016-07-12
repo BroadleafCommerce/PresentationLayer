@@ -25,6 +25,8 @@ import org.broadleafcommerce.common.web.controller.BroadleafControllerUtility;
 import org.springframework.util.PatternMatchUtils;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.web.context.request.ServletWebRequest;
+import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.view.RedirectView;
 import org.thymeleaf.spring4.view.AbstractThymeleafView;
@@ -71,7 +73,7 @@ public class BroadleafThymeleafViewResolver extends ThymeleafViewResolver {
      */
     public static final String AJAX_REDIRECT_URL_PREFIX = "ajaxredirect:";
     
-    protected Map<String, String> layoutMap = new HashMap<String, String>();
+    protected Map<String, String> layoutMap = new HashMap<>();
     protected String fullPageLayout = "layout/fullPageLayout";
     protected String iframeLayout = "layout/iframeLayout";
     
@@ -92,10 +94,10 @@ public class BroadleafThymeleafViewResolver extends ThymeleafViewResolver {
 
     @Override
     public View resolveViewName(String viewName, Locale locale) throws Exception {
-        ExtensionResultHolder<String> erh = new ExtensionResultHolder<String>();
+        ExtensionResultHolder<String> erh = new ExtensionResultHolder<>();
         extensionManager.getProxy().overrideView(erh, viewName, isAjaxRequest());
 
-        String viewOverride = (String) erh.getResult();
+        String viewOverride = erh.getResult();
 
         if (viewOverride != null) {
             viewName = viewOverride;
@@ -174,7 +176,7 @@ public class BroadleafThymeleafViewResolver extends ThymeleafViewResolver {
         AbstractThymeleafView view = null;
         boolean ajaxRequest = isAjaxRequest();
         
-        ExtensionResultHolder<String> erh = new ExtensionResultHolder<String>();
+        ExtensionResultHolder<String> erh = new ExtensionResultHolder<>();
         extensionManager.getProxy().provideTemplateWrapper(erh, originalViewName, ajaxRequest);
         String templateWrapper = erh.getResult();
 
@@ -196,10 +198,10 @@ public class BroadleafThymeleafViewResolver extends ThymeleafViewResolver {
     protected Object getCacheKey(String viewName, Locale locale) {
         String cacheKey = viewName + "_" + locale + "_" + isAjaxRequest();
 
-        ExtensionResultHolder<String> erh = new ExtensionResultHolder<String>();
+        ExtensionResultHolder<String> erh = new ExtensionResultHolder<>();
         extensionManager.getProxy().appendCacheKey(erh, viewName, isAjaxRequest());
 
-        String addlCacheKey = (String) erh.getResult();
+        String addlCacheKey = erh.getResult();
 
         if (addlCacheKey != null) {
             cacheKey = cacheKey + "_" + addlCacheKey;
@@ -209,16 +211,25 @@ public class BroadleafThymeleafViewResolver extends ThymeleafViewResolver {
     }
     
     protected boolean isIFrameRequest() {
-        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        WebRequest request = getCurrentRequest();
+
         String iFrameParameter = request.getParameter("blcIFrame");
         return (iFrameParameter != null && "true".equals(iFrameParameter));
     }
     
     protected boolean isAjaxRequest() {
+        WebRequest request = getCurrentRequest();
+        if (request == null) {
+            return false;
+        }
+        return BroadleafControllerUtility.isAjaxRequest(request);
+    }
+    
+    protected WebRequest getCurrentRequest() {
         // First, let's try to get it from the BroadleafRequestContext
-        HttpServletRequest request = null;
+        WebRequest request = null;
         if (BroadleafRequestContext.getBroadleafRequestContext() != null) {
-            HttpServletRequest brcRequest = BroadleafRequestContext.getBroadleafRequestContext().getRequest();
+            WebRequest brcRequest = BroadleafRequestContext.getBroadleafRequestContext().getWebRequest();
             if (brcRequest != null) {
                 request = brcRequest;
             }
@@ -227,7 +238,8 @@ public class BroadleafThymeleafViewResolver extends ThymeleafViewResolver {
         // If we didn't find it there, we might be outside of a security-configured uri. Let's see if the filter got it
         if (request == null) {
             try {
-                request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest(); 
+                HttpServletRequest servletRequest = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+                request = new ServletWebRequest(servletRequest);
             } catch (ClassCastException e) {
                 // In portlet environments, we won't be able to cast to a ServletRequestAttributes. We don't want to 
                 // blow up in these scenarios.
@@ -236,12 +248,7 @@ public class BroadleafThymeleafViewResolver extends ThymeleafViewResolver {
             }
         }
         
-        // If we still don't have a request object, we'll default to non-ajax
-        if (request == null) {
-            return false;
-        }
-                
-        return BroadleafControllerUtility.isAjaxRequest(request);
+        return request;
     }
 
     /**

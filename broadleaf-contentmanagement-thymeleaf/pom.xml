@@ -31,10 +31,6 @@
     </developers>
     <properties>
         <project.uri>${project.baseUri}/../</project.uri>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <blc.version>5.0.2-SNAPSHOT</blc.version>
-        <attachSources>false</attachSources>
-        <broadleaf-common-modules-enterprise.version>3.0.0-GA</broadleaf-common-modules-enterprise.version>
     </properties>
     <scm>
         <connection>scm:git:git@github.com:BroadleafCommerce/Enterprise.git</connection>
@@ -103,6 +99,13 @@
             <type>jar</type>
             <scope>compile</scope>
             <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>servlet-api</artifactId>
+            <version>2.5</version>
+            <type>jar</type>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 </project>
