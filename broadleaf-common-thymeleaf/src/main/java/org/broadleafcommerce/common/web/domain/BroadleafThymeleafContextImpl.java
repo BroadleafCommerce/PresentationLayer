@@ -28,6 +28,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Concrete implementation of utilities that can be done during execution of a processor.
+ * The underlying encapsulated object is an {@code Arguments} object
+ * 
+ * @author Jay Aisenbrey (cja769)
+ *
+ */
 public class BroadleafThymeleafContextImpl implements BroadleafThymeleafContext {
 
     protected Arguments arguments;
@@ -67,12 +74,12 @@ public class BroadleafThymeleafContextImpl implements BroadleafThymeleafContext 
     }
 
     @Override
-    public BroadleafThymeleafStandaloneElement createStandaloneElement(String tagName, Map<String, String> attributes, boolean useDoubleQuotes) {
+    public BroadleafThymeleafElement createStandaloneElement(String tagName, Map<String, String> attributes, boolean useDoubleQuotes) {
         return createNonTextElement(tagName, attributes);
     }
 
     @Override
-    public BroadleafThymeleafStandaloneElement createStandaloneElement(String tagName) {
+    public BroadleafThymeleafElement createStandaloneElement(String tagName) {
         return createNonTextElement(tagName);
     }
 
@@ -87,7 +94,7 @@ public class BroadleafThymeleafContextImpl implements BroadleafThymeleafContext 
     }
 
     @Override
-    public BroadleafThymeleafTextElement createTextElement(String text) {
+    public BroadleafThymeleafElement createTextElement(String text) {
         return new BroadleafThymeleafTextElementImpl(new Macro(text));
     }
 

@@ -19,7 +19,16 @@ package org.broadleafcommerce.common.web.domain;
 
 import org.thymeleaf.dom.Node;
 
-public interface BroadleafThymeleafTemplateEvent {
+/**
+ * Interface that should be implemented for all {@code BroadleafThymeleafElement}s so that 
+ * the module code can retrieve the underlying Thymeleaf 2 objects
+ * 
+ * Note that this is only for use inside of the Broadleaf common layer for Thymeleaf module
+ * 
+ * @author Jay Aisenbrey (cja769)
+ *
+ */
+public interface BroadleafThymeleafTemplateEvent extends BroadleafThymeleafElement {
 
     public Node getNode();
 }

@@ -20,7 +20,15 @@ package org.broadleafcommerce.common.web.domain;
 import org.thymeleaf.dom.Element;
 import org.thymeleaf.dom.Node;
 
-public class BroadleafThymeleafNonTextElementImpl implements BroadleafThymeleafStandaloneElement, BroadleafThymeleafNonVoidElement, BroadleafThymeleafTemplateEvent {
+/**
+ * Class used to encapsulate the Thymeleaf 2 version of an element
+ * 
+ * Note that this is only for use inside of the Broadleaf common layer for Thymeleaf module
+ * 
+ * @author Jay Aisenbrey (cja769)
+ *
+ */
+public class BroadleafThymeleafNonTextElementImpl implements BroadleafThymeleafNonVoidElement, BroadleafThymeleafTemplateEvent {
 
     protected Element element;
 

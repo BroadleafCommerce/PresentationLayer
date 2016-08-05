@@ -20,8 +20,19 @@ package org.broadleafcommerce.common.web.domain;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * A class used to mimic Thymeleaf 3's model in order for processor code to be the same for Thymeleaf 2 and 3. 
+ * The model is modified using {@code BroadleafThymeleafTemplateEvent}s and then used to
+ * modify the original model sent to the processor
+ * 
+ * Note that this is only for use inside of the Broadleaf common layer for Thymeleaf module
+ * 
+ * @author Jay Aisenbrey (cja769)
+ *
+ */
 public class BroadleafThymeleafModelImpl implements BroadleafThymeleafModel {
 
+    // This is an ArrayList specifically so that the elements stay in order for when they're added to the actual DOM
     protected ArrayList<BroadleafThymeleafElement> elements;
 
     public BroadleafThymeleafModelImpl(ArrayList<BroadleafThymeleafElement> elements) {

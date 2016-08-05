@@ -19,7 +19,15 @@ package org.broadleafcommerce.common.web.domain;
 
 import org.thymeleaf.dom.Node;
 
-public class BroadleafThymeleafTextElementImpl implements BroadleafThymeleafTextElement, BroadleafThymeleafTemplateEvent {
+/**
+ * Class that's used for encapsulating a Thymeleaf 2 text node
+ * 
+ * Note that this is only for use inside of the Broadleaf common layer for Thymeleaf module
+ * 
+ * @author Jay Aisenbrey (cja769)
+ *
+ */
+public class BroadleafThymeleafTextElementImpl implements BroadleafThymeleafTemplateEvent {
 
     protected Node text;
 

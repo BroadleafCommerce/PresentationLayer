@@ -20,6 +20,13 @@ package org.broadleafcommerce.common.web.domain;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Holder object for passing around a {@code BroadleafThymeleafModel} and a Map that represents the parameters
+ * that should be used when creating a form. See {@code AbstractBroadleafFormReplacementProcessor}
+ * 
+ * @author Jay Aisenbrey (cja769)
+ *
+ */
 public class BroadleafThymeleafFormReplacementDTO {
 
     protected BroadleafThymeleafModel model;

@@ -17,6 +17,12 @@
  */
 package org.broadleafcommerce.common.web.domain;
 
+/**
+ * Interface of a basic structure has inside of it other elements. This is effectively set of HTML DOM elements
+ * 
+ * @author Jay Aisenbrey (cja769)
+ *
+ */
 public interface BroadleafThymeleafModel {
 
     public void addElement(BroadleafThymeleafElement elem);

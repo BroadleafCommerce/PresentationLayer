@@ -17,7 +17,12 @@
  */
 package org.broadleafcommerce.common.web.domain;
 
-
+/**
+ * Marker interface that serves as a common base that can be passed around via processor code not in the module
+ * 
+ * @author Jay Aisenbrey (cja769)
+ *
+ */
 public interface BroadleafThymeleafElement {
 
 }

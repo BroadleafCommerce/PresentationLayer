@@ -20,6 +20,12 @@ package org.broadleafcommerce.common.web.domain;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Interface that lines out a set of utilities that should be able to be done during execution of a processor
+ * 
+ * @author Jay Aisenbrey (cja769)
+ *
+ */
 public interface BroadleafThymeleafContext {
 
     public Object parseExpression(String value);
@@ -30,11 +36,11 @@ public interface BroadleafThymeleafContext {
 
     public BroadleafThymeleafNonVoidElement createNonVoidElement(String tagName);
 
-    public BroadleafThymeleafStandaloneElement createStandaloneElement(String tagName, Map<String, String> attributes, boolean useDoubleQuotes);
+    public BroadleafThymeleafElement createStandaloneElement(String tagName, Map<String, String> attributes, boolean useDoubleQuotes);
 
-    public BroadleafThymeleafStandaloneElement createStandaloneElement(String tagName);
+    public BroadleafThymeleafElement createStandaloneElement(String tagName);
 
-    public BroadleafThymeleafTextElement createTextElement(String text);
+    public BroadleafThymeleafElement createTextElement(String text);
 
     public BroadleafThymeleafModel createModel();
 }
