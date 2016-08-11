@@ -35,10 +35,10 @@ import java.util.Map;
  * @author Jay Aisenbrey (cja769)
  *
  */
-public class BroadleafThymeleafContextImpl implements BroadleafThymeleafContext {
+public class BroadleafThymeleafContextImpl implements BroadleafThymeleafContext { 
 
     protected Arguments arguments;
-
+    
     public BroadleafThymeleafContextImpl(Arguments arguments) {
         this.arguments = arguments;
     }
@@ -102,4 +102,21 @@ public class BroadleafThymeleafContextImpl implements BroadleafThymeleafContext 
     public BroadleafThymeleafModel createModel() {
         return new BroadleafThymeleafModelImpl();
     }
+
+    @Override
+    public void setNodeLocalVariable(BroadleafThymeleafElement element, String key, Object value) {
+        ((BroadleafThymeleafTemplateEvent) element).getNode().setNodeLocalVariable(key, value);
+        
+    }
+
+    @Override
+    public void setNodeLocalVariables(BroadleafThymeleafElement element, Map<String, Object> variableMap) {
+        ((BroadleafThymeleafTemplateEvent) element).getNode().setAllNodeLocalVariables(variableMap);
+    }
+
+    @Override
+    public Object getVariable(String name) {
+        return arguments.getContext().getVariables().get(name);
+    }
+
 }

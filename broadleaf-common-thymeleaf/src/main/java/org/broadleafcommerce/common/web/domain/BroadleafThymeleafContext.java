@@ -43,4 +43,10 @@ public interface BroadleafThymeleafContext {
     public BroadleafThymeleafElement createTextElement(String text);
 
     public BroadleafThymeleafModel createModel();
+    
+    public void setNodeLocalVariable(BroadleafThymeleafElement element, String key, Object value);
+    
+    public void setNodeLocalVariables(BroadleafThymeleafElement element, Map<String, Object> variableMap);
+    
+    public Object getVariable(String name);
 }
