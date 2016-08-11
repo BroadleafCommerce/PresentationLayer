@@ -73,7 +73,8 @@ public abstract class AbstractModelVariableModifierProcessor extends AbstractEle
             for (Map.Entry<String, Object> entry : newModelVariables.entrySet()) {
                 addToModel(arguments, entry.getKey(), entry.getValue());
             }
-            // Remove the tag from the DOM
+            // Remove the tag from the DOM. Only done with global because local scope will be lost otherwise
+            // Presumably this is a bug because this acts differently in Thymeleaf 3
             final NestableNode parent = element.getParent();
             parent.removeChild(element);
             return ProcessorResult.OK;
