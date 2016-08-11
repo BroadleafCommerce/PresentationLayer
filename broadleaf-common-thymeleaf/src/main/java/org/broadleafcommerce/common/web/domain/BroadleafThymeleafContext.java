@@ -17,6 +17,8 @@
  */
 package org.broadleafcommerce.common.web.domain;
 
+import org.springframework.web.servlet.support.BindStatus;
+
 import java.util.List;
 import java.util.Map;
 
@@ -49,4 +51,6 @@ public interface BroadleafThymeleafContext {
     public void setNodeLocalVariables(BroadleafThymeleafElement element, Map<String, Object> variableMap);
     
     public Object getVariable(String name);
+    
+    public BindStatus getBindStatus(String attributeValue);
 }

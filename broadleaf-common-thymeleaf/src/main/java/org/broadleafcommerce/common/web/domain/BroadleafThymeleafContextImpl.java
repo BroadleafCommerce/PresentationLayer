@@ -17,9 +17,11 @@
  */
 package org.broadleafcommerce.common.web.domain;
 
+import org.springframework.web.servlet.support.BindStatus;
 import org.thymeleaf.Arguments;
 import org.thymeleaf.dom.Element;
 import org.thymeleaf.dom.Macro;
+import org.thymeleaf.spring4.util.FieldUtils;
 import org.thymeleaf.standard.expression.Assignation;
 import org.thymeleaf.standard.expression.AssignationUtils;
 import org.thymeleaf.standard.expression.StandardExpressions;
@@ -117,6 +119,11 @@ public class BroadleafThymeleafContextImpl implements BroadleafThymeleafContext 
     @Override
     public Object getVariable(String name) {
         return arguments.getContext().getVariables().get(name);
+    }
+
+    @Override
+    public BindStatus getBindStatus(String attributeValue) {
+        return FieldUtils.getBindStatus(arguments.getConfiguration(), arguments, attributeValue);
     }
 
 }
