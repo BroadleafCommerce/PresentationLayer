@@ -17,6 +17,7 @@
  */
 package org.broadleafcommerce.common.web.dialect;
 
+import org.apache.commons.collections.MapUtils;
 import org.broadleafcommerce.common.web.domain.BroadleafThymeleafContext;
 import org.broadleafcommerce.common.web.domain.BroadleafThymeleafContextImpl;
 import org.broadleafcommerce.common.web.domain.BroadleafThymeleafElement;
@@ -52,11 +53,17 @@ public abstract class AbstractBroadleafFormReplacementProcessor extends Abstract
             tagAttributes.put(element.getAttributeOriginalNameFromNormalizedName(key), attributeMap.get(key).getValue());
         }
         BroadleafThymeleafFormReplacementDTO dto = getInjectedModelAndFormAttributes(tagName, tagAttributes, context);
+        if (dto == null) {
+            dto = new BroadleafThymeleafFormReplacementDTO();
+        }
         Map<String, String> newParams = dto.getFormParameters();
         if (newParams == null) {
             newParams = new HashMap<>();
         }
         Element newForm = element.cloneElementNodeWithNewName(element.getParent(), "form", false);
+        if (!MapUtils.isEmpty(dto.getFormLocalVariables())) {
+            newForm.setAllNodeLocalVariables(dto.getFormLocalVariables());
+        }
         newForm.setAttributes(newParams);
         if (dto.getModel() != null) {
             List<BroadleafThymeleafElement> elementsToAdd = ((BroadleafThymeleafModelImpl) dto.getModel()).getElements();

@@ -31,15 +31,23 @@ public class BroadleafThymeleafFormReplacementDTO {
 
     protected BroadleafThymeleafModel model;
     protected Map<String, String> formParameters;
+    protected Map<String, Object> formLocalVariables;
 
     public BroadleafThymeleafFormReplacementDTO(BroadleafThymeleafModel model, Map<String, String> formParameters) {
         this.model = model;
         this.formParameters = formParameters;
     }
+    
+    public BroadleafThymeleafFormReplacementDTO(BroadleafThymeleafModel model, Map<String, String> formParameters, Map<String, Object> formLocalVariables) {
+        this.model = model;
+        this.formParameters = formParameters;
+        this.formLocalVariables = formLocalVariables;
+    }
 
     public BroadleafThymeleafFormReplacementDTO() {
         model = null;
         formParameters = new HashMap<>();
+        formLocalVariables = new HashMap<>();
     }
 
     public BroadleafThymeleafModel getModel() {
@@ -56,5 +64,13 @@ public class BroadleafThymeleafFormReplacementDTO {
 
     public void setFormParameters(Map<String, String> formParameters) {
         this.formParameters = formParameters;
+    }
+
+    public Map<String, Object> getFormLocalVariables() {
+        return formLocalVariables;
+    }
+
+    public void setFormLocalVariables(Map<String, Object> formLocalVariables) {
+        this.formLocalVariables = formLocalVariables;
     }
 }
