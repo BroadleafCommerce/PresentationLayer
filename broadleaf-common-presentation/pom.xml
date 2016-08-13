@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.broadleafcommerce</groupId>
+        <artifactId>broadleaf-presentation</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>broadleaf-common-presentation</artifactId>
+
+    <description>BroadleafCommerce Enterprise Module</description>
+    <url>http://www.broadleafcommerce.org</url>
+    <licenses>
+        <license>
+            <name>Broadleaf End User License Agreement 1.1</name>
+            <url>http://license.broadleafcommerce.org/commercial_license-1.1.txt</url>
+            <distribution>repo</distribution>
+            <comments>Broadleaf Commerce Commercial License</comments>
+        </license>
+    </licenses>
+    <developers>
+        <developer>
+            <id>architect</id>
+            <email>architect@broadleafcommerce.org</email>
+            <organization>Broadleaf Commerce</organization>
+            <organizationUrl>http://www.broadleafcommerce.org</organizationUrl>
+            <timezone>-6</timezone>
+        </developer>
+    </developers>
+    <properties>
+        <project.uri>${project.baseUri}/../</project.uri>
+        <spring.version>4.1.9.RELEASE</spring.version>
+    </properties>
+    <scm>
+        <connection>scm:git:git@github.com:BroadleafCommerce/Enterprise.git</connection>
+        <developerConnection>scm:git:git@github.com:BroadleafCommerce/Enterprise.git</developerConnection>
+        <url>https://github.com/BroadleafCommerce/Enterprise</url>
+        <tag>HEAD</tag>
+    </scm>
+    <repositories>
+        <repository>
+            <id>enterprise-releases</id>
+            <name>enterprise-releases</name>
+            <url>http://nexus.broadleafcommerce.org/nexus/content/groups/enterprise-releases/</url>
+        </repository>
+        <repository>
+            <id>enterprise-snapshots</id>
+            <name>enterprise-snapshots</name>
+            <url>http://nexus.broadleafcommerce.org/nexus/content/groups/enterprise-snapshots/</url>
+        </repository>
+        <repository>
+            <id>framework-5-releases</id>
+            <name>framework-5-releases</name>
+            <url>http://nexus.broadleafcommerce.org/nexus/content/repositories/framework-5-releases/</url>
+        </repository>
+    </repositories>
+    <distributionManagement>
+        <snapshotRepository>
+            <id>snapshots</id>
+            <url>http://nexus.broadleafcommerce.org/nexus/content/repositories/broadleaf-common-thymeleaf-snapshots/</url>
+        </snapshotRepository>
+        <repository>
+            <id>releases</id>
+            <url>http://nexus.broadleafcommerce.org/nexus/content/repositories/broadleaf-common-thymeleaf-releases/</url>
+        </repository>
+    </distributionManagement>
+    <profiles>
+        <profile>
+            <id>sources</id>
+            <activation>
+                <property>
+                    <name>attachSources</name>
+                    <value>true</value>
+                </property>
+            </activation>
+            <distributionManagement>
+                <snapshotRepository>
+                    <id>snapshots</id>
+                    <url>http://nexus.broadleafcommerce.org/nexus/content/repositories/broadleaf-common-thymeleaf-source-snapshots/</url>
+                </snapshotRepository>
+                <repository>
+                    <id>releases</id>
+                    <url>http://nexus.broadleafcommerce.org/nexus/content/repositories/broadleaf-common-thymeleaf-source-releases/</url>
+                </repository>
+            </distributionManagement>
+        </profile>
+    </profiles>
+    <dependencies>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>servlet-api</artifactId>
+            <version>2.5</version>
+            <type>jar</type>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webmvc</artifactId>
+            <version>${spring.version}</version>
+            <type>jar</type>
+            <scope>compile</scope>
+        </dependency>
+    </dependencies>
+</project>

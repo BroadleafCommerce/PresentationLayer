@@ -9,7 +9,7 @@
     </parent>
 
     <groupId>org.broadleafcommerce</groupId>
-    <artifactId>broadleaf-thymeleaf</artifactId>
+    <artifactId>broadleaf-presentation</artifactId>
     <version>1.0.0-SNAPSHOT</version>
 
     <packaging>pom</packaging>
@@ -19,11 +19,9 @@
     
     <properties>
         <project.uri>${project.baseUri}</project.uri>
-        <thymeleaf.version>2.1.4.RELEASE</thymeleaf.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <blc.version>5.0.3-SNAPSHOT</blc.version>
         <attachSources>false</attachSources>
-        <thymeleaf.layout.version>1.2.5</thymeleaf.layout.version>
     </properties>
     
     <repositories>
@@ -108,32 +106,23 @@
             </plugin>
         </plugins>
     </build>
-    
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>org.thymeleaf</groupId>
-                <artifactId>thymeleaf</artifactId>
-                <version>${thymeleaf.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.thymeleaf</groupId>
-                <artifactId>thymeleaf-spring4</artifactId>
-                <version>${thymeleaf.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>nz.net.ultraq.thymeleaf</groupId>
-                <artifactId>thymeleaf-layout-dialect</artifactId>
-                <version>${thymeleaf.layout.version}</version>
+                <groupId>org.broadleafcommerce</groupId>
+                <artifactId>broadleaf-common</artifactId>
+                <version>${blc.version}</version>
+                <type>jar</type>
+                <scope>compile</scope>
+                <optional>true</optional>
             </dependency>
         </dependencies>
     </dependencyManagement>
 
     <modules>
-        <module>broadleaf-framework-thymeleaf</module>
-        <module>broadleaf-common-thymeleaf</module>
-        <module>broadleaf-contentmanagement-thymeleaf</module>
-        <module>broadleaf-profile-thymeleaf</module>
+        <module>broadleaf-thymeleaf2-presentation</module>
+        <module>broadleaf-thymeleaf3-presentation</module>
+        <module>broadleaf-common-presentation</module>
   </modules>
 </project>
 
