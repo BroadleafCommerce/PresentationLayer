@@ -30,14 +30,13 @@ import org.thymeleaf.templatemode.TemplateMode;
 import java.util.Map;
 
 
-public abstract class AbstractBroadleafTagReplacementProcessor extends AbstractElementTagProcessor {
+public class DelegatingBroadleafTagReplacementProcessor extends AbstractElementTagProcessor {
 
-    public AbstractBroadleafTagReplacementProcessor(String tagName, int precedence) {
+    protected BroadleafTagReplacementProcessor processor;
+    
+    public DelegatingBroadleafTagReplacementProcessor(String tagName, BroadleafTagReplacementProcessor processor, int precedence) {
         super(TemplateMode.HTML, "blc", tagName, true, null, false, precedence);
-    }
-
-    public AbstractBroadleafTagReplacementProcessor(String tagName) {
-        this(tagName, 10000);
+        this.processor = processor;
     }
 
     @Override
@@ -45,17 +44,11 @@ public abstract class AbstractBroadleafTagReplacementProcessor extends AbstractE
         BroadleafThymeleafContext blcContext = new BroadleafThymeleafContextImpl(context, structureHandler);
         String tagName = tag.getElementCompleteName();
         Map<String, String> tagAttributes = tag.getAttributeMap();
-        BroadleafThymeleafModel blcModel = getReplacementModel(tagName, tagAttributes, blcContext);
+        BroadleafThymeleafModel blcModel = processor.getReplacementModel(tagName, tagAttributes, blcContext);
         if (blcModel != null) {
-            structureHandler.replaceWith(((BroadleafThymeleafModelImpl) blcModel).getModel(), replacementNeedsProcessing());
+            structureHandler.replaceWith(((BroadleafThymeleafModelImpl) blcModel).getModel(), processor.replacementNeedsProcessing());
         } else {
             structureHandler.removeTags();
         }
     }
-
-    protected boolean replacementNeedsProcessing() {
-        return false;
-    }
-    protected abstract BroadleafThymeleafModel getReplacementModel(String tagName, Map<String, String> tagAttributes, BroadleafThymeleafContext context);
-
 }

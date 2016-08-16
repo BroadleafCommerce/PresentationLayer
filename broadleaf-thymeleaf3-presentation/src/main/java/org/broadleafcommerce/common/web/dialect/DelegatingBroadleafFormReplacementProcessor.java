@@ -33,10 +33,13 @@ import org.thymeleaf.templatemode.TemplateMode;
 import java.util.HashMap;
 import java.util.Map;
 
-public abstract class AbstractBroadleafFormReplacementProcessor extends AbstractElementModelProcessor {
-
-    public AbstractBroadleafFormReplacementProcessor(String elementName, int precedence) {
+public class DelegatingBroadleafFormReplacementProcessor extends AbstractElementModelProcessor {
+    
+    protected BroadleafFormReplacementProcessor processor;
+    
+    public DelegatingBroadleafFormReplacementProcessor(String elementName, BroadleafFormReplacementProcessor processor, int precedence) {
         super(TemplateMode.HTML, "blc", elementName, true, null, false, precedence);
+        this.processor = processor;
     }
     
     @Override
@@ -45,7 +48,7 @@ public abstract class AbstractBroadleafFormReplacementProcessor extends Abstract
         String rootTagName = rootTag.getElementCompleteName();
         Map<String, String> rootTagAttributes = rootTag.getAttributeMap();
         BroadleafThymeleafContext blcContext = new BroadleafThymeleafContextImpl(context, structureHandler);
-        BroadleafThymeleafFormReplacementDTO dto = getInjectedModelAndFormAttributes(rootTagName, rootTagAttributes, blcContext);
+        BroadleafThymeleafFormReplacementDTO dto = processor.getInjectedModelAndFormAttributes(rootTagName, rootTagAttributes, blcContext);
         if (dto.getModel() != null) {
             model.insertModel(model.size() - 1, ((BroadleafThymeleafModelImpl) dto.getModel()).getModel());
         }
@@ -53,7 +56,7 @@ public abstract class AbstractBroadleafFormReplacementProcessor extends Abstract
         if (newParams == null) {
             newParams = new HashMap<>();
         }
-        model.replace(0, context.getModelFactory().createOpenElementTag("form", dto.getFormParameters(), useSingleQuotes() ? AttributeValueQuotes.SINGLE : AttributeValueQuotes.DOUBLE, false));
+        model.replace(0, context.getModelFactory().createOpenElementTag("form", dto.getFormParameters(), processor.useSingleQuotes() ? AttributeValueQuotes.SINGLE : AttributeValueQuotes.DOUBLE, false));
         model.replace(model.size() - 1, context.getModelFactory().createCloseElementTag("form"));
         if (!MapUtils.isEmpty(dto.getFormLocalVariables())) {
             for (String key : dto.getFormLocalVariables().keySet()) {
@@ -61,15 +64,4 @@ public abstract class AbstractBroadleafFormReplacementProcessor extends Abstract
             }
         }
     }
-
-    protected boolean useSingleQuotes() {
-        return false;
-    }
-
-    protected boolean reprocessModel() {
-        return false;
-    }
-
-    protected abstract BroadleafThymeleafFormReplacementDTO getInjectedModelAndFormAttributes(String rootTagName, Map<String, String> rootTagAttributes, BroadleafThymeleafContext context);
-
 }

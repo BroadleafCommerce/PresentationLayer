@@ -42,16 +42,14 @@ import java.util.Set;
  * to the current evaluation context (model) for processing in the remainder of the page.
  *
  */
-public abstract class AbstractModelVariableModifierProcessor extends AbstractElementTagProcessor {
+public class DelegatingBroadleafModelVariableModifierProcessor extends AbstractElementTagProcessor {
     
-    private static final Log LOG = LogFactory.getLog(AbstractModelVariableModifierProcessor.class);
-
-    public AbstractModelVariableModifierProcessor(String elementName, int precedence) {
+    private static final Log LOG = LogFactory.getLog(DelegatingBroadleafModelVariableModifierProcessor.class);
+    protected BroadleafModelVariableModifierProcessor processor;
+    
+    public DelegatingBroadleafModelVariableModifierProcessor(String elementName, BroadleafModelVariableModifierProcessor processor, int precedence) {
         super(TemplateMode.HTML, BLCDialect.PREFIX, elementName, true, null, false, precedence);
-    }
-
-    public AbstractModelVariableModifierProcessor(String elementName) {
-        this(elementName, 1000);
+        this.processor = processor;
     }
 
     /**
@@ -62,7 +60,7 @@ public abstract class AbstractModelVariableModifierProcessor extends AbstractEle
         Map<String, String> attributes = tag.getAttributeMap();
         Map<String, Object> newModelVariables = new HashMap<>();
         BroadleafThymeleafContext blcContext = new BroadleafThymeleafContextImpl(context, structureHandler);
-        populateModelVariables(tag.getElementCompleteName(), attributes, newModelVariables, blcContext);
+        processor.populateModelVariables(tag.getElementCompleteName(), attributes, newModelVariables, blcContext);
         
         for (Map.Entry<String, Object> entry : newModelVariables.entrySet()) {
             addToModel(structureHandler, entry.getKey(), entry.getValue());
@@ -73,7 +71,10 @@ public abstract class AbstractModelVariableModifierProcessor extends AbstractEle
     }
 
     private void addToModel(IElementTagStructureHandler structureHandler, String key, Object value) {
-        if (!addToLocal()) {
+        if (!processor.addToLocal()) {
+            if (processor.getCollectionModelVariableNamesToAddTo() != null && processor.getCollectionModelVariableNamesToAddTo().contains(key)) {
+                addItemToExistingSet(key, value);
+            }
             addToGlobalModel(key, value);
         }
         addToLocalModel(structureHandler, key, value);
@@ -121,7 +122,7 @@ public abstract class AbstractModelVariableModifierProcessor extends AbstractEle
      */
     @Deprecated
     @SuppressWarnings("unchecked")
-    protected <T> void addItemToExistingSet(String key, Object value, BroadleafThymeleafContext context) {
+    protected <T> void addItemToExistingSet(String key, Object value) {
         WebRequest request = BroadleafRequestContext.getBroadleafRequestContext().getWebRequest();
         Set<T> items = (Set<T>) request.getAttribute(key, WebRequest.SCOPE_REQUEST);
         if (items == null) {
@@ -135,11 +136,4 @@ public abstract class AbstractModelVariableModifierProcessor extends AbstractEle
             items.add((T) value);
         }
     }
-    
-    protected boolean addToLocal() {
-        return false;
-    }
-
-    protected abstract void populateModelVariables(String tagName, Map<String, String> tagAttributes, Map<String, Object> newModelVars, BroadleafThymeleafContext context);
-
 }

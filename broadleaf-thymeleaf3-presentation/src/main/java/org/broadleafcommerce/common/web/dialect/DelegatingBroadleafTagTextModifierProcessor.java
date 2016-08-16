@@ -28,35 +28,24 @@ import org.thymeleaf.templatemode.TemplateMode;
 
 import java.util.Map;
 
-public abstract class AbstractBroadleafTagTextModifierProcessor extends AbstractAttributeTagProcessor {
+public class DelegatingBroadleafTagTextModifierProcessor extends AbstractAttributeTagProcessor {
 
-    protected AbstractBroadleafTagTextModifierProcessor(String name, boolean removeAttribute, int precedence) {
-        super(TemplateMode.HTML, "blc", null, false, name, true, precedence, removeAttribute);
+    protected BroadleafTagTextModifierProcessor processor;
+    
+    public DelegatingBroadleafTagTextModifierProcessor(String name, BroadleafTagTextModifierProcessor processor, int precedence) {
+        super(TemplateMode.HTML, "blc", null, false, name, true, precedence, true);
+        this.processor = processor;
     }
 
-    protected AbstractBroadleafTagTextModifierProcessor(String name, int precedence) {
-        this(name, true, precedence);
-    }
-
-    protected AbstractBroadleafTagTextModifierProcessor(String name) {
-        this(name, 1000);
-    }
     @Override
     protected void doProcess(ITemplateContext context, IProcessableElementTag tag, AttributeName attributeName, String attributeValue, IElementTagStructureHandler structureHandler) {
         BroadleafThymeleafContext blcContext = new BroadleafThymeleafContextImpl(context, structureHandler);
         String tagName = tag.getElementCompleteName();
         Map<String, String> tagAttributes = tag.getAttributeMap();
-        String newText = getTagText(tagName, tagAttributes, attributeName.getAttributeName(), attributeValue, blcContext);
+        String newText = processor.getTagText(tagName, tagAttributes, attributeName.getAttributeName(), attributeValue, blcContext);
         if (newText != null) {
-            structureHandler.setBody(newText, textShouldBeProcessed());
+            structureHandler.setBody(newText, processor.textShouldBeProcessed());
         }
 
     }
-
-    protected boolean textShouldBeProcessed() {
-        return false;
-    }
-
-    protected abstract String getTagText(String tagName, Map<String, String> tagAttributes, String attributeName, String attributeValue, BroadleafThymeleafContext context);
-
 }

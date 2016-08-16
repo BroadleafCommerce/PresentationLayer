@@ -30,27 +30,21 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-public abstract class AbstractAttributeModelVariableModifierProcessor extends AbstractAttributeTagProcessor {
+public class DelegatingBroadleafAttributeModelVariableModifierProcessor extends AbstractAttributeTagProcessor {
 
+    protected BroadleafAttributeModelVariableModifierProcessor processor;
     
-    protected AbstractAttributeModelVariableModifierProcessor(String name, boolean removeAttribute, int precedence) {
-        super(TemplateMode.HTML, "blc", null, false, name, true, precedence, removeAttribute);
+    public DelegatingBroadleafAttributeModelVariableModifierProcessor(String attributeName, BroadleafAttributeModelVariableModifierProcessor processor, int precedence) {
+        super(TemplateMode.HTML, "blc", null, false, attributeName, true, precedence, true);
+        this.processor = processor;
     }
 
-    protected AbstractAttributeModelVariableModifierProcessor(String name, int precedence) {
-        this(name, true, precedence);
-    }
-
-    protected AbstractAttributeModelVariableModifierProcessor(String name) {
-        this(name, 1000);
-    }
-    
     @Override
     protected void doProcess(ITemplateContext context, IProcessableElementTag tag, AttributeName attributeName, String attributeValue, IElementTagStructureHandler structureHandler) {
         Map<String, String> attributes = tag.getAttributeMap();
         Map<String, Object> newModelVariables = new HashMap<>();
         BroadleafThymeleafContext blcContext = new BroadleafThymeleafContextImpl(context, structureHandler);
-        populateModelVariables(tag.getElementCompleteName(), attributes, attributeName.getAttributeName(), attributeValue, newModelVariables, blcContext);
+        processor.populateModelVariables(tag.getElementCompleteName(), attributes, attributeName.getAttributeName(), attributeValue, newModelVariables, blcContext);
         
         for (Map.Entry<String, Object> entry : newModelVariables.entrySet()) {
             structureHandler.setLocalVariable(entry.getKey(), entry.getValue());
@@ -60,6 +54,4 @@ public abstract class AbstractAttributeModelVariableModifierProcessor extends Ab
         structureHandler.removeTags();
     }
     
-    protected abstract void populateModelVariables(String tagName, Map<String, String> tagAttributes, String attributeName, String attributeValue, Map<String, Object> newLocalVariables, BroadleafThymeleafContext context);
-
 }

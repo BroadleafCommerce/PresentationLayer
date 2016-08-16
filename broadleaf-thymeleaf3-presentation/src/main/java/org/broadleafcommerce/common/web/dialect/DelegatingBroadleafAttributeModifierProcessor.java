@@ -30,18 +30,13 @@ import org.thymeleaf.templatemode.TemplateMode;
 
 import java.util.Map;
 
-public abstract class AbstractBroadleafAttributeModifierProcessor extends AbstractAttributeTagProcessor {
+public class DelegatingBroadleafAttributeModifierProcessor extends AbstractAttributeTagProcessor {
 
-    protected AbstractBroadleafAttributeModifierProcessor(String name, boolean removeAttribute, int precedence) {
-        super(TemplateMode.HTML, "blc", null, false, name, true, precedence, removeAttribute);
-    }
-
-    protected AbstractBroadleafAttributeModifierProcessor(String name, int precedence) {
-        this(name, true, precedence);
-    }
-
-    protected AbstractBroadleafAttributeModifierProcessor(String name) {
-        this(name, 1000);
+    protected BroadleafAttributeModifierProcessor processor;
+    
+    public DelegatingBroadleafAttributeModifierProcessor(String name, BroadleafAttributeModifierProcessor processor, int precedence) {
+        super(TemplateMode.HTML, "blc", null, false, name, true, precedence, true);
+        this.processor = processor;
     }
 
     @Override
@@ -49,8 +44,8 @@ public abstract class AbstractBroadleafAttributeModifierProcessor extends Abstra
         BroadleafThymeleafContext blcContext = new BroadleafThymeleafContextImpl(context, structureHandler);
         String tagName = tag.getElementCompleteName();
         Map<String, String> tagAttributes = tag.getAttributeMap();
-        BroadleafAttributeModifier modifications = getModifiedAttributes(tagName, tagAttributes, attributeName.getAttributeName(), attributeValue, blcContext);
-        AttributeValueQuotes quotes = useSingleQuotes() ? AttributeValueQuotes.SINGLE : AttributeValueQuotes.DOUBLE;
+        BroadleafAttributeModifier modifications = processor.getModifiedAttributes(tagName, tagAttributes, attributeName.getAttributeName(), attributeValue, blcContext);
+        AttributeValueQuotes quotes = processor.useSingleQuotes() ? AttributeValueQuotes.SINGLE : AttributeValueQuotes.DOUBLE;
         Map<String, String> added = modifications.getAdded();
         for (String key : added.keySet()) {
             structureHandler.setAttribute(key, added.get(key), quotes);
@@ -59,11 +54,4 @@ public abstract class AbstractBroadleafAttributeModifierProcessor extends Abstra
             structureHandler.removeAttribute(key);
         }
     }
-
-    protected boolean useSingleQuotes() {
-        return false;
-    }
-
-    protected abstract BroadleafAttributeModifier getModifiedAttributes(String tagName, Map<String, String> tagAttributes, String attributeName, String attributeValue, BroadleafThymeleafContext context);
-
 }
