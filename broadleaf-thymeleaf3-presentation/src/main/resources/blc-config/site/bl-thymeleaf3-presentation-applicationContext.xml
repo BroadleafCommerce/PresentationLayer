@@ -27,6 +27,13 @@
            http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.1.xsd
            http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.0.xsd">
            
+    <bean id="blConfiguration" class="org.broadleafcommerce.common.config.RuntimeEnvironmentPropertiesConfigurer">
+        <property name="overridableProperyLocations">
+            <set>
+                <value>classpath:config/bc/thymeleaf/</value>
+            </set>
+        </property>
+    </bean>
     
     <bean id="blWebCommonClasspathTemplateResolver" class="org.thymeleaf.templateresolver.ClassLoaderTemplateResolver">
         <property name="prefix" value="common_style/templates/" />
@@ -66,13 +73,23 @@
         <property name="order" value="100"/>         
     </bean>
     
-    <bean id="blWebTemplateResolver" class="org.thymeleaf.spring4.templateresolver.SpringResourceTemplateResolver">
+<!--     <bean id="blWebTemplateResolver" class="org.thymeleaf.spring4.templateresolver.SpringResourceTemplateResolver">
         <property name="prefix" value="/WEB-INF/templates/" />
         <property name="suffix" value=".html" />
         <property name="characterEncoding" value="UTF-8" />
         <property name="cacheable" value="${cache.page.templates}"/>
         <property name="cacheTTLMs" value="${cache.page.templates.ttl}" />
         <property name="order" value="200"/>         
+    </bean> -->
+    
+    <bean id="blWebTemplateResolver" class="org.broadleafcommerce.common.web.BroadleafThymeleafServletContextTemplateResolver">
+        <property name="prefix" value="/WEB-INF/" />
+        <property name="templateFolder" value="${theme.templates.folder}" />
+        <property name="suffix" value=".html" />
+        <property name="cacheable" value="${cache.page.templates}"/>
+        <property name="cacheTTLMs" value="${cache.page.templates.ttl}" />
+        <property name="characterEncoding" value="UTF-8" />
+        <property name="order" value="200"/>
     </bean>
     
      <bean id="blWebClasspathTemplateResolver" class="org.thymeleaf.templateresolver.ClassLoaderTemplateResolver">
