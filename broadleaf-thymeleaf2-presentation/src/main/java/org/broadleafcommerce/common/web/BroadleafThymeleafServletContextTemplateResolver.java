@@ -53,10 +53,15 @@ public class BroadleafThymeleafServletContextTemplateResolver extends ServletCon
         final StringBuilder resourceName = new StringBuilder();
         String prefix = this.getPrefix();
         if (prefix != null && ! prefix.trim().equals("")) {
-           
-            if (themePath != null) {        
-                resourceName.append(prefix).append(themePath).append('/').append(templateFolder);
-            }
+            resourceName.append(prefix);
+        } else {
+            resourceName.append('/');
+        }
+        if (themePath != null) {        
+            resourceName.append(themePath).append('/');
+        } 
+        if (templateName != null) {
+            resourceName.append(templateFolder);
         }
         resourceName.append(unaliasedName);
         String suffix = this.getSuffix();

@@ -20,27 +20,18 @@ package org.broadleafcommerce.common.web;
 import org.apache.commons.lang3.StringUtils;
 import org.broadleafcommerce.common.site.domain.Theme;
 import org.thymeleaf.IEngineConfiguration;
-import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
+import org.thymeleaf.spring4.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.templateresource.ITemplateResource;
 import org.thymeleaf.util.Validate;
 
 import java.util.Map;
 
-import javax.servlet.ServletContext;
-
 /**
  * Overrides the Thymeleaf ContextTemplateResolver and appends the org.broadleafcommerce.common.web.Theme path to the url
  * if it exists.
  */
-public class BroadleafThymeleafServletContextTemplateResolver extends ServletContextTemplateResolver {    
+public class BroadleafThymeleafServletContextTemplateResolver extends SpringResourceTemplateResolver {    
     
-    /**
-     * @param servletContext
-     */
-    public BroadleafThymeleafServletContextTemplateResolver(ServletContext servletContext) {
-        super(servletContext);
-    }
-
     protected String templateFolder = "";
 
     @Override
@@ -59,14 +50,17 @@ public class BroadleafThymeleafServletContextTemplateResolver extends ServletCon
         
         String prefix = this.getPrefix();
         String themeAwareResourceName = resourceName;
+        String actualPath = templateFolder == null ? "" : templateFolder;
+        if (themePath != null) {
+            actualPath = themePath + "/" + actualPath;
+        }
         if (prefix != null && ! prefix.trim().equals("")) {
-           
-            if (themePath != null) {
-                // Using replaceOnce from StringUtils instead of normal replace because I want to prevent against the possibility of
-                // special regex characters existing in prefix and screwing up the replacement
-                // Intentionally using resourceName because it already has prefix/suffix/alias transformations applied to it
-                themeAwareResourceName = StringUtils.replaceOnce(resourceName, prefix, prefix + themePath + '/' + templateFolder);
-            }
+            // Using replaceOnce from StringUtils instead of normal replace because I want to prevent against the possibility of
+            // special regex characters existing in prefix and screwing up the replacement
+            // Intentionally using resourceName because it already has prefix/suffix/alias transformations applied to it
+            themeAwareResourceName = StringUtils.replaceOnce(resourceName, prefix, prefix + actualPath);
+        } else {
+            themeAwareResourceName = resourceName + actualPath;
         }
 
         return super.computeTemplateResource(configuration, ownerTemplate, template, themeAwareResourceName, characterEncoding, templateResolutionAttributes);
