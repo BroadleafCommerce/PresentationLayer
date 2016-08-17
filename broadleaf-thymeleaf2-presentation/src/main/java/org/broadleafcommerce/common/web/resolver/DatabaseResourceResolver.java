@@ -19,6 +19,8 @@ package org.broadleafcommerce.common.web.resolver;
 
 import org.broadleafcommerce.common.extension.ExtensionResultHolder;
 import org.broadleafcommerce.common.extension.ExtensionResultStatusType;
+import org.broadleafcommerce.core.web.resolver.DatabaseResourceResolverExtensionHandler;
+import org.broadleafcommerce.core.web.resolver.DatabaseResourceResolverExtensionManager;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateProcessingParameters;
 import org.thymeleaf.resourceresolver.IResourceResolver;
@@ -48,7 +50,7 @@ public class DatabaseResourceResolver implements IResourceResolver {
     @Override
     public InputStream getResourceAsStream(TemplateProcessingParameters params, String resourceName) {
         ExtensionResultHolder erh = new ExtensionResultHolder();
-        ExtensionResultStatusType result = extensionManager.getProxy().resolveResource(erh, params, resourceName);
+        ExtensionResultStatusType result = extensionManager.getProxy().resolveResource(erh, resourceName);
         if (result ==  ExtensionResultStatusType.HANDLED) {
             return (InputStream) erh.getContextMap().get(DatabaseResourceResolverExtensionHandler.IS_KEY);
         }

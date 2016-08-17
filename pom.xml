@@ -110,7 +110,7 @@
         <dependencies>
             <dependency>
                 <groupId>org.broadleafcommerce</groupId>
-                <artifactId>broadleaf-common</artifactId>
+                <artifactId>broadleaf-framework-web</artifactId>
                 <version>${blc.version}</version>
                 <type>jar</type>
                 <scope>compile</scope>
