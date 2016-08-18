@@ -34,6 +34,7 @@ import org.broadleafcommerce.common.web.dialect.DelegatingBroadleafFormReplaceme
 import org.broadleafcommerce.common.web.dialect.DelegatingBroadleafModelVariableModifierProcessor;
 import org.broadleafcommerce.common.web.dialect.DelegatingBroadleafTagReplacementProcessor;
 import org.broadleafcommerce.common.web.dialect.DelegatingBroadleafTagTextModifierProcessor;
+import org.broadleafcommerce.common.web.resolver.BroadleafThymeleafTemplateMode;
 import org.broadleafcommerce.common.web.resolver.BroadleafThymeleafTemplateResolver;
 import org.broadleafcommerce.common.web.resolver.BroadleafThymeleafTemplateResolverType;
 import org.broadleafcommerce.common.web.resolver.DatabaseTemplateResolver;
@@ -82,14 +83,6 @@ public class Thymeleaf3Config {
             }
         }
         dialect.setProcessors(iProcessors);
-//        Collection<ClassLoaderTemplateResolver> classLoaderResolvers = applicationContext.getBeansOfType(ClassLoaderTemplateResolver.class).values();
-//        Collection<SpringResourceTemplateResolver> springResourceResolvers = applicationContext.getBeansOfType(SpringResourceTemplateResolver.class).values();
-//        List<AbstractTemplateResolver> TLresolvers = new ArrayList<>();
-//        TLresolvers.addAll(classLoaderResolvers);
-//        TLresolvers.addAll(springResourceResolvers);
-//        for (AbstractTemplateResolver resolver : TLresolvers) {
-//            resolver.setCheckExistence(true);
-//        }
         return dialect;
     }
     
@@ -168,7 +161,7 @@ public class Thymeleaf3Config {
         classpathResolver.setCacheTTLMs(resolver.getCacheTTLMs());
         classpathResolver.setCharacterEncoding(resolver.getCharacterEncoding());
         classpathResolver.setCheckExistence(true);
-        classpathResolver.setTemplateMode(resolver.getTemplateMode().toString());
+        classpathResolver.setTemplateMode(translateTemplateModeForThymeleaf3(resolver.getTemplateMode()).toString());
         classpathResolver.setOrder(resolver.getOrder());
         classpathResolver.setPrefix(resolver.getPrefix() + resolver.getTemplateFolder());
         classpathResolver.setSuffix(resolver.getSuffix());
@@ -180,7 +173,7 @@ public class Thymeleaf3Config {
         databaseResolver.setCacheable(resolver.isCacheable());
         databaseResolver.setCacheTTLMs(resolver.getCacheTTLMs());
         databaseResolver.setCharacterEncoding(resolver.getCharacterEncoding());
-        databaseResolver.setTemplateMode(resolver.getTemplateMode().toString());
+        databaseResolver.setTemplateMode(translateTemplateModeForThymeleaf3(resolver.getTemplateMode()).toString());
         databaseResolver.setOrder(resolver.getOrder());
         databaseResolver.setPrefix(resolver.getPrefix() + resolver.getTemplateFolder());
         databaseResolver.setSuffix(resolver.getSuffix());
@@ -193,7 +186,7 @@ public class Thymeleaf3Config {
         servletResolver.setCacheable(resolver.isCacheable());
         servletResolver.setCacheTTLMs(resolver.getCacheTTLMs());
         servletResolver.setCharacterEncoding(resolver.getCharacterEncoding());
-        servletResolver.setTemplateMode(resolver.getTemplateMode().toString());
+        servletResolver.setTemplateMode(translateTemplateModeForThymeleaf3(resolver.getTemplateMode()).toString());
         servletResolver.setOrder(resolver.getOrder());
         servletResolver.setCheckExistence(true);
         servletResolver.setPrefix(resolver.getPrefix());
@@ -201,6 +194,17 @@ public class Thymeleaf3Config {
         servletResolver.setSuffix(resolver.getSuffix());
         servletResolver.setApplicationContext(applicationContext);
         return servletResolver;
+    }
+    
+    /**
+     * Utility method to convert all HTML5 template modes to HTML since the HTML
+     * option in Thymeleaf 3 is HTML5 and the HTML5 option is deprecated 
+     */
+    public BroadleafThymeleafTemplateMode translateTemplateModeForThymeleaf3(BroadleafThymeleafTemplateMode mode) {
+        if (BroadleafThymeleafTemplateMode.HTML5.equals(mode)) {
+            return BroadleafThymeleafTemplateMode.HTML;
+        }
+        return mode;
     }
     
 }

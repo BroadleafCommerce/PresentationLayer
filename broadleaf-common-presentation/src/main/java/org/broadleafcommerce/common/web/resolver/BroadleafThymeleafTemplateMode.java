@@ -26,11 +26,5 @@ package org.broadleafcommerce.common.web.resolver;
  *
  */
 public enum BroadleafThymeleafTemplateMode {
-    HTML, XML, TEXT, JAVASCRIPT, CSS, RAW,
-    
-    /**
-     * @deprecated use {@code HTML} instead 
-     */
-    @Deprecated
-    HTML5;
+    HTML, XML, TEXT, JAVASCRIPT, CSS, RAW, HTML5;
 }

@@ -26,7 +26,7 @@ public abstract class AbstractBroadleafThymeleafTemplateResolver implements Broa
     protected Long cacheTimeToLive = 0L;
     protected String characterEncoding = "UTF-8";
     protected Integer order = 1000;
-    protected BroadleafThymeleafTemplateMode templateMode = BroadleafThymeleafTemplateMode.HTML;
+    protected BroadleafThymeleafTemplateMode templateMode = BroadleafThymeleafTemplateMode.HTML5;
     protected Boolean emailResolver = false;
     
     @Override

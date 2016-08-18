@@ -87,7 +87,6 @@
      <bean id="blWebClasspathTemplateResolver" class="org.broadleafcommerce.common.web.resolver.BroadleafThymeleafClasspathTemplateResolver">
         <property name="prefix" value="webTemplates/" />
         <property name="suffix" value=".html" />
-        <property name="templateFolder" value="" />
         <property name="characterEncoding" value="UTF-8" />
         <property name="cacheable" value="${cache.page.templates}"/>
         <property name="cacheTTLMs" value="${cache.page.templates.ttl}" />
@@ -97,34 +96,12 @@
     <bean id="blEmailClasspathTemplateResolver" class="org.broadleafcommerce.common.web.resolver.BroadleafThymeleafClasspathTemplateResolver">
         <property name="prefix" value="emailTemplates/" />
         <property name="suffix" value=".html" />
-        <property name="templateFolder" value="" />
         <property name="cacheable" value="${cache.page.templates}"/>
         <property name="cacheTTLMs" value="${cache.page.templates.ttl}" />
         <property name="characterEncoding" value="UTF-8" />
         <property name="emailResolver" value="true" />
     </bean> 
     
-    <!-- This component should be overridden to provide templates outside of the WAR or CLASSPATH  -->    
-    <bean id="blWebCustomTemplateResolver" class="org.broadleafcommerce.common.web.NullBroadleafTemplateResolver" />
-    
-    <!-- This component should be overridden to provide templates outside of the WAR or CLASSPATH  -->    
-    <bean id="blEmailCustomTemplateResolver" class="org.broadleafcommerce.common.web.NullBroadleafTemplateResolver" /> -->
-    
-<!--     <bean id="blWebTemplateResolvers" class="org.springframework.beans.factory.config.SetFactoryBean">
-        <property name="sourceSet">
-            <set>
-                <ref bean="blWebTemplateResolver" />
-                <ref bean="blWebDatabaseTemplateResolver" />
-                <ref bean="blWebClasspathTemplateResolver" />
-                <ref bean="blWebCustomTemplateResolver" />
-                <ref bean="blWebCommonClasspathTemplateResolver" />
-            </set>
-        </property>
-    </bean> -->
-    
-    <!-- <bean id="blThymeleafStandardTemplateModeHandlers" 
-        class="org.broadleafcommerce.common.web.BroadleafThymeleafStandardTemplateModeHandlers" /> -->
-        
     <bean id="thymeleafLayoutDialect" class="nz.net.ultraq.thymeleaf.LayoutDialect" />
 
 <!--     <bean id="blICacheManager" class="org.broadleafcommerce.core.web.cache.BLCICacheManager" /> -->
@@ -146,15 +123,6 @@
             </set>
         </property>
     </bean>
-    
-<!--     <bean id="blEmailTemplateResolvers" class="org.springframework.beans.factory.config.SetFactoryBean">
-        <property name="sourceSet">
-            <set>
-                <ref bean="blEmailClasspathTemplateResolver" />                
-                <ref bean="blEmailCustomTemplateResolver" />
-            </set>
-        </property>
-    </bean> -->
     
     <bean id="blEmailTemplateEngine" class="org.thymeleaf.spring4.SpringTemplateEngine">
         <property name="templateResolvers" ref="blEmailTemplateResolvers" />
