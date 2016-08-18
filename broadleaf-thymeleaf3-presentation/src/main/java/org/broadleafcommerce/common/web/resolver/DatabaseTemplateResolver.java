@@ -34,7 +34,6 @@ import javax.annotation.Resource;
  */
 public class DatabaseTemplateResolver extends AbstractConfigurableTemplateResolver {
     
-    @Resource(name = "blDatabaseResourceResolverExtensionManager")
     protected DatabaseResourceResolverExtensionManager resourceResolverExtensionManager;
     
     public DatabaseTemplateResolver() {
@@ -44,6 +43,14 @@ public class DatabaseTemplateResolver extends AbstractConfigurableTemplateResolv
     @Override
     protected ITemplateResource computeTemplateResource(IEngineConfiguration configuration, String ownerTemplate, String template, String resourceName, String characterEncoding, Map<String, Object> templateResolutionAttributes) {
         return new DatabaseResourceResolver(resourceResolverExtensionManager, template);
+    }
+
+    public DatabaseResourceResolverExtensionManager getResourceResolverExtensionManager() {
+        return resourceResolverExtensionManager;
+    }
+    
+    public void setResourceResolverExtensionManager(DatabaseResourceResolverExtensionManager resourceResolverExtensionManager) {
+        this.resourceResolverExtensionManager = resourceResolverExtensionManager;
     }
 
 }

@@ -26,7 +26,7 @@
            http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.1.xsd
            http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.1.xsd
            http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.0.xsd">
-           
+    
     <bean id="blConfiguration" class="org.broadleafcommerce.common.config.RuntimeEnvironmentPropertiesConfigurer">
         <property name="overridableProperyLocations">
             <set>
@@ -35,9 +35,10 @@
         </property>
     </bean>
     
-    <bean id="blWebCommonClasspathTemplateResolver" class="org.thymeleaf.templateresolver.ClassLoaderTemplateResolver">
+    <bean id="blWebCommonClasspathTemplateResolver" class="org.broadleafcommerce.common.web.resolver.BroadleafThymeleafClasspathTemplateResolver">
         <property name="prefix" value="common_style/templates/" />
         <property name="suffix" value=".html" />
+        <property name="templateFolder" value="${theme.templates.folder}" />
         <property name="templateMode" value="HTML" />        
         <property name="characterEncoding" value="UTF-8" />
         <property name="cacheable" value="${cache.page.templates}"/>
@@ -66,23 +67,14 @@
     
     <bean id="blVariableExpressionObjectFactory" class="org.broadleafcommerce.common.web.expression.BroadleafVariableExpressionObjectFactory" />
 
-     <bean id="blWebDatabaseTemplateResolver" class="org.broadleafcommerce.common.web.resolver.DatabaseTemplateResolver">
+     <bean id="blWebDatabaseTemplateResolver" class="org.broadleafcommerce.common.web.resolver.BroadleafThymeleafDatabaseTemplateResolver">
         <property name="characterEncoding" value="UTF-8" />
         <property name="cacheable" value="${cache.page.templates}"/>
         <property name="cacheTTLMs" value="${cache.page.templates.ttl}" />
         <property name="order" value="100"/>         
     </bean>
     
-<!--     <bean id="blWebTemplateResolver" class="org.thymeleaf.spring4.templateresolver.SpringResourceTemplateResolver">
-        <property name="prefix" value="/WEB-INF/templates/" />
-        <property name="suffix" value=".html" />
-        <property name="characterEncoding" value="UTF-8" />
-        <property name="cacheable" value="${cache.page.templates}"/>
-        <property name="cacheTTLMs" value="${cache.page.templates.ttl}" />
-        <property name="order" value="200"/>         
-    </bean> -->
-    
-    <bean id="blWebTemplateResolver" class="org.broadleafcommerce.common.web.BroadleafThymeleafServletContextTemplateResolver">
+    <bean id="blWebTemplateResolver" class="org.broadleafcommerce.common.web.resolver.BroadleafThymeleafServletTemplateResolver">
         <property name="prefix" value="/WEB-INF/" />
         <property name="templateFolder" value="${theme.templates.folder}" />
         <property name="suffix" value=".html" />
@@ -92,21 +84,24 @@
         <property name="order" value="200"/>
     </bean>
     
-     <bean id="blWebClasspathTemplateResolver" class="org.thymeleaf.templateresolver.ClassLoaderTemplateResolver">
+     <bean id="blWebClasspathTemplateResolver" class="org.broadleafcommerce.common.web.resolver.BroadleafThymeleafClasspathTemplateResolver">
         <property name="prefix" value="webTemplates/" />
         <property name="suffix" value=".html" />
+        <property name="templateFolder" value="" />
         <property name="characterEncoding" value="UTF-8" />
         <property name="cacheable" value="${cache.page.templates}"/>
         <property name="cacheTTLMs" value="${cache.page.templates.ttl}" />
         <property name="order" value="300"/> 
     </bean>
     
-    <bean id="blEmailClasspathTemplateResolver" class="org.thymeleaf.templateresolver.ClassLoaderTemplateResolver">
+    <bean id="blEmailClasspathTemplateResolver" class="org.broadleafcommerce.common.web.resolver.BroadleafThymeleafClasspathTemplateResolver">
         <property name="prefix" value="emailTemplates/" />
         <property name="suffix" value=".html" />
+        <property name="templateFolder" value="" />
         <property name="cacheable" value="${cache.page.templates}"/>
         <property name="cacheTTLMs" value="${cache.page.templates.ttl}" />
         <property name="characterEncoding" value="UTF-8" />
+        <property name="emailResolver" value="true" />
     </bean> 
     
     <!-- This component should be overridden to provide templates outside of the WAR or CLASSPATH  -->    
@@ -115,7 +110,7 @@
     <!-- This component should be overridden to provide templates outside of the WAR or CLASSPATH  -->    
     <bean id="blEmailCustomTemplateResolver" class="org.broadleafcommerce.common.web.NullBroadleafTemplateResolver" /> -->
     
-    <bean id="blWebTemplateResolvers" class="org.springframework.beans.factory.config.SetFactoryBean">
+<!--     <bean id="blWebTemplateResolvers" class="org.springframework.beans.factory.config.SetFactoryBean">
         <property name="sourceSet">
             <set>
                 <ref bean="blWebTemplateResolver" />
@@ -125,7 +120,7 @@
                 <ref bean="blWebCommonClasspathTemplateResolver" />
             </set>
         </property>
-    </bean>
+    </bean> -->
     
     <!-- <bean id="blThymeleafStandardTemplateModeHandlers" 
         class="org.broadleafcommerce.common.web.BroadleafThymeleafStandardTemplateModeHandlers" /> -->
@@ -152,14 +147,14 @@
         </property>
     </bean>
     
-    <bean id="blEmailTemplateResolvers" class="org.springframework.beans.factory.config.SetFactoryBean">
+<!--     <bean id="blEmailTemplateResolvers" class="org.springframework.beans.factory.config.SetFactoryBean">
         <property name="sourceSet">
             <set>
                 <ref bean="blEmailClasspathTemplateResolver" />                
                 <ref bean="blEmailCustomTemplateResolver" />
             </set>
         </property>
-    </bean>
+    </bean> -->
     
     <bean id="blEmailTemplateEngine" class="org.thymeleaf.spring4.SpringTemplateEngine">
         <property name="templateResolvers" ref="blEmailTemplateResolvers" />

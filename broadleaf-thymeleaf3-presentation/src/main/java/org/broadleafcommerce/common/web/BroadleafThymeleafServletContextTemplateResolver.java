@@ -33,6 +33,11 @@ import java.util.Map;
 public class BroadleafThymeleafServletContextTemplateResolver extends SpringResourceTemplateResolver {    
     
     protected String templateFolder = "";
+    
+    public BroadleafThymeleafServletContextTemplateResolver() {
+        super();
+        setCheckExistence(true);
+    }
 
     @Override
     protected ITemplateResource computeTemplateResource(
@@ -51,10 +56,10 @@ public class BroadleafThymeleafServletContextTemplateResolver extends SpringReso
         String prefix = this.getPrefix();
         String themeAwareResourceName = resourceName;
         String actualPath = templateFolder == null ? "" : templateFolder;
-        if (themePath != null) {
+        if (themePath != null && !themePath.trim().equals("")) {
             actualPath = themePath + "/" + actualPath;
         }
-        if (prefix != null && ! prefix.trim().equals("")) {
+        if (prefix != null && !prefix.trim().equals("")) {
             // Using replaceOnce from StringUtils instead of normal replace because I want to prevent against the possibility of
             // special regex characters existing in prefix and screwing up the replacement
             // Intentionally using resourceName because it already has prefix/suffix/alias transformations applied to it
