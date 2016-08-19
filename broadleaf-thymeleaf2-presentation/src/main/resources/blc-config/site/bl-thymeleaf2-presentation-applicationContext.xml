@@ -28,50 +28,14 @@
            http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.0.xsd">
 
 
-    <bean id="blConfiguration" class="org.broadleafcommerce.common.config.RuntimeEnvironmentPropertiesConfigurer">
-        <property name="overridableProperyLocations">
-            <set>
-                <value>classpath:config/bc/thymeleaf/</value>
-            </set>
-        </property>
-    </bean>
-    
-    <!-- NOTE: Remove this transformer when Thymeleaf 2.1.5 is released. See the Javadocs for org.broadleafcommerce.common.web.patch.EvaluationUtilPatch -->
-    <bean id="blEvaluationUtilPatchClassTransformer" class="org.broadleafcommerce.common.extensibility.jpa.copy.DirectCopyClassTransformer">
-        <constructor-arg name="moduleName" value="EvaluationUtil Patch Transformation" />
-        <property name="xformTemplates">
-            <map>
-                <entry key="org.thymeleaf.util.EvaluationUtil"
-                       value="org.broadleafcommerce.common.web.patch.EvaluationUtilPatch"/>
-            </map>
-        </property>
-    </bean>
-    <!-- END NOTE -->
-    
-    <bean id="blWebCommonClasspathTemplateResolver" class="org.thymeleaf.templateresolver.ClassLoaderTemplateResolver">
-        <property name="prefix" value="common_style/templates/" />
-        <property name="suffix" value=".html" />
-        <property name="templateMode" value="HTML5" />        
-        <property name="characterEncoding" value="UTF-8" />
-        <property name="cacheable" value="${cache.page.templates}"/>
-        <property name="cacheTTLMs" value="${cache.page.templates.ttl}" />
-        <property name="order" value="500"/> 
-    </bean>
-    
-    <bean id="thymeleafSpringStandardDialect" class="org.thymeleaf.spring4.dialect.SpringStandardDialect" />
-    
-    <bean id="blVariableExpressionEvaluator" class="org.broadleafcommerce.common.web.expression.BroadleafVariableExpressionEvaluator" />
-
+    <import resource="classpath:blc-config/bl-thymeleaf2-presentation-common-applicationContext.xml" />
+    <context:component-scan base-package="org.broadleafcommerce.site.config" />
+        
     <!-- This list factory bean will accept classes that implment the BroadleafVariableExpression interface. -->
     <!-- This provides the ability to inject custom expression evaluators into Thymeleaf. -->
     <bean id="blVariableExpressions" class="org.springframework.beans.factory.config.ListFactoryBean">
         <property name="sourceList">
             <list>
-                <bean class="org.broadleafcommerce.common.web.expression.AssetURLVariableExpression" />
-                <bean class="org.broadleafcommerce.common.web.expression.NullBroadleafVariableExpression" />
-                <bean class="org.broadleafcommerce.common.web.expression.BRCVariableExpression" />                
-                <bean class="org.broadleafcommerce.common.web.expression.PropertiesVariableExpression" />
-                <bean class="org.broadleafcommerce.common.web.payment.expression.PaymentGatewayFieldVariableExpression"/>
                 <bean class="org.broadleafcommerce.core.web.expression.BLCVariableExpression" />
             </list>
         </property>

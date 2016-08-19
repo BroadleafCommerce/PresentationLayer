@@ -48,7 +48,7 @@ public class DelegatingBroadleafModelVariableModifierProcessor extends AbstractE
     protected BroadleafModelVariableModifierProcessor processor;
     
     public DelegatingBroadleafModelVariableModifierProcessor(String elementName, BroadleafModelVariableModifierProcessor processor, int precedence) {
-        super(TemplateMode.HTML, BLCDialect.PREFIX, elementName, true, null, false, precedence);
+        super(TemplateMode.HTML, processor.getPrefix().toString(), elementName, true, null, false, precedence);
         this.processor = processor;
     }
 

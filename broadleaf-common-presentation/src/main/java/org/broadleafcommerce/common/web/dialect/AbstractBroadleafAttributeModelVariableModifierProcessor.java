@@ -23,4 +23,9 @@ public abstract class AbstractBroadleafAttributeModelVariableModifierProcessor i
     public int getPrecedence() {
         return BroadleafProcessor.DEFAULT_PRECEDENCE;
     }
+    
+    @Override
+    public BroadleafDialectPrefix getPrefix() {
+        return BroadleafProcessor.DEFAULT_PREFIX;
+    }
 }

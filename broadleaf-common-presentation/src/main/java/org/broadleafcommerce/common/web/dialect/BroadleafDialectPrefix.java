@@ -18,15 +18,11 @@
 package org.broadleafcommerce.common.web.dialect;
 
 
-public interface BroadleafProcessor {
+public enum BroadleafDialectPrefix {
+    BLC, BLC_ADMIN;
     
-    public String getName();
-    
-    public int getPrecedence();
-    
-    public BroadleafDialectPrefix getPrefix();
-    
-    public static final BroadleafDialectPrefix DEFAULT_PREFIX = BroadleafDialectPrefix.BLC;
-    
-    public static final int DEFAULT_PRECEDENCE = 1000;
+    @Override
+    public String toString() {
+        return super.toString().toLowerCase();
+    }
 }

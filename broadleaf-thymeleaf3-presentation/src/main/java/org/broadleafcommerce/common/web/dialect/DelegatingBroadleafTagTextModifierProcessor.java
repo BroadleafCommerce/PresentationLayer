@@ -33,7 +33,7 @@ public class DelegatingBroadleafTagTextModifierProcessor extends AbstractAttribu
     protected BroadleafTagTextModifierProcessor processor;
     
     public DelegatingBroadleafTagTextModifierProcessor(String name, BroadleafTagTextModifierProcessor processor, int precedence) {
-        super(TemplateMode.HTML, "blc", null, false, name, true, precedence, true);
+        super(TemplateMode.HTML, processor.getPrefix().toString(), null, false, name, true, precedence, true);
         this.processor = processor;
     }
 

@@ -35,7 +35,7 @@ public class DelegatingBroadleafTagReplacementProcessor extends AbstractElementT
     protected BroadleafTagReplacementProcessor processor;
     
     public DelegatingBroadleafTagReplacementProcessor(String tagName, BroadleafTagReplacementProcessor processor, int precedence) {
-        super(TemplateMode.HTML, "blc", tagName, true, null, false, precedence);
+        super(TemplateMode.HTML, processor.getPrefix().toString(), tagName, true, null, false, precedence);
         this.processor = processor;
     }
 

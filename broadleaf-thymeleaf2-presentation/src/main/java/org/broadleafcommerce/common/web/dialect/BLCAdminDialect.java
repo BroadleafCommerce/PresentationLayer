@@ -29,7 +29,7 @@ public class BLCAdminDialect extends AbstractDialect {
 
     @Override
     public String getPrefix() {
-        return "blc_admin";
+        return BroadleafDialectPrefix.BLC_ADMIN.toString();
     }
 
     @Override

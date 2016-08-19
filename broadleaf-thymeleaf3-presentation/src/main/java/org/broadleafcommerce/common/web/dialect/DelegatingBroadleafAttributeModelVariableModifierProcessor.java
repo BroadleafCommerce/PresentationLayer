@@ -35,7 +35,7 @@ public class DelegatingBroadleafAttributeModelVariableModifierProcessor extends 
     protected BroadleafAttributeModelVariableModifierProcessor processor;
     
     public DelegatingBroadleafAttributeModelVariableModifierProcessor(String attributeName, BroadleafAttributeModelVariableModifierProcessor processor, int precedence) {
-        super(TemplateMode.HTML, "blc", null, false, attributeName, true, precedence, true);
+        super(TemplateMode.HTML, processor.getPrefix().toString(), null, false, attributeName, true, precedence, true);
         this.processor = processor;
     }
 
@@ -50,8 +50,6 @@ public class DelegatingBroadleafAttributeModelVariableModifierProcessor extends 
             structureHandler.setLocalVariable(entry.getKey(), entry.getValue());
         }
         
-        // Remove the tag from the DOM
-        structureHandler.removeTags();
     }
     
 }

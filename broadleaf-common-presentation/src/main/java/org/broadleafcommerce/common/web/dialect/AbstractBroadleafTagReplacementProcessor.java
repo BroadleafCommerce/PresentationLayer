@@ -29,4 +29,8 @@ public abstract class AbstractBroadleafTagReplacementProcessor implements Broadl
         return BroadleafProcessor.DEFAULT_PRECEDENCE;
     }
 
+    @Override
+    public BroadleafDialectPrefix getPrefix() {
+        return BroadleafProcessor.DEFAULT_PREFIX;
+    }
 }

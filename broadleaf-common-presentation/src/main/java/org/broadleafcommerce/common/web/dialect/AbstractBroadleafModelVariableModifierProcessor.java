@@ -35,4 +35,9 @@ public abstract class AbstractBroadleafModelVariableModifierProcessor implements
     public List<String> getCollectionModelVariableNamesToAddTo() {
         return null;
     }
+    
+    @Override
+    public BroadleafDialectPrefix getPrefix() {
+        return BroadleafProcessor.DEFAULT_PREFIX;
+    }
 }

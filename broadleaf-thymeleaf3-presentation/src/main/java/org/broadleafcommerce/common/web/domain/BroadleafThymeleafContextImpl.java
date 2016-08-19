@@ -96,7 +96,7 @@ public class BroadleafThymeleafContextImpl implements BroadleafThymeleafContext 
 
     @Override
     public BroadleafThymeleafElement createStandaloneElement(String tagName, Map<String, String> attributes, boolean useDoubleQuotes) {
-        IStandaloneElementTag standaloneTag = context.getModelFactory().createStandaloneElementTag(tagName, attributes, useDoubleQuotes ? AttributeValueQuotes.DOUBLE : AttributeValueQuotes.SINGLE, false, false);
+        IStandaloneElementTag standaloneTag = context.getModelFactory().createStandaloneElementTag(tagName, attributes, useDoubleQuotes ? AttributeValueQuotes.DOUBLE : AttributeValueQuotes.SINGLE, false, true);
         return new BroadleafThymeleafStandaloneElementImpl(standaloneTag);
     }
 

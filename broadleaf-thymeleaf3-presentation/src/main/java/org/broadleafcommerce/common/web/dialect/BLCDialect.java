@@ -31,15 +31,13 @@ import javax.annotation.Resource;
 
 public class BLCDialect extends AbstractProcessorDialect implements IExpressionObjectDialect {
 
-    public static final String PREFIX = "blc";
-    
     @Resource(name = "blVariableExpressionObjectFactory")
     protected IExpressionObjectFactory expressionObjectFactory;
 
     private Set<IProcessor> processors = new HashSet<>();
 
     public BLCDialect() {
-        super("Broadleaf Common Dialect", "blc", SpringStandardDialect.PROCESSOR_PRECEDENCE);
+        super("Broadleaf Common Dialect", BroadleafDialectPrefix.BLC.toString(), SpringStandardDialect.PROCESSOR_PRECEDENCE);
     }
 
     public void setProcessors(Set<IProcessor> processors) {

@@ -38,7 +38,7 @@ public class DelegatingBroadleafFormReplacementProcessor extends AbstractElement
     protected BroadleafFormReplacementProcessor processor;
     
     public DelegatingBroadleafFormReplacementProcessor(String elementName, BroadleafFormReplacementProcessor processor, int precedence) {
-        super(TemplateMode.HTML, "blc", elementName, true, null, false, precedence);
+        super(TemplateMode.HTML, processor.getPrefix().toString(), elementName, true, null, false, precedence);
         this.processor = processor;
     }
     

@@ -28,4 +28,9 @@ public abstract class AbstractBroadleafAttributeModifierProcessor implements Bro
     public int getPrecedence() {
         return BroadleafProcessor.DEFAULT_PRECEDENCE;
     }
+    
+    @Override
+    public BroadleafDialectPrefix getPrefix() {
+        return BroadleafProcessor.DEFAULT_PREFIX;
+    }
 }

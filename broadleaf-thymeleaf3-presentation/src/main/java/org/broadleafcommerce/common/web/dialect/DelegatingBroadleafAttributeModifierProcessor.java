@@ -35,7 +35,7 @@ public class DelegatingBroadleafAttributeModifierProcessor extends AbstractAttri
     protected BroadleafAttributeModifierProcessor processor;
     
     public DelegatingBroadleafAttributeModifierProcessor(String name, BroadleafAttributeModifierProcessor processor, int precedence) {
-        super(TemplateMode.HTML, "blc", null, false, name, true, precedence, true);
+        super(TemplateMode.HTML, processor.getPrefix().toString(), null, false, name, true, precedence, true);
         this.processor = processor;
     }
 

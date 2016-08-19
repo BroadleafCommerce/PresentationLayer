@@ -38,7 +38,7 @@ public class BLCDialect extends AbstractDialect {
 
     @Override
     public String getPrefix() {
-        return "blc";
+        return BroadleafDialectPrefix.BLC.toString();
     }
 
     @Override

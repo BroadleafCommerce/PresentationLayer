@@ -33,4 +33,9 @@ public abstract class AbstractBroadleafFormReplacementProcessor implements Broad
     public int getPrecedence() {
         return BroadleafProcessor.DEFAULT_PRECEDENCE;
     }
+    
+    @Override
+    public BroadleafDialectPrefix getPrefix() {
+        return BroadleafProcessor.DEFAULT_PREFIX;
+    }
 }
