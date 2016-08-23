@@ -31,7 +31,7 @@
     </developers>
     <properties>
         <project.uri>${project.baseUri}/../</project.uri>
-        <thymeleaf.version>3.0.0.RELEASE</thymeleaf.version>
+        <thymeleaf.version>3.0.1.RELEASE</thymeleaf.version>
         <thymeleaf.layout.version>2.0.1</thymeleaf.layout.version>
     </properties>
     <scm>
