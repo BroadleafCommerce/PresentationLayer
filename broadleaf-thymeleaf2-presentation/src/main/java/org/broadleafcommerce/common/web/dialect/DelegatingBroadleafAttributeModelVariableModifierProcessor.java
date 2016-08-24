@@ -47,7 +47,7 @@ public class DelegatingBroadleafAttributeModelVariableModifierProcessor extends 
             tagAttributes.put(element.getAttributeOriginalNameFromNormalizedName(key), attributeMap.get(key).getValue());
         }
         Map<String, Object> newModelVariables = new HashMap<>();
-        processor.populateModelVariables(element.getNormalizedName(), tagAttributes, attributeName, element.getAttributeOriginalNameFromNormalizedName(attributeName), newModelVariables, context);
+        processor.populateModelVariables(element.getNormalizedName(), tagAttributes, attributeName, element.getAttributeValueFromNormalizedName(attributeName), newModelVariables, context);
         return ProcessorResult.setLocalVariables(newModelVariables);
     }
     
