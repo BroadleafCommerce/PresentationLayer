@@ -117,4 +117,8 @@
         </property>
     </bean>
     
+    <bean id="blTemplateCacheInvalidationContext" class="org.broadleafcommerce.common.web.cache.BroadleafThymeleafCacheInvalidationContextImpl">
+        <property name="templateEngine" ref="blWebTemplateEngine" />
+    </bean>
+    
 </beans>
