@@ -1,6 +1,6 @@
 /*
  * #%L
- * BroadleafCommerce Framework Web
+ * broadleaf-thymeleaf3-presentation
  * %%
  * Copyright (C) 2009 - 2016 Broadleaf Commerce
  * %%
@@ -17,22 +17,23 @@
  */
 package org.broadleafcommerce.common.web.cache;
 
-import org.broadleafcommerce.common.extension.AbstractExtensionHandler;
-import org.broadleafcommerce.common.extension.ExtensionResultHolder;
-import org.broadleafcommerce.common.extension.ExtensionResultStatusType;
 
-/**
- * @author Chad Harchar (charchar)
- */
-public abstract class AbstractBLCICacheExtensionHandler extends AbstractExtensionHandler implements BLCICacheExtensionHandler {
+public class BroadleafThymeleafCacheContextImpl<K, V> implements BroadleafThymeleafCacheContext<K, V> {
 
+    protected BLCICache<K, V> blcCache;
+    
+    public BroadleafThymeleafCacheContextImpl(BLCICache blcCache) {
+        this.blcCache = blcCache;
+    }
+    
     @Override
-    public ExtensionResultStatusType putCache(Object key, Object value, BLCICache blciCache) {
-        return ExtensionResultStatusType.NOT_HANDLED;
+    public V defaultGet(K key) {
+        return blcCache.defaultGet(key);
     }
 
     @Override
-    public ExtensionResultStatusType getCache(Object key, ExtensionResultHolder<Object> erh, BLCICache blciCache) {
-        return ExtensionResultStatusType.NOT_HANDLED;
+    public void defaultPut(K key, V value) {
+        blcCache.defaultPut(key, value);
     }
+
 }

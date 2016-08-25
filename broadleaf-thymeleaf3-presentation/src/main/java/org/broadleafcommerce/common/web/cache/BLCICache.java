@@ -24,6 +24,7 @@ import org.slf4j.Logger;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.cache.ICache;
 import org.thymeleaf.cache.ICacheEntryValidityChecker;
+import org.thymeleaf.cache.TemplateCacheKey;
 import org.thymeleaf.util.Validate;
 
 import java.lang.ref.SoftReference;
@@ -61,7 +62,7 @@ public class BLCICache<K, V> implements ICache<K, V> {
             return;
         }
 
-        ExtensionResultStatusType erst = extensionManager.getProxy().putCache(key, value, this);
+        ExtensionResultStatusType erst = extensionManager.getProxy().putCache(key, value, new BroadleafThymeleafCacheContextImpl(this));
 
         if (erst.equals(ExtensionResultStatusType.NOT_HANDLED)) {
             defaultPut(key, value);
@@ -85,7 +86,7 @@ public class BLCICache<K, V> implements ICache<K, V> {
         }
 
         ExtensionResultHolder<V> result = new ExtensionResultHolder<V>();
-        ExtensionResultStatusType erst = extensionManager.getProxy().getCache(key, (ExtensionResultHolder<Object>) result, this);
+        ExtensionResultStatusType erst = extensionManager.getProxy().getCache(key, (ExtensionResultHolder<Object>) result, new BroadleafThymeleafCacheContextImpl(this));
 
         if (erst.equals(ExtensionResultStatusType.HANDLED)) {
             value = result.getResult();
@@ -153,18 +154,25 @@ public class BLCICache<K, V> implements ICache<K, V> {
      * @param value
      */
     public void defaultPut(final K key, final V value) {
-
+        TemplateCacheKey templateCacheKey = null;
+        if (key instanceof String)  {
+            templateCacheKey = new TemplateCacheKey(null, (String) key, null, 0, 0, null, null);
+        } else if (key instanceof TemplateCacheKey) {
+            templateCacheKey = (TemplateCacheKey) key;
+        } else {
+            throw new RuntimeException("Key has to be either of type String or TemplateCacheKey. Key was of type " + key.getClass().getName());
+        }
         incrementReportEntity(this.putCount);
 
         final CacheEntry<V> entry = new CacheEntry<V>(value, this.useSoftReferences);
 
         // newSize will be -1 if traceExecution is false
-        final int newSize = this.dataContainer.put(key, entry);
+        final int newSize = this.dataContainer.put((K) templateCacheKey, entry);
 
         if (this.traceExecution) {
             this.logger.trace(
                     "[THYMELEAF][{}][{}][CACHE_ADD][{}] Adding cache entry in cache \"{}\" for key \"{}\". New size is {}.",
-                    new Object[] {TemplateEngine.threadIndex(), this.name, Integer.valueOf(newSize), this.name, key, Integer.valueOf(newSize)});
+                    new Object[] {TemplateEngine.threadIndex(), this.name, Integer.valueOf(newSize), this.name, templateCacheKey, Integer.valueOf(newSize)});
         }
 
         outputReportIfNeeded();
@@ -178,7 +186,15 @@ public class BLCICache<K, V> implements ICache<K, V> {
      * @return
      */
     public V defaultGet(final K key) {
-        return get(key, this.entryValidityChecker);
+        TemplateCacheKey templateCacheKey = null;
+        if (key instanceof String)  {
+            templateCacheKey = new TemplateCacheKey(null, (String) key, null, 0, 0, null, null);
+        } else if (key instanceof TemplateCacheKey) {
+            templateCacheKey = (TemplateCacheKey) key;
+        } else {
+            throw new RuntimeException("Key has to be either of type String or TemplateCacheKey. Key was of type " + key.getClass().getName());
+        }
+        return get((K) templateCacheKey, this.entryValidityChecker);
     }
 
     //END BLC MODIFICATION (Continued below)

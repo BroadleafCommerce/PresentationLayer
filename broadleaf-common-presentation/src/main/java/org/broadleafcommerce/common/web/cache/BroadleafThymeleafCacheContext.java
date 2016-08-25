@@ -1,6 +1,6 @@
 /*
  * #%L
- * BroadleafCommerce Framework Web
+ * broadleaf-common-presentation
  * %%
  * Copyright (C) 2009 - 2016 Broadleaf Commerce
  * %%
@@ -17,18 +17,13 @@
  */
 package org.broadleafcommerce.common.web.cache;
 
-import org.broadleafcommerce.common.extension.ExtensionManager;
-import org.springframework.stereotype.Service;
 
-/**
- * Extension manager that holds the list of {@link BLCICacheExtensionHandler}.
- *
- * @author Chad Harchar (charchar)
- */
-@Service("blICacheExtensionManager")
-public class BLCICacheExtensionManager extends ExtensionManager<BLCICacheExtensionHandler> {
+public interface BroadleafThymeleafCacheContext<K, V>  {
 
-    public BLCICacheExtensionManager() {
-        super(BLCICacheExtensionHandler.class);
-    }
+    public V defaultGet(final K key);
+    
+    public void defaultPut(final K key, final V value);
+    
+    public static final String NOT_FOUND = "NOT_FOUND";
 }
+
