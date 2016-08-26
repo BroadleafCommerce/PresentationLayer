@@ -15,10 +15,11 @@
  * between you and Broadleaf Commerce. You may not use this file except in compliance with the applicable license.
  * #L%
  */
-package org.broadleafcommerce.common.web.service;
+package org.broadleafcommerce.common.web.cache.service;
 
-import org.thymeleaf.Arguments;
-import org.thymeleaf.dom.Element;
+import org.broadleafcommerce.common.web.domain.BroadleafThymeleafContext;
+
+import java.util.Map;
 
 /**
  * Used to build a cacheKey for caching templates.
@@ -36,5 +37,5 @@ public interface TemplateCacheKeyResolverService {
      * @param element
      * @return
      */
-    public String resolveCacheKey(Arguments arguments, Element element);
+    public String resolveCacheKey(String tagName, Map<String, String> tagAttributes, String documentName, Integer lineNumber, BroadleafThymeleafContext context);
 }
