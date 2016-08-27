@@ -48,7 +48,7 @@
         </property>
     </bean>
     
-    <bean id="blWebCommonClasspathTemplateResolver" class="org.thymeleaf.templateresolver.ClassLoaderTemplateResolver">
+    <bean id="blWebCommonClasspathTemplateResolver" class="org.broadleafcommerce.common.web.resolver.BroadleafClasspathTemplateResolver">
         <property name="prefix" value="common_style/templates/" />
         <property name="suffix" value=".html" />
         <property name="templateMode" value="HTML5" />        

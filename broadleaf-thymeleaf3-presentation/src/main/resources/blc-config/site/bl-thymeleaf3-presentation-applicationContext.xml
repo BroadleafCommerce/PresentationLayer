@@ -31,17 +31,6 @@
     <import resource="classpath:blc-config/bl-thymeleaf3-presentation-common-applicationContext.xml" />
     <context:component-scan base-package="org.broadleafcommerce.site.config" />
     
-    <bean id="blWebCommonClasspathTemplateResolver" class="org.broadleafcommerce.common.web.resolver.BroadleafThymeleafClasspathTemplateResolver">
-        <property name="prefix" value="common_style/templates/" />
-        <property name="suffix" value=".html" />
-        <property name="templateFolder" value="${theme.templates.folder}" />
-        <property name="templateMode" value="HTML" />        
-        <property name="characterEncoding" value="UTF-8" />
-        <property name="cacheable" value="${cache.page.templates}"/>
-        <property name="cacheTTLMs" value="${cache.page.templates.ttl}" />
-        <property name="order" value="500"/> 
-    </bean>
-    
     <bean id="thymeleafSpringStandardDialect" class="org.thymeleaf.spring4.dialect.SpringStandardDialect" />
     
     <!-- This list factory bean will accept classes that implment the BroadleafVariableExpression interface. -->
