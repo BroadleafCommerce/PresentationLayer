@@ -29,24 +29,24 @@ public class BroadleafAssignationImpl implements BroadleafAssignation {
     }
 
     @Override
-    public Object parseLeft(BroadleafThymeleafContext context) {
+    public Object parseLeft(BroadleafTemplateContext context) {
         Arguments arguments = ((BroadleafThymeleafContextImpl) context).getThymeleafContext();
         return assignation.getLeft().execute(arguments.getConfiguration(), arguments);
     }
 
     @Override
-    public Object parseRight(BroadleafThymeleafContext context) {
+    public Object parseRight(BroadleafTemplateContext context) {
         Arguments arguments = ((BroadleafThymeleafContextImpl) context).getThymeleafContext();
         return assignation.getRight().execute(arguments.getConfiguration(), arguments);
     }
 
     @Override
-    public String getLeftStringRepresentation(BroadleafThymeleafContext context) {
+    public String getLeftStringRepresentation(BroadleafTemplateContext context) {
         return assignation.getLeft().getStringRepresentation();
     }
 
     @Override
-    public String getRightStringRepresentation(BroadleafThymeleafContext context) {
+    public String getRightStringRepresentation(BroadleafTemplateContext context) {
         return assignation.getRight().getStringRepresentation();
     }
 

@@ -19,7 +19,7 @@ package org.broadleafcommerce.common.web.cache;
 
 import org.thymeleaf.TemplateEngine;
 
-public class BroadleafThymeleafCacheInvalidationContextImpl implements BroadleafThymeleafCacheInvalidationContext {
+public class BroadleafThymeleafCacheInvalidationContextImpl implements BroadleafTemplateCacheInvalidationContext {
 
     protected TemplateEngine templateEngine;
     

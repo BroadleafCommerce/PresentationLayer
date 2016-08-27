@@ -33,8 +33,8 @@ import org.broadleafcommerce.common.web.dialect.DelegatingBroadleafFormReplaceme
 import org.broadleafcommerce.common.web.dialect.DelegatingBroadleafModelVariableModifierProcessor;
 import org.broadleafcommerce.common.web.dialect.DelegatingBroadleafTagReplacementProcessor;
 import org.broadleafcommerce.common.web.dialect.DelegatingBroadleafTagTextModifierProcessor;
-import org.broadleafcommerce.common.web.resolver.BroadleafThymeleafTemplateResolver;
-import org.broadleafcommerce.common.web.resolver.BroadleafThymeleafTemplateResolverType;
+import org.broadleafcommerce.common.web.resolver.BroadleafTemplateResolver;
+import org.broadleafcommerce.common.web.resolver.BroadleafTemplateResolverType;
 import org.broadleafcommerce.common.web.resolver.DatabaseResourceResolver;
 import org.broadleafcommerce.common.web.resolver.DatabaseTemplateResolver;
 import org.springframework.context.ApplicationContext;
@@ -72,9 +72,9 @@ public class Thymeleaf2ConfigUtils {
         return iProcessors;
     }
     
-    public static Set<ITemplateResolver> getWebResovlers(Collection<BroadleafThymeleafTemplateResolver> resolvers, ApplicationContext applicationContext) {
+    public static Set<ITemplateResolver> getWebResovlers(Collection<BroadleafTemplateResolver> resolvers, ApplicationContext applicationContext) {
         Set<ITemplateResolver> webResolvers = new HashSet<>();
-        for (BroadleafThymeleafTemplateResolver resolver : resolvers) {
+        for (BroadleafTemplateResolver resolver : resolvers) {
             if (!resolver.isEmailResolver()) {
                 ITemplateResolver iResolver = createCorrectTemplateResolver(resolver, applicationContext);
                 if (iResolver != null) {
@@ -86,9 +86,9 @@ public class Thymeleaf2ConfigUtils {
         return webResolvers;
     }
     
-    public static Set<ITemplateResolver> getEmailResolvers(Collection<BroadleafThymeleafTemplateResolver> resolvers, ApplicationContext applicationContext) {
+    public static Set<ITemplateResolver> getEmailResolvers(Collection<BroadleafTemplateResolver> resolvers, ApplicationContext applicationContext) {
         Set<ITemplateResolver> emailResovlers = new HashSet<>();
-        for (BroadleafThymeleafTemplateResolver resolver : resolvers) {
+        for (BroadleafTemplateResolver resolver : resolvers) {
             if (resolver.isEmailResolver()) {
                 ITemplateResolver iResolver = createCorrectTemplateResolver(resolver, applicationContext);
                 if (iResolver != null) {
@@ -124,12 +124,12 @@ public class Thymeleaf2ConfigUtils {
         return new DelegatingBroadleafAttributeModelVariableModifierProcessor(processor.getName(), processor, processor.getPrecedence());
     }
     
-    protected static ITemplateResolver createCorrectTemplateResolver(BroadleafThymeleafTemplateResolver resolver, ApplicationContext applicationContext) {
-        if (BroadleafThymeleafTemplateResolverType.CLASSPATH.equals(resolver.getResolverType())) {
+    protected static ITemplateResolver createCorrectTemplateResolver(BroadleafTemplateResolver resolver, ApplicationContext applicationContext) {
+        if (BroadleafTemplateResolverType.CLASSPATH.equals(resolver.getResolverType())) {
             return createClassLoaderTemplateResolver(resolver);
-        } else if (BroadleafThymeleafTemplateResolverType.DATABASE.equals(resolver.getResolverType())) {
+        } else if (BroadleafTemplateResolverType.DATABASE.equals(resolver.getResolverType())) {
             return createDatabaseTemplateResolver(resolver, applicationContext);
-        } else if (BroadleafThymeleafTemplateResolverType.SERVLET.equals(resolver.getResolverType())) {
+        } else if (BroadleafTemplateResolverType.SERVLET.equals(resolver.getResolverType())) {
             return createServletTemplateResolver(resolver);
         } else {
             LOG.warn("No known Thmeleaf 3 template resolver can be mapped to BroadleafThymeleafTemplateResolverType " + resolver.getResolverType());
@@ -137,7 +137,7 @@ public class Thymeleaf2ConfigUtils {
         }
     }
     
-    protected static ClassLoaderTemplateResolver createClassLoaderTemplateResolver(BroadleafThymeleafTemplateResolver resolver) {
+    protected static ClassLoaderTemplateResolver createClassLoaderTemplateResolver(BroadleafTemplateResolver resolver) {
         ClassLoaderTemplateResolver classpathResolver = new ClassLoaderTemplateResolver();
         classpathResolver.setCacheable(resolver.isCacheable());
         classpathResolver.setCacheTTLMs(resolver.getCacheTTLMs());
@@ -149,7 +149,7 @@ public class Thymeleaf2ConfigUtils {
         return classpathResolver;
     }
     
-    protected static DatabaseTemplateResolver createDatabaseTemplateResolver(BroadleafThymeleafTemplateResolver resolver, ApplicationContext applicationContext) {
+    protected static DatabaseTemplateResolver createDatabaseTemplateResolver(BroadleafTemplateResolver resolver, ApplicationContext applicationContext) {
         DatabaseTemplateResolver databaseResolver = new DatabaseTemplateResolver();
         databaseResolver.setCacheable(resolver.isCacheable());
         databaseResolver.setCacheTTLMs(resolver.getCacheTTLMs());
@@ -162,7 +162,7 @@ public class Thymeleaf2ConfigUtils {
         return databaseResolver;
     }
     
-    protected static BroadleafThymeleafServletContextTemplateResolver createServletTemplateResolver(BroadleafThymeleafTemplateResolver resolver) {
+    protected static BroadleafThymeleafServletContextTemplateResolver createServletTemplateResolver(BroadleafTemplateResolver resolver) {
         BroadleafThymeleafServletContextTemplateResolver servletResolver = new BroadleafThymeleafServletContextTemplateResolver();
         servletResolver.setCacheable(resolver.isCacheable());
         servletResolver.setCacheTTLMs(resolver.getCacheTTLMs());

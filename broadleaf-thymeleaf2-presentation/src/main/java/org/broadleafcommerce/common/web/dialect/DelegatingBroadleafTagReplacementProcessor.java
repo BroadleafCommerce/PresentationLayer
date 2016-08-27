@@ -17,10 +17,10 @@
  */
 package org.broadleafcommerce.common.web.dialect;
 
-import org.broadleafcommerce.common.web.domain.BroadleafThymeleafContext;
+import org.broadleafcommerce.common.web.domain.BroadleafTemplateContext;
 import org.broadleafcommerce.common.web.domain.BroadleafThymeleafContextImpl;
-import org.broadleafcommerce.common.web.domain.BroadleafThymeleafElement;
-import org.broadleafcommerce.common.web.domain.BroadleafThymeleafModel;
+import org.broadleafcommerce.common.web.domain.BroadleafTemplateElement;
+import org.broadleafcommerce.common.web.domain.BroadleafTemplateModel;
 import org.broadleafcommerce.common.web.domain.BroadleafThymeleafModelImpl;
 import org.broadleafcommerce.common.web.domain.BroadleafThymeleafTemplateEvent;
 import org.thymeleaf.Arguments;
@@ -48,18 +48,18 @@ public class DelegatingBroadleafTagReplacementProcessor extends AbstractElementP
 
     @Override
     protected ProcessorResult processElement(Arguments arguments, Element element) {
-        BroadleafThymeleafContext context = new BroadleafThymeleafContextImpl(arguments);
+        BroadleafTemplateContext context = new BroadleafThymeleafContextImpl(arguments);
         String tagName = element.getNormalizedName();
         Map<String, Attribute> attributeMap = element.getAttributeMap();
         Map<String, String> tagAttributes = new HashMap<>();
         for (String key : attributeMap.keySet()) {
             tagAttributes.put(element.getAttributeOriginalNameFromNormalizedName(key), attributeMap.get(key).getValue());
         }
-        BroadleafThymeleafModel blcModel = processor.getReplacementModel(tagName, tagAttributes, context);
+        BroadleafTemplateModel blcModel = processor.getReplacementModel(tagName, tagAttributes, context);
         Node lastNode = null;
         if (blcModel != null) {
-            List<BroadleafThymeleafElement> elements = ((BroadleafThymeleafModelImpl) blcModel).getElements();
-            for (BroadleafThymeleafElement elem : elements) {
+            List<BroadleafTemplateElement> elements = ((BroadleafThymeleafModelImpl) blcModel).getElements();
+            for (BroadleafTemplateElement elem : elements) {
                 Node currentNode = ((BroadleafThymeleafTemplateEvent) elem).getNode();
                 if (lastNode != null) {
                     element.getParent().insertAfter(lastNode, currentNode);

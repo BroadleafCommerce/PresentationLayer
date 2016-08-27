@@ -30,12 +30,12 @@ import java.util.List;
  * @author Jay Aisenbrey (cja769)
  *
  */
-public class BroadleafThymeleafModelImpl implements BroadleafThymeleafModel {
+public class BroadleafThymeleafModelImpl implements BroadleafTemplateModel {
 
     // This is an ArrayList specifically so that the elements stay in order for when they're added to the actual DOM
-    protected ArrayList<BroadleafThymeleafElement> elements;
+    protected ArrayList<BroadleafTemplateElement> elements;
 
-    public BroadleafThymeleafModelImpl(ArrayList<BroadleafThymeleafElement> elements) {
+    public BroadleafThymeleafModelImpl(ArrayList<BroadleafTemplateElement> elements) {
         this.elements = elements;
     }
 
@@ -44,11 +44,11 @@ public class BroadleafThymeleafModelImpl implements BroadleafThymeleafModel {
     }
 
     @Override
-    public void addElement(BroadleafThymeleafElement elem) {
+    public void addElement(BroadleafTemplateElement elem) {
         this.elements.add(elem);
     }
 
-    public List<BroadleafThymeleafElement> getElements() {
+    public List<BroadleafTemplateElement> getElements() {
         return elements;
     }
 

@@ -17,7 +17,7 @@
  */
 package org.broadleafcommerce.common.web.cache.service;
 
-import org.broadleafcommerce.common.web.domain.BroadleafThymeleafContext;
+import org.broadleafcommerce.common.web.domain.BroadleafTemplateContext;
 
 import java.util.Map;
 
@@ -37,5 +37,5 @@ public interface TemplateCacheKeyResolverService {
      * @param element
      * @return
      */
-    public String resolveCacheKey(String tagName, Map<String, String> tagAttributes, String documentName, Integer lineNumber, BroadleafThymeleafContext context);
+    public String resolveCacheKey(String tagName, Map<String, String> tagAttributes, String documentName, Integer lineNumber, BroadleafTemplateContext context);
 }

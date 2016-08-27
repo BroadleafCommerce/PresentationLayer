@@ -41,14 +41,14 @@
         </property>
     </bean>
     
-    <bean id="blWebDatabaseTemplateResolver" class="org.broadleafcommerce.common.web.resolver.BroadleafThymeleafDatabaseTemplateResolver">
+    <bean id="blWebDatabaseTemplateResolver" class="org.broadleafcommerce.common.web.resolver.BroadleafDatabaseTemplateResolver">
         <property name="characterEncoding" value="UTF-8" />
         <property name="cacheable" value="${cache.page.templates}"/>
         <property name="cacheTTLMs" value="${cache.page.templates.ttl}" />
         <property name="order" value="100"/>         
     </bean>
     
-    <bean id="blWebTemplateResolver" class="org.broadleafcommerce.common.web.resolver.BroadleafThymeleafServletTemplateResolver">
+    <bean id="blWebTemplateResolver" class="org.broadleafcommerce.common.web.resolver.BroadleafServletTemplateResolver">
         <property name="prefix" value="/WEB-INF/" />
         <property name="templateFolder" value="${theme.templates.folder}" />
         <property name="suffix" value=".html" />
@@ -59,7 +59,7 @@
         <property name="order" value="200"/>
     </bean>
     
-    <bean id="blWebClasspathTemplateResolver" class="org.broadleafcommerce.common.web.resolver.BroadleafThymeleafClasspathTemplateResolver">
+    <bean id="blWebClasspathTemplateResolver" class="org.broadleafcommerce.common.web.resolver.BroadleafClasspathTemplateResolver">
         <property name="prefix" value="webTemplates/" />
         <property name="suffix" value=".html" />
         <property name="templateMode" value="HTML5" />        
@@ -69,7 +69,7 @@
         <property name="order" value="300"/> 
     </bean>
     
-    <bean id="blEmailClasspathTemplateResolver" class="org.broadleafcommerce.common.web.resolver.BroadleafThymeleafClasspathTemplateResolver">
+    <bean id="blEmailClasspathTemplateResolver" class="org.broadleafcommerce.common.web.resolver.BroadleafClasspathTemplateResolver">
         <property name="prefix" value="emailTemplates/" />
         <property name="suffix" value=".html" />
         <property name="templateMode" value="HTML5" />

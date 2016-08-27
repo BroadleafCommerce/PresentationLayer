@@ -28,7 +28,7 @@ import org.thymeleaf.dom.Node;
  * @author Jay Aisenbrey (cja769)
  *
  */
-public interface BroadleafThymeleafTemplateEvent extends BroadleafThymeleafElement {
+public interface BroadleafThymeleafTemplateEvent extends BroadleafTemplateElement {
 
     public Node getNode();
 }

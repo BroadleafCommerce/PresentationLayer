@@ -17,7 +17,7 @@
  */
 package org.broadleafcommerce.common.web.dialect;
 
-import org.broadleafcommerce.common.web.domain.BroadleafThymeleafContext;
+import org.broadleafcommerce.common.web.domain.BroadleafTemplateContext;
 
 import java.util.List;
 import java.util.Map;
@@ -31,5 +31,5 @@ public interface BroadleafModelVariableModifierProcessor extends BroadleafProces
      */
     public List<String> getCollectionModelVariableNamesToAddTo();
 
-    public void populateModelVariables(String tagName, Map<String, String> tagAttributes, Map<String, Object> newModelVars, BroadleafThymeleafContext context);
+    public void populateModelVariables(String tagName, Map<String, String> tagAttributes, Map<String, Object> newModelVars, BroadleafTemplateContext context);
 }

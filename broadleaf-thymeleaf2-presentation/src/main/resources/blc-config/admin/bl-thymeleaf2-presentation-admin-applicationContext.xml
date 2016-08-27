@@ -30,7 +30,7 @@
     <import resource="classpath:blc-config/bl-thymeleaf2-presentation-common-applicationContext.xml" />
     <context:component-scan base-package="org.broadleafcommerce.admin.config" />
 
-    <bean id="blAdminWebTemplateResolver" class="org.broadleafcommerce.common.web.resolver.BroadleafThymeleafServletTemplateResolver">
+    <bean id="blAdminWebTemplateResolver" class="org.broadleafcommerce.common.web.resolver.BroadleafServletTemplateResolver">
         <property name="prefix" value="/WEB-INF/templates/admin/" />
         <property name="suffix" value=".html" />
         <property name="templateMode" value="HTML5" />
@@ -40,7 +40,7 @@
         <property name="order" value="200"/>         
     </bean>
     
-    <bean id="blAdminWebClasspathTemplateResolver" class="org.broadleafcommerce.common.web.resolver.BroadleafThymeleafClasspathTemplateResolver">
+    <bean id="blAdminWebClasspathTemplateResolver" class="org.broadleafcommerce.common.web.resolver.BroadleafClasspathTemplateResolver">
         <property name="prefix" value="open_admin_style/templates/" />
         <property name="suffix" value=".html" />
         <property name="templateMode" value="HTML5" />        
@@ -67,7 +67,6 @@
                 <ref bean="blDialect" />
             </set>
         </property>
-        <!--<property name="cacheManager"><null/></property>-->
     </bean>
 
 </beans>

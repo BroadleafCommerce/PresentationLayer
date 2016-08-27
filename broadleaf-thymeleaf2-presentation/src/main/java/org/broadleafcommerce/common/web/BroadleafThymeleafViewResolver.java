@@ -51,8 +51,8 @@ import javax.servlet.http.HttpServletRequest;
 public class BroadleafThymeleafViewResolver extends ThymeleafViewResolver {
     private static final Log LOG = LogFactory.getLog(BroadleafThymeleafViewResolver.class);
     
-    @Resource(name = "blBroadleafThymeleafViewResolverExtensionManager")
-    protected BroadleafThymeleafViewResolverExtensionManager extensionManager;
+    @Resource(name = "blBroadleafTemplateViewResolverExtensionManager")
+    protected BroadleafTemplateViewResolverExtensionManager extensionManager;
     
     public static final String EXTENSION_TEMPLATE_ATTR_NAME = "extensionTemplateAttr";
     

@@ -54,16 +54,16 @@
         </property>
     </bean>
     
-    <bean id="blMessageResolver" class="org.broadleafcommerce.common.web.BroadleafThymeleafMessageResolver" />
+    <bean id="blMessageResolver" class="org.broadleafcommerce.common.web.BroadleafThymeleaf3MessageResolver" />
     
-     <bean id="blWebDatabaseTemplateResolver" class="org.broadleafcommerce.common.web.resolver.BroadleafThymeleafDatabaseTemplateResolver">
+     <bean id="blWebDatabaseTemplateResolver" class="org.broadleafcommerce.common.web.resolver.BroadleafDatabaseTemplateResolver">
         <property name="characterEncoding" value="UTF-8" />
         <property name="cacheable" value="${cache.page.templates}"/>
         <property name="cacheTTLMs" value="${cache.page.templates.ttl}" />
         <property name="order" value="100"/>         
     </bean>
     
-    <bean id="blWebTemplateResolver" class="org.broadleafcommerce.common.web.resolver.BroadleafThymeleafServletTemplateResolver">
+    <bean id="blWebTemplateResolver" class="org.broadleafcommerce.common.web.resolver.BroadleafServletTemplateResolver">
         <property name="prefix" value="/WEB-INF/" />
         <property name="templateFolder" value="${theme.templates.folder}" />
         <property name="suffix" value=".html" />
@@ -73,7 +73,7 @@
         <property name="order" value="200"/>
     </bean>
     
-     <bean id="blWebClasspathTemplateResolver" class="org.broadleafcommerce.common.web.resolver.BroadleafThymeleafClasspathTemplateResolver">
+     <bean id="blWebClasspathTemplateResolver" class="org.broadleafcommerce.common.web.resolver.BroadleafClasspathTemplateResolver">
         <property name="prefix" value="webTemplates/" />
         <property name="suffix" value=".html" />
         <property name="characterEncoding" value="UTF-8" />
@@ -82,7 +82,7 @@
         <property name="order" value="300"/> 
     </bean>
     
-    <bean id="blEmailClasspathTemplateResolver" class="org.broadleafcommerce.common.web.resolver.BroadleafThymeleafClasspathTemplateResolver">
+    <bean id="blEmailClasspathTemplateResolver" class="org.broadleafcommerce.common.web.resolver.BroadleafClasspathTemplateResolver">
         <property name="prefix" value="emailTemplates/" />
         <property name="suffix" value=".html" />
         <property name="cacheable" value="${cache.page.templates}"/>
@@ -93,7 +93,7 @@
     
     <bean id="thymeleafLayoutDialect" class="nz.net.ultraq.thymeleaf.LayoutDialect" />
 
-    <bean id="blICacheManager" class="org.broadleafcommerce.common.web.cache.BLCICacheManager" />
+    <bean id="blICacheManager" class="org.broadleafcommerce.common.web.cache.BroadleafThymeleaf3CacheManager" />
     <bean id="blWebTemplateEngine" class="org.thymeleaf.spring4.SpringTemplateEngine">
         <property name="messageResolvers">
             <set>
@@ -123,7 +123,7 @@
         </property>
     </bean>
     
-    <bean id="blTemplateCacheInvalidationContext" class="org.broadleafcommerce.common.web.cache.BroadleafThymeleafCacheInvalidationContextImpl">
+    <bean id="blTemplateCacheInvalidationContext" class="org.broadleafcommerce.common.web.cache.BroadleafThymeleaf3CacheInvalidationContextImpl">
         <property name="templateEngine" ref="blWebTemplateEngine" />
     </bean>
     

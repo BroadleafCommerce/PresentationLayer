@@ -22,7 +22,7 @@ import org.broadleafcommerce.common.web.dialect.BLCAdminDialect;
 import org.broadleafcommerce.common.web.dialect.BLCDialect;
 import org.broadleafcommerce.common.web.dialect.BroadleafDialectPrefix;
 import org.broadleafcommerce.common.web.dialect.BroadleafProcessor;
-import org.broadleafcommerce.common.web.resolver.BroadleafThymeleafTemplateResolver;
+import org.broadleafcommerce.common.web.resolver.BroadleafTemplateResolver;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -70,13 +70,13 @@ public class Thymeleaf2AdminConfig {
     
     @Bean
     public Set<ITemplateResolver> blAdminWebTemplateResolvers() {
-        Collection<BroadleafThymeleafTemplateResolver> resolvers = applicationContext.getBeansOfType(BroadleafThymeleafTemplateResolver.class).values();
+        Collection<BroadleafTemplateResolver> resolvers = applicationContext.getBeansOfType(BroadleafTemplateResolver.class).values();
         return Thymeleaf2ConfigUtils.getWebResovlers(resolvers, applicationContext);
     }
     
     @Bean 
     public Set<ITemplateResolver> blAdminEmailTemplateResolvers() {
-        Collection<BroadleafThymeleafTemplateResolver> resolvers = applicationContext.getBeansOfType(BroadleafThymeleafTemplateResolver.class).values();
+        Collection<BroadleafTemplateResolver> resolvers = applicationContext.getBeansOfType(BroadleafTemplateResolver.class).values();
         return Thymeleaf2ConfigUtils.getEmailResolvers(resolvers, applicationContext);
     }
 }

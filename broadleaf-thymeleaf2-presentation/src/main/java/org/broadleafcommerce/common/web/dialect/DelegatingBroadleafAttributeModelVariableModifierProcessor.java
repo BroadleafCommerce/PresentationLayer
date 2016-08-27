@@ -17,7 +17,7 @@
  */
 package org.broadleafcommerce.common.web.dialect;
 
-import org.broadleafcommerce.common.web.domain.BroadleafThymeleafContext;
+import org.broadleafcommerce.common.web.domain.BroadleafTemplateContext;
 import org.broadleafcommerce.common.web.domain.BroadleafThymeleafContextImpl;
 import org.thymeleaf.Arguments;
 import org.thymeleaf.dom.Attribute;
@@ -40,7 +40,7 @@ public class DelegatingBroadleafAttributeModelVariableModifierProcessor extends 
     }
 
     protected ProcessorResult processAttribute(final Arguments arguments, final Element element, final String attributeName) {
-        BroadleafThymeleafContext context = new BroadleafThymeleafContextImpl(arguments);
+        BroadleafTemplateContext context = new BroadleafThymeleafContextImpl(arguments);
         Map<String, Attribute> attributeMap = element.getAttributeMap();
         Map<String, String> tagAttributes = new HashMap<>();
         for (String key : attributeMap.keySet()) {

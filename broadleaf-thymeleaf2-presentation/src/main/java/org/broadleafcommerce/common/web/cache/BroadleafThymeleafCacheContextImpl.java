@@ -18,7 +18,7 @@
 package org.broadleafcommerce.common.web.cache;
 
 
-public class BroadleafThymeleafCacheContextImpl<K, V> implements BroadleafThymeleafCacheContext<K, V> {
+public class BroadleafThymeleafCacheContextImpl<K, V> implements BroadleafTemplateCacheContext<K, V> {
 
     protected BLCICache<K, V> blcCache;
     

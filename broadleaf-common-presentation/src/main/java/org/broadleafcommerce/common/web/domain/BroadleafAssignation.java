@@ -20,11 +20,11 @@ package org.broadleafcommerce.common.web.domain;
 
 public interface BroadleafAssignation {
 
-    public Object parseLeft(BroadleafThymeleafContext context);
+    public Object parseLeft(BroadleafTemplateContext context);
 
-    public Object parseRight(BroadleafThymeleafContext context);
+    public Object parseRight(BroadleafTemplateContext context);
 
-    public String getLeftStringRepresentation(BroadleafThymeleafContext context);
+    public String getLeftStringRepresentation(BroadleafTemplateContext context);
 
-    public String getRightStringRepresentation(BroadleafThymeleafContext context);
+    public String getRightStringRepresentation(BroadleafTemplateContext context);
 }

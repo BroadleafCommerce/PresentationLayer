@@ -28,7 +28,7 @@ import org.thymeleaf.dom.Node;
  * @author Jay Aisenbrey (cja769)
  *
  */
-public class BroadleafThymeleafNonTextElementImpl implements BroadleafThymeleafNonVoidElement, BroadleafThymeleafTemplateEvent {
+public class BroadleafThymeleafNonTextElementImpl implements BroadleafTemplateNonVoidElement, BroadleafThymeleafTemplateEvent {
 
     protected Element element;
 
@@ -37,7 +37,7 @@ public class BroadleafThymeleafNonTextElementImpl implements BroadleafThymeleafN
     }
 
     @Override
-    public void addChild(BroadleafThymeleafElement child) {
+    public void addChild(BroadleafTemplateElement child) {
         element.addChild(((BroadleafThymeleafTemplateEvent) child).getNode());
     }
 

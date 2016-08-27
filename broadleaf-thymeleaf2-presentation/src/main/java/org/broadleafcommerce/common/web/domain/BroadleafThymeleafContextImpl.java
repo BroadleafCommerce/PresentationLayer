@@ -37,7 +37,7 @@ import java.util.Map;
  * @author Jay Aisenbrey (cja769)
  *
  */
-public class BroadleafThymeleafContextImpl implements BroadleafThymeleafContext { 
+public class BroadleafThymeleafContextImpl implements BroadleafTemplateContext { 
 
     protected Arguments arguments;
     
@@ -66,22 +66,22 @@ public class BroadleafThymeleafContextImpl implements BroadleafThymeleafContext 
     }
 
     @Override
-    public BroadleafThymeleafNonVoidElement createNonVoidElement(String tagName, Map<String, String> attributes, boolean useDoubleQuotes) {
+    public BroadleafTemplateNonVoidElement createNonVoidElement(String tagName, Map<String, String> attributes, boolean useDoubleQuotes) {
         return createNonTextElement(tagName, attributes);
     }
 
     @Override
-    public BroadleafThymeleafNonVoidElement createNonVoidElement(String tagName) {
+    public BroadleafTemplateNonVoidElement createNonVoidElement(String tagName) {
         return createNonTextElement(tagName);
     }
 
     @Override
-    public BroadleafThymeleafElement createStandaloneElement(String tagName, Map<String, String> attributes, boolean useDoubleQuotes) {
+    public BroadleafTemplateElement createStandaloneElement(String tagName, Map<String, String> attributes, boolean useDoubleQuotes) {
         return createNonTextElement(tagName, attributes);
     }
 
     @Override
-    public BroadleafThymeleafElement createStandaloneElement(String tagName) {
+    public BroadleafTemplateElement createStandaloneElement(String tagName) {
         return createNonTextElement(tagName);
     }
 
@@ -96,23 +96,23 @@ public class BroadleafThymeleafContextImpl implements BroadleafThymeleafContext 
     }
 
     @Override
-    public BroadleafThymeleafElement createTextElement(String text) {
+    public BroadleafTemplateElement createTextElement(String text) {
         return new BroadleafThymeleafTextElementImpl(new Macro(text));
     }
 
     @Override
-    public BroadleafThymeleafModel createModel() {
+    public BroadleafTemplateModel createModel() {
         return new BroadleafThymeleafModelImpl();
     }
 
     @Override
-    public void setNodeLocalVariable(BroadleafThymeleafElement element, String key, Object value) {
+    public void setNodeLocalVariable(BroadleafTemplateElement element, String key, Object value) {
         ((BroadleafThymeleafTemplateEvent) element).getNode().setNodeLocalVariable(key, value);
         
     }
 
     @Override
-    public void setNodeLocalVariables(BroadleafThymeleafElement element, Map<String, Object> variableMap) {
+    public void setNodeLocalVariables(BroadleafTemplateElement element, Map<String, Object> variableMap) {
         ((BroadleafThymeleafTemplateEvent) element).getNode().setAllNodeLocalVariables(variableMap);
     }
 

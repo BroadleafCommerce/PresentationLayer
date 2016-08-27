@@ -17,8 +17,8 @@
  */
 package org.broadleafcommerce.common.web.dialect;
 
-import org.broadleafcommerce.common.web.domain.BroadleafThymeleafContext;
-import org.broadleafcommerce.common.web.domain.BroadleafThymeleafFormReplacementDTO;
+import org.broadleafcommerce.common.web.domain.BroadleafTemplateContext;
+import org.broadleafcommerce.common.web.domain.BroadleafTemplateFormReplacementDTO;
 
 import java.util.Map;
 
@@ -28,5 +28,5 @@ public interface BroadleafFormReplacementProcessor extends BroadleafProcessor {
     
     public boolean reprocessModel();
 
-    public BroadleafThymeleafFormReplacementDTO getInjectedModelAndFormAttributes(String rootTagName, Map<String, String> rootTagAttributes, BroadleafThymeleafContext context);
+    public BroadleafTemplateFormReplacementDTO getInjectedModelAndFormAttributes(String rootTagName, Map<String, String> rootTagAttributes, BroadleafTemplateContext context);
 }

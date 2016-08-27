@@ -18,7 +18,7 @@
 
 package org.broadleafcommerce.common.web.cache.service;
 
-import org.broadleafcommerce.common.web.domain.BroadleafThymeleafContext;
+import org.broadleafcommerce.common.web.domain.BroadleafTemplateContext;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
@@ -43,7 +43,7 @@ public class SimpleCacheKeyResolver implements TemplateCacheKeyResolverService {
      * @return
      */
     @Override
-    public String resolveCacheKey(String tagName, Map<String, String> tagAttributes, String documentName, Integer lineNumber, BroadleafThymeleafContext context) {
+    public String resolveCacheKey(String tagName, Map<String, String> tagAttributes, String documentName, Integer lineNumber, BroadleafTemplateContext context) {
         StringBuilder sb = new StringBuilder();
         sb.append(getStringValue("cacheKey", tagAttributes, true, context));
         String attributeDocName = getStringValue("templateName", tagAttributes, true, context);
@@ -52,7 +52,7 @@ public class SimpleCacheKeyResolver implements TemplateCacheKeyResolverService {
         return sb.toString();
     }
 
-    protected String getStringValue(String attrName, Map<String, String> tagAttributes, boolean removeAttribute, BroadleafThymeleafContext context) {
+    protected String getStringValue(String attrName, Map<String, String> tagAttributes, boolean removeAttribute, BroadleafTemplateContext context) {
         if (tagAttributes.containsKey(attrName)) {
             String cacheKeyParam = tagAttributes.get(attrName);
             if (removeAttribute) {

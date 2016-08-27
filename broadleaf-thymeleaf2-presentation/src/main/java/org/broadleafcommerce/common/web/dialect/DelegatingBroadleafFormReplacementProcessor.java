@@ -18,10 +18,10 @@
 package org.broadleafcommerce.common.web.dialect;
 
 import org.apache.commons.collections.MapUtils;
-import org.broadleafcommerce.common.web.domain.BroadleafThymeleafContext;
+import org.broadleafcommerce.common.web.domain.BroadleafTemplateContext;
 import org.broadleafcommerce.common.web.domain.BroadleafThymeleafContextImpl;
-import org.broadleafcommerce.common.web.domain.BroadleafThymeleafElement;
-import org.broadleafcommerce.common.web.domain.BroadleafThymeleafFormReplacementDTO;
+import org.broadleafcommerce.common.web.domain.BroadleafTemplateElement;
+import org.broadleafcommerce.common.web.domain.BroadleafTemplateFormReplacementDTO;
 import org.broadleafcommerce.common.web.domain.BroadleafThymeleafModelImpl;
 import org.broadleafcommerce.common.web.domain.BroadleafThymeleafTemplateEvent;
 import org.thymeleaf.Arguments;
@@ -47,16 +47,16 @@ public class DelegatingBroadleafFormReplacementProcessor extends AbstractElement
     
     @Override
     protected ProcessorResult processElement(Arguments arguments, Element element) {
-        BroadleafThymeleafContext context = new BroadleafThymeleafContextImpl(arguments);
+        BroadleafTemplateContext context = new BroadleafThymeleafContextImpl(arguments);
         String tagName = element.getNormalizedName();
         Map<String, Attribute> attributeMap = element.getAttributeMap();
         Map<String, String> tagAttributes = new HashMap<>();
         for (String key : attributeMap.keySet()) {
             tagAttributes.put(element.getAttributeOriginalNameFromNormalizedName(key), attributeMap.get(key).getValue());
         }
-        BroadleafThymeleafFormReplacementDTO dto = processor.getInjectedModelAndFormAttributes(tagName, tagAttributes, context);
+        BroadleafTemplateFormReplacementDTO dto = processor.getInjectedModelAndFormAttributes(tagName, tagAttributes, context);
         if (dto == null) {
-            dto = new BroadleafThymeleafFormReplacementDTO();
+            dto = new BroadleafTemplateFormReplacementDTO();
         }
         Map<String, String> newParams = dto.getFormParameters();
         if (newParams == null) {
@@ -68,8 +68,8 @@ public class DelegatingBroadleafFormReplacementProcessor extends AbstractElement
         }
         newForm.setAttributes(newParams);
         if (dto.getModel() != null) {
-            List<BroadleafThymeleafElement> elementsToAdd = ((BroadleafThymeleafModelImpl) dto.getModel()).getElements();
-            for (BroadleafThymeleafElement elem : elementsToAdd) {
+            List<BroadleafTemplateElement> elementsToAdd = ((BroadleafThymeleafModelImpl) dto.getModel()).getElements();
+            for (BroadleafTemplateElement elem : elementsToAdd) {
                 newForm.addChild(((BroadleafThymeleafTemplateEvent) elem).getNode());
             }
         }
