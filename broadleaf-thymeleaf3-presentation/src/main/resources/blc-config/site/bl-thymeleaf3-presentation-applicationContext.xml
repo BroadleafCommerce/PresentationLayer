@@ -71,15 +71,6 @@
         <property name="order" value="300"/> 
     </bean>
     
-    <bean id="blEmailClasspathTemplateResolver" class="org.broadleafcommerce.common.web.resolver.BroadleafClasspathTemplateResolver">
-        <property name="prefix" value="emailTemplates/" />
-        <property name="suffix" value=".html" />
-        <property name="cacheable" value="${cache.page.templates}"/>
-        <property name="cacheTTLMs" value="${cache.page.templates.ttl}" />
-        <property name="characterEncoding" value="UTF-8" />
-        <property name="emailResolver" value="true" />
-    </bean> 
-    
     <bean id="thymeleafLayoutDialect" class="nz.net.ultraq.thymeleaf.LayoutDialect" />
 
     <bean id="blICacheManager" class="org.broadleafcommerce.common.web.cache.BroadleafThymeleaf3CacheManager" />
@@ -92,7 +83,6 @@
         </property>
         <property name="templateResolvers" ref="blWebTemplateResolvers" />
         <property name="cacheManager" ref="blICacheManager" />
-        <!-- <property name="templateModeHandlers" value="#{blThymeleafStandardTemplateModeHandlers.standardTemplateModeHandlers}" /> -->
         <property name="dialects">
             <set>
                 <ref bean="thymeleafSpringStandardDialect" />
@@ -102,14 +92,12 @@
         </property>
     </bean>
     
-    <bean id="blEmailTemplateEngine" class="org.thymeleaf.spring4.SpringTemplateEngine">
-        <property name="templateResolvers" ref="blEmailTemplateResolvers" />
-        <property name="dialects">
-            <set>
-                <ref bean="thymeleafSpringStandardDialect" />
-                <ref bean="blDialect" />
-            </set>
-        </property>
+    <!-- Set up the view resolver to be used by Spring -->
+    <bean id="blThymeleafViewResolver" class="org.broadleafcommerce.common.web.BroadleafThymeleafViewResolver">
+        <property name="templateEngine" ref="blWebTemplateEngine" />
+        <property name="order" value="1" />
+        <property name="cache" value="${thymeleaf.view.resolver.cache}" />
+        <property name="characterEncoding" value="UTF-8" />
     </bean>
     
     <bean id="blTemplateCacheInvalidationContext" class="org.broadleafcommerce.common.web.cache.BroadleafThymeleaf3CacheInvalidationContextImpl">

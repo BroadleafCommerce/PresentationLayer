@@ -74,4 +74,25 @@
             </list>
         </property>
     </bean>
+    
+    <bean id="blEmailClasspathTemplateResolver" class="org.broadleafcommerce.common.web.resolver.BroadleafClasspathTemplateResolver">
+        <property name="prefix" value="emailTemplates/" />
+        <property name="suffix" value=".html" />
+        <property name="templateMode" value="HTML5" />
+        <property name="cacheable" value="${cache.page.templates}"/>
+        <property name="cacheTTLMs" value="${cache.page.templates.ttl}" />
+        <property name="characterEncoding" value="UTF-8" />
+        <property name="emailResolver" value="true" />
+    </bean> 
+    
+    <bean id="blEmailTemplateEngine" class="org.thymeleaf.spring4.SpringTemplateEngine">
+        <property name="templateResolvers" ref="blEmailTemplateResolvers" />
+        <property name="dialects">
+            <set>
+                <ref bean="thymeleafSpringStandardDialect" />
+                <ref bean="blDialect" />
+            </set>
+        </property>
+    </bean>
+    
 </beans>
