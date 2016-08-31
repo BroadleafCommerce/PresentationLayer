@@ -18,14 +18,15 @@
 package org.broadleafcommerce.admin.config;
 
 import org.broadleafcommerce.common.config.Thymeleaf3ConfigUtils;
-import org.broadleafcommerce.common.web.dialect.BroadleafThymeleaf3AdminDialect;
-import org.broadleafcommerce.common.web.dialect.BroadleafThymeleaf3Dialect;
 import org.broadleafcommerce.common.web.dialect.BroadleafDialectPrefix;
 import org.broadleafcommerce.common.web.dialect.BroadleafProcessor;
+import org.broadleafcommerce.common.web.dialect.BroadleafThymeleaf3AdminDialect;
+import org.broadleafcommerce.common.web.dialect.BroadleafThymeleaf3Dialect;
 import org.broadleafcommerce.common.web.resolver.BroadleafTemplateResolver;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.thymeleaf.processor.IProcessor;
 import org.thymeleaf.templateresolver.ITemplateResolver;
 
 import java.util.ArrayList;
@@ -44,27 +45,13 @@ public class Thymeleaf3AdminConfig {
     @Bean
     public BroadleafThymeleaf3AdminDialect blAdminDialect() {
         BroadleafThymeleaf3AdminDialect dialect = new BroadleafThymeleaf3AdminDialect();
-        Collection<BroadleafProcessor> blcProcessors = applicationContext.getBeansOfType(BroadleafProcessor.class).values();
-        Collection<BroadleafProcessor> adminProcessors = new ArrayList<>();
-        for (BroadleafProcessor processor : blcProcessors) {
-            if (processor.getPrefix().equals(BroadleafDialectPrefix.BLC_ADMIN)) {
-                adminProcessors.add(processor);
-            }
-        }
-        dialect.setProcessors(Thymeleaf3ConfigUtils.getDialectProcessors(adminProcessors));
+        dialect.setProcessors(blAdminDialectProcessors());
         return dialect;
     }
     @Bean
     public BroadleafThymeleaf3Dialect blDialect() {
         BroadleafThymeleaf3Dialect dialect = new BroadleafThymeleaf3Dialect();
-        Collection<BroadleafProcessor> blcProcessors = applicationContext.getBeansOfType(BroadleafProcessor.class).values();
-        Collection<BroadleafProcessor> commonProcessors = new ArrayList<>();
-        for (BroadleafProcessor processor : blcProcessors) {
-            if (processor.getPrefix().equals(BroadleafDialectPrefix.BLC)) {
-                commonProcessors.add(processor);
-            }
-        }
-        dialect.setProcessors(Thymeleaf3ConfigUtils.getDialectProcessors(commonProcessors));
+        dialect.setProcessors(blDialectProcessors());
         return dialect;
     }
     
@@ -78,5 +65,29 @@ public class Thymeleaf3AdminConfig {
     public Set<ITemplateResolver> blAdminEmailTemplateResolvers() {
         Collection<BroadleafTemplateResolver> resolvers = applicationContext.getBeansOfType(BroadleafTemplateResolver.class).values();
         return Thymeleaf3ConfigUtils.getEmailResolvers(resolvers, applicationContext);
+    }
+    
+    @Bean
+    public Set<IProcessor> blAdminDialectProcessors() {
+        Collection<BroadleafProcessor> blcProcessors = applicationContext.getBeansOfType(BroadleafProcessor.class).values();
+        Collection<BroadleafProcessor> adminProcessors = new ArrayList<>();
+        for (BroadleafProcessor processor : blcProcessors) {
+            if (processor.getPrefix().equals(BroadleafDialectPrefix.BLC_ADMIN)) {
+                adminProcessors.add(processor);
+            }
+        }
+        return Thymeleaf3ConfigUtils.getDialectProcessors(adminProcessors);
+    }
+    
+    @Bean
+    public Set<IProcessor> blDialectProcessors() {
+        Collection<BroadleafProcessor> blcProcessors = applicationContext.getBeansOfType(BroadleafProcessor.class).values();
+        Collection<BroadleafProcessor> commonProcessors = new ArrayList<>();
+        for (BroadleafProcessor processor : blcProcessors) {
+            if (processor.getPrefix().equals(BroadleafDialectPrefix.BLC)) {
+                commonProcessors.add(processor);
+            }
+        }
+        return Thymeleaf3ConfigUtils.getDialectProcessors(commonProcessors);
     }
 }

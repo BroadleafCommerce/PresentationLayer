@@ -18,8 +18,8 @@
 package org.broadleafcommerce.site.config;
 
 import org.broadleafcommerce.common.config.Thymeleaf3ConfigUtils;
-import org.broadleafcommerce.common.web.dialect.BroadleafThymeleaf3Dialect;
 import org.broadleafcommerce.common.web.dialect.BroadleafProcessor;
+import org.broadleafcommerce.common.web.dialect.BroadleafThymeleaf3Dialect;
 import org.broadleafcommerce.common.web.resolver.BroadleafTemplateResolver;
 import org.broadleafcommerce.thymeleaf.processor.BroadleafThymeleaf3CacheProcessor;
 import org.springframework.context.ApplicationContext;
@@ -42,8 +42,7 @@ public class Thymeleaf3SiteConfig {
     @Bean
     public BroadleafThymeleaf3Dialect blDialect() {
         BroadleafThymeleaf3Dialect dialect = new BroadleafThymeleaf3Dialect();
-        Collection<BroadleafProcessor> blcProcessors = applicationContext.getBeansOfType(BroadleafProcessor.class).values();
-        Set<IProcessor> iProcessors = Thymeleaf3ConfigUtils.getDialectProcessors(blcProcessors);
+        Set<IProcessor> iProcessors = blDialectProcessors();
         iProcessors.add(blCacheProcessor());
         dialect.setProcessors(iProcessors);
         return dialect;
@@ -64,6 +63,12 @@ public class Thymeleaf3SiteConfig {
     @Bean
     public IProcessor blCacheProcessor() {
         return new BroadleafThymeleaf3CacheProcessor();
+    }
+    
+    @Bean
+    public Set<IProcessor> blDialectProcessors() {
+        Collection<BroadleafProcessor> blcProcessors = applicationContext.getBeansOfType(BroadleafProcessor.class).values();
+        return Thymeleaf3ConfigUtils.getDialectProcessors(blcProcessors);
     }
 
 }

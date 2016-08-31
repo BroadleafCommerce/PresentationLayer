@@ -42,8 +42,7 @@ public class Thymeleaf2SiteConfig {
     @Bean
     public BLCDialect blDialect() {
         BLCDialect dialect = new BLCDialect();
-        Collection<BroadleafProcessor> blcProcessors = applicationContext.getBeansOfType(BroadleafProcessor.class).values();
-        Set<IProcessor> iProcessors = Thymeleaf2ConfigUtils.getDialectProcessors(blcProcessors);
+        Set<IProcessor> iProcessors = blDialectProcessors();
         iProcessors.add(blCacheProcessor());
         dialect.setProcessors(iProcessors);
         return dialect;
@@ -64,6 +63,12 @@ public class Thymeleaf2SiteConfig {
     @Bean
     public IProcessor blCacheProcessor() {
         return new BroadleafCacheProcessor();
+    }
+    
+    @Bean
+    public Set<IProcessor> blDialectProcessors() {
+        Collection<BroadleafProcessor> blcProcessors = applicationContext.getBeansOfType(BroadleafProcessor.class).values();
+        return Thymeleaf2ConfigUtils.getDialectProcessors(blcProcessors);
     }
     
 }
