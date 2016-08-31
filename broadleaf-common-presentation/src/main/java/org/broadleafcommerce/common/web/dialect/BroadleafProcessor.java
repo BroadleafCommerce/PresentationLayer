@@ -17,15 +17,37 @@
  */
 package org.broadleafcommerce.common.web.dialect;
 
-
+/**
+ * Defines the base of what a template processor is in Broadleaf.
+ * A processor is a class that is ran when a keyword is found either as a tag name or attribute.
+ * The keyword is {@link #getPrefix()} + ":" + {@link #getName()}.
+ * 
+ * @author Jay Aisenbrey (cja769)
+ *
+ */
 public interface BroadleafProcessor {
     
+    /**
+     * @return The name part of the keyword that this class should be triggered on.
+     * The "price" part of {@code blc:price}
+     */
     public String getName();
     
+    /**
+     * @return When this processor should be ran in relation to other processors in the dialect.
+     * Runs from smallest number to largest 
+     */
     public int getPrecedence();
     
+    /**
+     * @return The prefix that should be prepended to the name for the class to be triggered on.
+     * The "blc" part of {@code blc:price}
+     */
     public BroadleafDialectPrefix getPrefix();
     
+    /**
+     * {@link BroadleafDialectPrefix#BLC}
+     */
     public static final BroadleafDialectPrefix DEFAULT_PREFIX = BroadleafDialectPrefix.BLC;
     
     public static final int DEFAULT_PRECEDENCE = 1000;

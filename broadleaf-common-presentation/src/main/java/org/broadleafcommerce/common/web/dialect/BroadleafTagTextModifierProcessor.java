@@ -21,9 +21,27 @@ import org.broadleafcommerce.common.web.domain.BroadleafTemplateContext;
 
 import java.util.Map;
 
+/**
+ * An attribute processor that is used to modify (and replace) the text contents of the tag it's used on
+ * 
+ * @author Jay Aisenbrey (cja769)
+ *
+ */
 public interface BroadleafTagTextModifierProcessor extends BroadleafProcessor {
     
+    /**
+     * @return true if the text needs to be processed by the templating framework else false 
+     */
     public boolean textShouldBeProcessed();
 
+    /**
+     * 
+     * @param tagName The name of the tag that the attribute was triggered on
+     * @param tagAttributes A map of String to String of all of the attributes on the tag
+     * @param attributeName The name of the attribute that triggered the event
+     * @param attributeValue The value of the attribute that triggered the event
+     * @param context The {@link BroadleafTemplateContext} that should be used to perform operations on the tag with
+     * @return The text that should be inserted into the tag
+     */
     public String getTagText(String tagName, Map<String, String> tagAttributes, String attributeName, String attributeValue, BroadleafTemplateContext context);
 }

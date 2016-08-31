@@ -17,6 +17,12 @@
  */
 package org.broadleafcommerce.common.web.dialect;
 
+/**
+ * Default implementation of {@link BroadleafTagTextModifierProcessor} that provides some defaults
+ * 
+ * @author Jay Aisenbrey (cja769)
+ *
+ */
 public abstract class AbstractBroadleafTagTextModifierProcessor implements BroadleafTagTextModifierProcessor {
 
     @Override

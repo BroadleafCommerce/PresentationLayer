@@ -17,14 +17,32 @@
  */
 package org.broadleafcommerce.common.web.domain;
 
-
+/**
+ * An expression that represents an assignation of a value to a key
+ * 
+ * @author Jay Aisenbrey (cja769)
+ *
+ */
 public interface BroadleafAssignation {
 
+    /**
+     * @return The parsed result of the left side of the assignation
+     */
     public Object parseLeft(BroadleafTemplateContext context);
 
+    /**
+     * @return The parsed result of the right side of the assignation
+     */
     public Object parseRight(BroadleafTemplateContext context);
 
+    /**
+     * 
+     * @return The string representation of the left side expression of the assignation
+     */
     public String getLeftStringRepresentation(BroadleafTemplateContext context);
 
+    /**
+     * @return The string representation of the right side expression of the assignation
+     */
     public String getRightStringRepresentation(BroadleafTemplateContext context);
 }

@@ -20,7 +20,7 @@ package org.broadleafcommerce.common.web.resolver;
 /**
  * Broadleaf's version of Thymeleaf's enum TemplateMode
  * This enum is used to designate what type of file that a resource resolver should
- * be used for. Normally we'll use {@code HTML} since most templates are HTML
+ * be used for. Normally we'll use {@code HTML5} since most templates are HTML5
  * 
  * @author Jay Aisenbrey (cja769)
  *

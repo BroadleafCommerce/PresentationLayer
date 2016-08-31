@@ -22,9 +22,27 @@ import org.broadleafcommerce.common.web.domain.BroadleafTemplateContext;
 
 import java.util.Map;
 
+/**
+ * An attribute processor that modifies the attributes on the tag that the event was triggered on
+ * 
+ * @author Jay Aisenbrey (cja769)
+ *
+ */
 public interface BroadleafAttributeModifierProcessor extends BroadleafProcessor {
 
+    /**
+     * @param tagName The name of the tag the event was triggered on
+     * @param tagAttributes A map of String to String of all of the attributes on the tag
+     * @param attributeName The name of the attribute that triggered the event
+     * @param attributeValue The value of the attribute that triggered the event
+     * @param context The {@link BroadleafTemplateContext} that should be used to perform operations on the tag with
+     * @return A {@link BroadleafAttributeModifier} that has a map of the new attributes that should be added to the tag and a list of attribute
+     * names that should be removed from the tag
+     */
     public BroadleafAttributeModifier getModifiedAttributes(String tagName, Map<String, String> tagAttributes, String attributeName, String attributeValue, BroadleafTemplateContext context);
     
+    /**
+     * @return true if the new attribute's values should be surrounded by single quotes and false if they should be surrounded by double quotes
+     */
     public boolean useSingleQuotes();
 }

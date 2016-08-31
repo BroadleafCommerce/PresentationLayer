@@ -17,9 +17,17 @@
  */
 package org.broadleafcommerce.common.web.cache;
 
-
+/**
+ * Utility class to modify the current template cache of template path name to fully evaluated templates
+ * 
+ * @author Jay Aisenbrey (cja769)
+ *
+ */
 public interface BroadleafTemplateCacheInvalidationContext {
 
+    /**
+     * Clears the cache entry for the template that is mapped to @param path 
+     */
     public void clearTemplateCacheFor(String path);
     
 }

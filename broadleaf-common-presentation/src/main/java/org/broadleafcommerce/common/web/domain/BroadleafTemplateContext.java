@@ -23,34 +23,75 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Interface that lines out a set of utilities that should be able to be done during execution of a processor
+ * Utility class to be used to do various functions on and around the template
  * 
  * @author Jay Aisenbrey (cja769)
  *
  */
 public interface BroadleafTemplateContext {
 
+    /**
+     * @return The object that the {@code value} evaluates to using the underlying template language
+     */
     public Object parseExpression(String value);
 
+    /**
+     * @param allowParametersWithoutValue true if assignations where the key has no value assigning to it is valid
+     * @return The list of {@link BroadleafAssignation}s that were evaluated from {@code value}
+     */
     public List<BroadleafAssignation> getAssignationSequence(String value, boolean allowParametersWithoutValue);
 
+    /**
+     * @param tagName The name of the tag that is being created
+     * @param attributes The attributes that should be added to the tag
+     * @param useDoubleQuotes True if the attribute values should be surrounded by double quotes and false if they should use single quotes
+     */
     public BroadleafTemplateNonVoidElement createNonVoidElement(String tagName, Map<String, String> attributes, boolean useDoubleQuotes);
 
+    /**
+     * @param tagName The name of the tag that is being created
+     */
     public BroadleafTemplateNonVoidElement createNonVoidElement(String tagName);
 
+    /**
+     * @param tagName The name of the tag that is being created
+     * @param attributes The attributes that should be added to the tag
+     * @param useDoubleQuotes True if the attribute values should be surrounded by double quotes and false if they should use single quotes
+     */
     public BroadleafTemplateElement createStandaloneElement(String tagName, Map<String, String> attributes, boolean useDoubleQuotes);
 
+    /**
+     * @param tagName The name of the tag that is being created
+     */
     public BroadleafTemplateElement createStandaloneElement(String tagName);
 
+    /**
+     * @param text The text that the {@link BroadleafTemplateElement} should represent
+     */
     public BroadleafTemplateElement createTextElement(String text);
 
+    /**
+     * @return A new {@link BroadleafTemplateModel} that can have elements added to it to make a snippet of markup
+     */
     public BroadleafTemplateModel createModel();
     
+    /**
+     * Sets a variable on the given {@code element} 
+     */
     public void setNodeLocalVariable(BroadleafTemplateElement element, String key, Object value);
     
+    /**
+     * Sets a map of variables on the give {@code element}
+     */
     public void setNodeLocalVariables(BroadleafTemplateElement element, Map<String, Object> variableMap);
     
+    /**
+     * @return The object on the current variable model whose key was {@code name}
+     */
     public Object getVariable(String name);
     
+    /**
+     * @return Gets the current Spring {@link BindStatus} for {@code attributeValue}
+     */
     public BindStatus getBindStatus(String attributeValue);
 }

@@ -19,6 +19,12 @@ package org.broadleafcommerce.common.web.dialect;
 
 import java.util.List;
 
+/**
+ * Default implementation of {@link BroadleafModelVariableModifierProcessor} that provides some defaults
+ * 
+ * @author Jay Aisenbrey (cja769)
+ *
+ */
 public abstract class AbstractBroadleafModelVariableModifierProcessor implements BroadleafModelVariableModifierProcessor {
 
     @Override

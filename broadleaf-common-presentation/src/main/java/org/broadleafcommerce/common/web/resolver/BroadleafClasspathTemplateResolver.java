@@ -17,7 +17,13 @@
  */
 package org.broadleafcommerce.common.web.resolver;
 
-
+/**
+ * Implementation of {@link AbstractBroadleafTemplateResolver} that is used if the templates that need to be resolved
+ * are not under {@code WEB-INF} but are instead somewhere else on the classpath
+ * 
+ * @author Jay Aisenbrey (cja769)
+ *
+ */
 public class BroadleafClasspathTemplateResolver extends AbstractBroadleafTemplateResolver {
 
     @Override

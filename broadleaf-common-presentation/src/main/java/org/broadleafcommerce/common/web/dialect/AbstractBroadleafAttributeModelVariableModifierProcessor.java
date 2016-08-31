@@ -17,6 +17,12 @@
  */
 package org.broadleafcommerce.common.web.dialect;
 
+/**
+ * Default implementation of {@link BroadleafAttributeModelVariableModifierProcessor} that provides some defaults
+ * 
+ * @author Jay Aisenbrey (cja769)
+ *
+ */
 public abstract class AbstractBroadleafAttributeModelVariableModifierProcessor implements BroadleafAttributeModelVariableModifierProcessor {
 
     @Override

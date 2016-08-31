@@ -18,13 +18,17 @@
 package org.broadleafcommerce.common.web.domain;
 
 /**
- * Interface of a basic structure has inside of it other elements. This is effectively set of HTML DOM elements
+ * The base object for making a new piece of markup using {@link BroadleafTemplateElement}s.
+ * see {@link BroadleafTempalateContext} on how to obtain one of these
  * 
  * @author Jay Aisenbrey (cja769)
  *
  */
 public interface BroadleafTemplateModel {
 
+    /**
+     * Add a new child element to the model. Adding elements conserves order in which they were added
+     */
     public void addElement(BroadleafTemplateElement elem);
 
 }

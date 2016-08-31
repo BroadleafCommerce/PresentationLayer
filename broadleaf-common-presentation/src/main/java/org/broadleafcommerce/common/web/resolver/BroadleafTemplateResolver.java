@@ -78,7 +78,7 @@ public interface BroadleafTemplateResolver {
     public BroadleafTemplateResolverType getResolverType();
     
     /**
-     * @return Indicates if this resolver should be in set of email resolvers or web resolvers
+     * @return true if this resolver should be in the set of email resolvers
      */
     public Boolean isEmailResolver();
     

@@ -17,7 +17,12 @@
  */
 package org.broadleafcommerce.common.web.resolver;
 
-
+/**
+ * Implementation of {@link AbstractBroadleafTemplateResolver} that should be used if the templates you are resolving are in the database.
+ * 
+ * @author Jay Aisenbrey (cja769)
+ *
+ */
 public class BroadleafDatabaseTemplateResolver extends AbstractBroadleafTemplateResolver {
 
     @Override

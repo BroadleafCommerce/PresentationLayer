@@ -17,12 +17,14 @@
  */
 package org.broadleafcommerce.common.web.domain;
 
+import org.broadleafcommerce.common.web.dialect.AbstractBroadleafFormReplacementProcessor;
+
 import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Holder object for passing around a {@code BroadleafThymeleafModel} and a Map that represents the parameters
- * that should be used when creating a form. See {@code AbstractBroadleafFormReplacementProcessor}
+ * Holder object for passing around a {@link BroadleafThymeleafModel} and a Map that represents the parameters
+ * that should be used when creating a form. See {@link AbstractBroadleafFormReplacementProcessor}
  * 
  * @author Jay Aisenbrey (cja769)
  *

@@ -17,6 +17,12 @@
  */
 package org.broadleafcommerce.common.web.dialect;
 
+/**
+ * Default implementation of {@link BroadleafFormReplacementProcessor} that provides some defaults
+ * 
+ * @author Jay Aisenbrey (cja769)
+ *
+ */
 public abstract class AbstractBroadleafFormReplacementProcessor implements BroadleafFormReplacementProcessor {
     
     @Override

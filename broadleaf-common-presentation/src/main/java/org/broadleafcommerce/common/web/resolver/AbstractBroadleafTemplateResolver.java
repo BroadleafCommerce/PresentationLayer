@@ -17,6 +17,13 @@
  */
 package org.broadleafcommerce.common.web.resolver;
 
+/**
+ * Abstract implementation of {@link BroadleafTemplateResolver} that has some defaults.
+ * Most of the time you'll want to create a bean of an existing implementation of this class.
+ * 
+ * @author Jay Aisenbrey (cja769)
+ *
+ */
 public abstract class AbstractBroadleafTemplateResolver implements BroadleafTemplateResolver {
 
     protected String prefix = "";

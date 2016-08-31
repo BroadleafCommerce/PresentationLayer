@@ -17,9 +17,24 @@
  */
 package org.broadleafcommerce.common.web.dialect;
 
-
+/**
+ * Used to specify which dialect a {@link BroadleafProcessor} should be in
+ * 
+ * @author Jay Aisenbrey (cja769)
+ *
+ */
 public enum BroadleafDialectPrefix {
-    BLC, BLC_ADMIN;
+    /**
+     * Specifies the {@link BroadleafProcessor} should use the "blc" prefix.
+     * This means it'll be used in site, admin, or both depending on the context the bean is created
+     */
+    BLC,
+    
+    /**
+     * Specifies the {@link BroadleafProcessor} should use the "blc_admin" prefix.
+     * This means it'll be used in the admin context
+     */
+    BLC_ADMIN;
     
     @Override
     public String toString() {

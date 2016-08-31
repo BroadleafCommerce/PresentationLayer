@@ -17,7 +17,13 @@
  */
 package org.broadleafcommerce.common.web.resolver;
 
-
+/**
+ * Implementation of {@link AbstractBroadleafTempalateResolver} that is used if the template you are resolving are in the deployed
+ * {@code webapp} folder. Generally the templates would be in {@code WEB-INF}
+ * 
+ * @author Jay Aisenbrey (cja769)
+ *
+ */
 public class BroadleafServletTemplateResolver extends AbstractBroadleafTemplateResolver {
 
     @Override

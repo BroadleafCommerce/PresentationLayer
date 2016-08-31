@@ -17,14 +17,16 @@
  */
 package org.broadleafcommerce.common.web.domain;
 
+import org.broadleafcommerce.common.web.dialect.AbstractBroadleafAttributeModifierProcessor;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 /**
- * Holder class for passing around a {@code Map} of parameters that should be added to a tag and a {@code List} of parameters
- * that should be removed. See {@code AbstractBroadleafAttributeModifierProcessor}
+ * Holder class for passing around a {@link Map} of parameters that should be added to a tag and a {@link List} of parameters
+ * that should be removed. See {@link AbstractBroadleafAttributeModifierProcessor}
  * 
  * @author Jay Aisenbrey (cja769)
  *
