@@ -135,7 +135,7 @@ The result will look like
   - This is in milliseconds and if null will be evicted by least recently used when room in the cache is needed
    - No default is set but the property name is `cache.page.templates.ttl`
 7. Set the `emailResolver` flag if it resolves email specific templates
-  - This is used because there's a separate template engine for email reosolvers
+  - This is used because there's a separate template engine for email resolvers
 8. Set optional parameters
   - Character encoding - default is `UTF-8` but a different encoding can be used
   - Order - default is 1000 but if your resolver needs to be checked before a different resolver you'll need to set this to a lower number
