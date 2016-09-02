@@ -62,7 +62,7 @@ public class Thymeleaf3AdminConfig {
     }
     
     @Bean 
-    public Set<ITemplateResolver> blAdminEmailTemplateResolvers() {
+    public Set<ITemplateResolver> blEmailTemplateResolvers() {
         Collection<BroadleafTemplateResolver> resolvers = applicationContext.getBeansOfType(BroadleafTemplateResolver.class).values();
         return Thymeleaf3ConfigUtils.getEmailResolvers(resolvers, applicationContext);
     }
