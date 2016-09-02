@@ -33,16 +33,6 @@
     
     <bean id="thymeleafSpringStandardDialect" class="org.thymeleaf.spring4.dialect.SpringStandardDialect" />
     
-    <!-- This list factory bean will accept classes that implment the BroadleafVariableExpression interface. -->
-    <!-- This provides the ability to inject custom expression evaluators into Thymeleaf. -->
-    <bean id="blVariableExpressions" class="org.springframework.beans.factory.config.ListFactoryBean">
-        <property name="sourceList">
-            <list>
-                <bean class="org.broadleafcommerce.core.web.expression.BLCVariableExpression" />
-            </list>
-        </property>
-    </bean>
-    
     <bean id="blMessageResolver" class="org.broadleafcommerce.common.web.BroadleafThymeleaf3MessageResolver" />
     
      <bean id="blWebDatabaseTemplateResolver" class="org.broadleafcommerce.common.web.resolver.BroadleafDatabaseTemplateResolver">

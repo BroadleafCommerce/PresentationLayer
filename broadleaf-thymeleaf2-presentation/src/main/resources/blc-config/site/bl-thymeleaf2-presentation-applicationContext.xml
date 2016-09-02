@@ -31,16 +31,6 @@
     <import resource="classpath:blc-config/bl-thymeleaf2-presentation-common-applicationContext.xml" />
     <context:component-scan base-package="org.broadleafcommerce.site.config" />
         
-    <!-- This list factory bean will accept classes that implment the BroadleafVariableExpression interface. -->
-    <!-- This provides the ability to inject custom expression evaluators into Thymeleaf. -->
-    <bean id="blVariableExpressions" class="org.springframework.beans.factory.config.ListFactoryBean">
-        <property name="sourceList">
-            <list>
-                <bean class="org.broadleafcommerce.core.web.expression.BLCVariableExpression" />
-            </list>
-        </property>
-    </bean>
-    
     <bean id="blWebDatabaseTemplateResolver" class="org.broadleafcommerce.common.web.resolver.BroadleafDatabaseTemplateResolver">
         <property name="characterEncoding" value="UTF-8" />
         <property name="cacheable" value="${cache.page.templates}"/>
