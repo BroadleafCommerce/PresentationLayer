@@ -25,16 +25,6 @@
 2. Implement `getName`
   - This is how you'll scope when your variable expression will be used
 3. Either annotate the class with `@Component` or create the bean in XML
-4. Add the bean to the using
-```
-<bean id="blVariableExpressions" class="org.springframework.beans.factory.config.ListFactoryBean">
-    <property name="sourceList">
-        <list>
-            <ref bean="yourVariableExpressionBean" />
-        </list>
-    </property>
-</bean>
-```
 
 ### Using variable expressions
 1. Given a new variable expression whose `getName` returns `client` and has a method called `doStuff` that takes a parameter that's on the model named `thing`

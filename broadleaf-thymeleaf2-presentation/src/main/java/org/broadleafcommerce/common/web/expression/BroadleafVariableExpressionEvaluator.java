@@ -34,7 +34,7 @@ import javax.annotation.Resource;
  */
 public class BroadleafVariableExpressionEvaluator extends SpelVariableExpressionEvaluator {
     
-    @Resource(name = "blVariableExpressions")
+    @Resource
     protected List<BroadleafVariableExpression> expressions = new ArrayList<BroadleafVariableExpression>();
     
     @Override

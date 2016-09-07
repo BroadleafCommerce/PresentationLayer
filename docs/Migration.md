@@ -19,7 +19,7 @@
 ```
 
 ##### Migrating variable expressions
-- These should all work just as they did before. The custom variable expressions will continue to extend the same class as they did before and the bean definition (whether it was done via component scanning or manual creation via xml) will be the exact same.
+- These should all work just as they did before. The custom variable expressions will continue to extend the same class as they did before and the bean definition (whether it was done via component scanning or manual creation via xml) will be the exact same. The only difference is we no longer add variable expressions the bean `blVariableExpressions`. Simply creating the bean is enough.
 
 ##### Migrating processors
 - Technically we did change how processors are written in Broadleaf, but support was still left to work which how client's added custom processors before the refactoring of Thymeleaf. Therefore, as long as the beans are being created and being add to either the List bean `blDialectProcessors` or `blAdminDialectProcessors` then everything will work as it did before.

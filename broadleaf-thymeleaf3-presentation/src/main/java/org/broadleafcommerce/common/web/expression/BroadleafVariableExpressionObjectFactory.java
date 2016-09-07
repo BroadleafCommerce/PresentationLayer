@@ -30,7 +30,7 @@ import javax.annotation.Resource;
 
 public class BroadleafVariableExpressionObjectFactory implements IExpressionObjectFactory {
 
-    @Resource(name = "blVariableExpressions")
+    @Resource
     protected List<BroadleafVariableExpression> expressions = new ArrayList<BroadleafVariableExpression>();
 
     @Override

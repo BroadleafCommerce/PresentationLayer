@@ -49,21 +49,6 @@
     <bean id="thymeleafSpringStandardDialect" class="org.thymeleaf.spring4.dialect.SpringStandardDialect" />
     <bean id="blVariableExpressionObjectFactory" class="org.broadleafcommerce.common.web.expression.BroadleafVariableExpressionObjectFactory" />
     
-    <!-- This list factory bean will accept classes that implment the BroadleafVariableExpression interface. -->
-    <!-- This provides the ability to inject custom expression evaluators into Thymeleaf. -->
-    <bean id="blVariableExpressions" class="org.springframework.beans.factory.config.ListFactoryBean">
-        <property name="sourceList">
-            <list>
-                <bean class="org.broadleafcommerce.common.web.expression.AssetURLVariableExpression" />
-                <bean class="org.broadleafcommerce.common.web.expression.NullBroadleafVariableExpression" />
-                <bean class="org.broadleafcommerce.common.web.expression.BRCVariableExpression" />                
-                <bean class="org.broadleafcommerce.common.web.expression.PropertiesVariableExpression" />
-                <bean class="org.broadleafcommerce.common.web.payment.expression.PaymentGatewayFieldVariableExpression"/>
-                <bean class="org.broadleafcommerce.core.web.expression.BLCVariableExpression" />
-            </list>
-        </property>
-    </bean>
-    
     <bean id="blEmailClasspathTemplateResolver" class="org.broadleafcommerce.common.web.resolver.BroadleafClasspathTemplateResolver">
         <property name="prefix" value="emailTemplates/" />
         <property name="suffix" value=".html" />

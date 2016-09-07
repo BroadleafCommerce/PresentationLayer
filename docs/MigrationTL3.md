@@ -30,7 +30,7 @@
 - To reiterate on the information above, HTML written in Thymeleaf 3 should be valid HTML because Thymeleaf will not force it to be valid and will not make it valid therefore malformed HTML will be sent to the client whose browser then has to interpret the malformed HTML. This isn't good because different browsers interpret malformed HTML differently and almost all of them will format it in a way that was not originally intended.
 
 ##### Migrating variable expressions
-- These should all work just as they did before. The custom variable expressions will continue to extend the same class as they did before and the bean definition (whether it was done via component scanning or manual creation via xml) will be the exact same.
+- These should all work just as they did before. The custom variable expressions will continue to extend the same class as they did before and the bean definition (whether it was done via component scanning or manual creation via xml) will be the exact same. The only difference is we no longer add variable expressions the bean `blVariableExpressions`. Simply creating the bean is enough.
 
 ##### Migrating processors
 - The Thymeleaf API has changed a good amount between Thymeleaf 2 and 3 therefore if any custom processors were made that targeted Thymeleaf 2 then they will have to be rewritten to either target the Thymeleaf 3 API or the new common API that Broadleaf has written in `broadleaf-common-presentation`.
