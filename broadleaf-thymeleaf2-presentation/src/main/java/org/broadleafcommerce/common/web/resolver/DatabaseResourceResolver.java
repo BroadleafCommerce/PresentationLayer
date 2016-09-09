@@ -19,8 +19,6 @@ package org.broadleafcommerce.common.web.resolver;
 
 import org.broadleafcommerce.common.extension.ExtensionResultHolder;
 import org.broadleafcommerce.common.extension.ExtensionResultStatusType;
-import org.broadleafcommerce.core.web.resolver.DatabaseResourceResolverExtensionHandler;
-import org.broadleafcommerce.core.web.resolver.DatabaseResourceResolverExtensionManager;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateProcessingParameters;
 import org.thymeleaf.resourceresolver.IResourceResolver;

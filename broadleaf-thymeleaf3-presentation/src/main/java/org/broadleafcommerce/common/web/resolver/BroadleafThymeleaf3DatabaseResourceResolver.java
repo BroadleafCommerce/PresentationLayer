@@ -20,8 +20,6 @@ package org.broadleafcommerce.common.web.resolver;
 import org.apache.commons.io.FilenameUtils;
 import org.broadleafcommerce.common.extension.ExtensionResultHolder;
 import org.broadleafcommerce.common.extension.ExtensionResultStatusType;
-import org.broadleafcommerce.core.web.resolver.DatabaseResourceResolverExtensionHandler;
-import org.broadleafcommerce.core.web.resolver.DatabaseResourceResolverExtensionManager;
 import org.thymeleaf.templateresource.ITemplateResource;
 
 import java.io.BufferedReader;

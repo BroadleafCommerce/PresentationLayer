@@ -14,7 +14,7 @@
 
     <packaging>pom</packaging>
     <name>BroadleafCommerce Core</name>
-    <description>BroadleafCommerce Core Mid Level Project</description>
+    <description>BroadleafCommerce Presentation layer codebase</description>
     <url>http://www.broadleafcommerce.org</url>
     
     <properties>
@@ -110,7 +110,7 @@
         <dependencies>
             <dependency>
                 <groupId>org.broadleafcommerce</groupId>
-                <artifactId>broadleaf-framework-web</artifactId>
+                <artifactId>broadleaf-common</artifactId>
                 <version>${blc.version}</version>
                 <type>jar</type>
                 <scope>compile</scope>
@@ -120,9 +120,9 @@
     </dependencyManagement>
 
     <modules>
+        <module>broadleaf-common-presentation</module>
         <module>broadleaf-thymeleaf2-presentation</module>
         <module>broadleaf-thymeleaf3-presentation</module>
-        <module>broadleaf-common-presentation</module>
-  </modules>
+    </modules>
 </project>
 

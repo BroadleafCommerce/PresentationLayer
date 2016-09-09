@@ -31,68 +31,12 @@
     </developers>
     <properties>
         <project.uri>${project.baseUri}/../</project.uri>
-        <!--Do not advance beyond 1.2.5, as the layout dialect codebase shifted to a Groovy implementation, which is much slower -->
-        <thymeleaf.layout.version>1.2.5</thymeleaf.layout.version>
         <thymeleaf.version>2.1.4.RELEASE</thymeleaf.version>
     </properties>
-    <scm>
-        <connection>scm:git:git@github.com:BroadleafCommerce/Enterprise.git</connection>
-        <developerConnection>scm:git:git@github.com:BroadleafCommerce/Enterprise.git</developerConnection>
-        <url>https://github.com/BroadleafCommerce/Enterprise</url>
-        <tag>HEAD</tag>
-    </scm>
-    <repositories>
-        <repository>
-            <id>enterprise-releases</id>
-            <name>enterprise-releases</name>
-            <url>http://nexus.broadleafcommerce.org/nexus/content/groups/enterprise-releases/</url>
-        </repository>
-        <repository>
-            <id>enterprise-snapshots</id>
-            <name>enterprise-snapshots</name>
-            <url>http://nexus.broadleafcommerce.org/nexus/content/groups/enterprise-snapshots/</url>
-        </repository>
-        <repository>
-            <id>framework-5-releases</id>
-            <name>framework-5-releases</name>
-            <url>http://nexus.broadleafcommerce.org/nexus/content/repositories/framework-5-releases/</url>
-        </repository>
-    </repositories>
-    <distributionManagement>
-        <snapshotRepository>
-            <id>snapshots</id>
-            <url>http://nexus.broadleafcommerce.org/nexus/content/repositories/broadleaf-contentmanagement-thymeleaf-snapshots/</url>
-        </snapshotRepository>
-        <repository>
-            <id>releases</id>
-            <url>http://nexus.broadleafcommerce.org/nexus/content/repositories/broadleaf-contentmanagement-thymeleaf-releases/</url>
-        </repository>
-    </distributionManagement>
-    <profiles>
-        <profile>
-            <id>sources</id>
-            <activation>
-                <property>
-                    <name>attachSources</name>
-                    <value>true</value>
-                </property>
-            </activation>
-            <distributionManagement>
-                <snapshotRepository>
-                    <id>snapshots</id>
-                    <url>http://nexus.broadleafcommerce.org/nexus/content/repositories/broadleaf-contentmanagement-thymeleaf-source-snapshots/</url>
-                </snapshotRepository>
-                <repository>
-                    <id>releases</id>
-                    <url>http://nexus.broadleafcommerce.org/nexus/content/repositories/broadleaf-contentmanagement-thymeleaf-source-releases/</url>
-                </repository>
-            </distributionManagement>
-        </profile>
-    </profiles>
     <dependencies>
         <dependency>
             <groupId>org.broadleafcommerce</groupId>
-            <artifactId>broadleaf-framework-web</artifactId>
+            <artifactId>broadleaf-common</artifactId>
         </dependency>
         <dependency>
             <groupId>org.broadleafcommerce</groupId>
@@ -115,11 +59,6 @@
             <groupId>org.thymeleaf</groupId>
             <artifactId>thymeleaf-spring4</artifactId>
             <version>${thymeleaf.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>nz.net.ultraq.thymeleaf</groupId>
-            <artifactId>thymeleaf-layout-dialect</artifactId>
-            <version>${thymeleaf.layout.version}</version>
         </dependency>
     </dependencies>
 </project>

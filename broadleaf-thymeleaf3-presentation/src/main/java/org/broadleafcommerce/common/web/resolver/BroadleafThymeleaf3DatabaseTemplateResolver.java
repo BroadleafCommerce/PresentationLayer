@@ -17,7 +17,6 @@
  */
 package org.broadleafcommerce.common.web.resolver;
 
-import org.broadleafcommerce.core.web.resolver.DatabaseResourceResolverExtensionManager;
 import org.thymeleaf.IEngineConfiguration;
 import org.thymeleaf.templateresolver.AbstractConfigurableTemplateResolver;
 import org.thymeleaf.templateresource.ITemplateResource;
@@ -25,7 +24,6 @@ import org.thymeleaf.templateresource.ITemplateResource;
 import java.util.Map;
 
 /**
- * 
  * The injection happens in XML configuration.
  * 
  * @author Andre Azzolini (apazzolini)
