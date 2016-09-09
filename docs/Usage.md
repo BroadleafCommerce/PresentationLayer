@@ -26,37 +26,38 @@
   - This is how you'll scope when your variable expression will be used
 3. Either annotate the class with `@Component` or create the bean in XML
 
-### Using variable expressions
+#### Using variable expressions
 1. Given a new variable expression whose `getName` returns `client` and has a method called `doStuff` that takes a parameter that's on the model named `thing`
 2. `<span th:text="${#client.doStuff(thing)}"></span>`
 3. This will evaluate the method `doStuff` with whatever `thing` is mapped to on the model and the result will appear inside the span
 
 ### Creating a new processor
 1. Create a new class that extends either:
- - `AbstractBroadleafAttributeModelVariableModifier`
+ - ~~`AbstractBroadleafAttributeModelVariableModifier`~~
     - Using a custom attribute on any tag, add local variables to the model for the scope of that tag
-        - It is generally better to create a variable expression and set that result to the local scope using the `th:with` attribute
- - `AbstractBroadleafAttributeModifierProcessor`
+    - DEPRECATED: It is generally better to create a variable expression and set that result to the local scope using the `th:with` attribute
+ - ~~`AbstractBroadleafAttributeModifierProcessor`~~
     - Using a custom attribute on any, tag add and/or remove attributes to/from that tag
+    - DEPRECATED: It is generally better to create a variable expression and set that result as an attribute or use multiple expressions to set multiple attributes
  - `AbstractBroadleafFormReplacementProcessor`
     - Using a custom tag, create a custom model using the Broadleaf common layer template domain. This model gets inserted as the last child of this tag. Also set local variables for the form
       - Refer to the next section on how to create a model
- - `AbstractBroadleafModelVariableModifierProcessor`
+ - ~~`AbstractBroadleafModelVariableModifierProcessor`~~
     - Using a custom tag, add variables to the global or local model (adding to global will be deprecated)
-      - It is generally better to create a variable expression and set that result to the local scope using the `th:with` attribute
+    - DEPRECATED: It is generally better to create a variable expression and set that result to the local scope using the `th:with` attribute
  - `AbstractBroadleafTagReplacementProcessor`
     - Using a custom tag, replace that tag with (and it's contents) with a new model
        - Refer to the next section on how to create a model
- - `AbstractBroadleafTagTextModifierProcessor`
+ - ~~`AbstractBroadleafTagTextModifierProcessor`~~
     - Using a custom attribute on any tag, replace contents of tag with text
-      - It is generally better to create a variable expression and set the internal using `th:text` or `th:utext`
+    - DEPRECATED: It is generally better to create a variable expression and set the internal using `th:text` or `th:utext`
 2. Implement all required methods and override all methods defined in the Abstract class that are needed to be different
 3. Either annotate the class with `@Component` or create the bean in XML
 4. No need to do anything else because the processor will automatically picked up
  - Note that if this is only suppose to run in admin then override the `getPrefix` method and return `BroadleafDialectPrefix.BLC_ADMIN`
  - Also note that depending on if the processor is an attribute processor or tag processor usage will vary
 
-### Creating a model using the Broadleaf common template domain
+#### Making DOM modifications using the Broadleaf common template domain
 1. Create a `BroadleafTemplateModel` using the `BroadleafTemplateContext` (usually named `context`) by doing `context.createModel`
 2. Create elements that will go in the model by doing:
  - `context.createNonVoidElement`
