@@ -43,7 +43,7 @@ public abstract class AbstractBroadleafModelVariableModifierProcessor implements
     }
     
     @Override
-    public BroadleafDialectPrefix getPrefix() {
+    public String getPrefix() {
         return BroadleafProcessor.DEFAULT_PREFIX;
     }
 }

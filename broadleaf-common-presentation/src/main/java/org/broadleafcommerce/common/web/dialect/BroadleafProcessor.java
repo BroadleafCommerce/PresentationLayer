@@ -43,12 +43,12 @@ public interface BroadleafProcessor {
      * @return The prefix that should be prepended to the name for the class to be triggered on.
      * The "blc" part of {@code blc:price}
      */
-    public BroadleafDialectPrefix getPrefix();
+    public String getPrefix();
     
     /**
      * {@link BroadleafDialectPrefix#BLC}
      */
-    public static final BroadleafDialectPrefix DEFAULT_PREFIX = BroadleafDialectPrefix.BLC;
+    public static final String DEFAULT_PREFIX = BroadleafDialectPrefix.BLC;
     
     public static final int DEFAULT_PRECEDENCE = 1000;
 }

@@ -23,21 +23,17 @@ package org.broadleafcommerce.common.web.dialect;
  * @author Jay Aisenbrey (cja769)
  *
  */
-public enum BroadleafDialectPrefix {
+public class BroadleafDialectPrefix {
     /**
      * Specifies the {@link BroadleafProcessor} should use the "blc" prefix.
      * This means it'll be used in site, admin, or both depending on the context the bean is created
      */
-    BLC,
+    public static final String BLC = "blc";
     
     /**
      * Specifies the {@link BroadleafProcessor} should use the "blc_admin" prefix.
      * This means it'll be used in the admin context
      */
-    BLC_ADMIN;
+    public static final String BLC_ADMIN = "blc_admin";
     
-    @Override
-    public String toString() {
-        return super.toString().toLowerCase();
-    }
 }

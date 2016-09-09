@@ -31,7 +31,7 @@ public abstract class AbstractBroadleafAttributeModelVariableModifierProcessor i
     }
     
     @Override
-    public BroadleafDialectPrefix getPrefix() {
+    public String getPrefix() {
         return BroadleafProcessor.DEFAULT_PREFIX;
     }
 }

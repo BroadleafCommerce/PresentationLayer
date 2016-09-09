@@ -41,7 +41,6 @@ public class Thymeleaf3AdminConfig {
     @Resource
     protected ApplicationContext applicationContext;
     
-
     @Bean
     public BroadleafThymeleaf3AdminDialect blAdminDialect() {
         BroadleafThymeleaf3AdminDialect dialect = new BroadleafThymeleaf3AdminDialect();
@@ -72,7 +71,7 @@ public class Thymeleaf3AdminConfig {
         Collection<BroadleafProcessor> blcProcessors = applicationContext.getBeansOfType(BroadleafProcessor.class).values();
         Collection<BroadleafProcessor> adminProcessors = new ArrayList<>();
         for (BroadleafProcessor processor : blcProcessors) {
-            if (processor.getPrefix().equals(BroadleafDialectPrefix.BLC_ADMIN)) {
+            if (BroadleafDialectPrefix.BLC_ADMIN.equals(processor.getPrefix())) {
                 adminProcessors.add(processor);
             }
         }
@@ -84,7 +83,7 @@ public class Thymeleaf3AdminConfig {
         Collection<BroadleafProcessor> blcProcessors = applicationContext.getBeansOfType(BroadleafProcessor.class).values();
         Collection<BroadleafProcessor> commonProcessors = new ArrayList<>();
         for (BroadleafProcessor processor : blcProcessors) {
-            if (processor.getPrefix().equals(BroadleafDialectPrefix.BLC)) {
+            if (BroadleafDialectPrefix.BLC.equals(processor.getPrefix())) {
                 commonProcessors.add(processor);
             }
         }

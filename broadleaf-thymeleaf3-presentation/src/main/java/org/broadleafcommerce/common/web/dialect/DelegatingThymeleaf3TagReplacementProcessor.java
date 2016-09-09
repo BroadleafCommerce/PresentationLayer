@@ -18,8 +18,8 @@
 package org.broadleafcommerce.common.web.dialect;
 
 import org.broadleafcommerce.common.web.domain.BroadleafTemplateContext;
-import org.broadleafcommerce.common.web.domain.BroadleafThymeleaf3ContextImpl;
 import org.broadleafcommerce.common.web.domain.BroadleafTemplateModel;
+import org.broadleafcommerce.common.web.domain.BroadleafThymeleaf3ContextImpl;
 import org.broadleafcommerce.common.web.domain.BroadleafThymeleaf3ModelImpl;
 import org.thymeleaf.context.ITemplateContext;
 import org.thymeleaf.model.IProcessableElementTag;
@@ -35,7 +35,7 @@ public class DelegatingThymeleaf3TagReplacementProcessor extends AbstractElement
     protected BroadleafTagReplacementProcessor processor;
     
     public DelegatingThymeleaf3TagReplacementProcessor(String tagName, BroadleafTagReplacementProcessor processor, int precedence) {
-        super(TemplateMode.HTML, processor.getPrefix().toString(), tagName, true, null, false, precedence);
+        super(TemplateMode.HTML, processor.getPrefix(), tagName, true, null, false, precedence);
         this.processor = processor;
     }
 

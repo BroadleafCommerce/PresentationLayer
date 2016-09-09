@@ -35,7 +35,7 @@ public class DelegatingThymeleaf3AttributeModelVariableModifierProcessor extends
     protected BroadleafAttributeModelVariableModifierProcessor processor;
     
     public DelegatingThymeleaf3AttributeModelVariableModifierProcessor(String attributeName, BroadleafAttributeModelVariableModifierProcessor processor, int precedence) {
-        super(TemplateMode.HTML, processor.getPrefix().toString(), null, false, attributeName, true, precedence, true);
+        super(TemplateMode.HTML, processor.getPrefix(), null, false, attributeName, true, precedence, true);
         this.processor = processor;
     }
 

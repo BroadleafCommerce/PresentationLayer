@@ -33,7 +33,7 @@ public class DelegatingThymeleaf3TagTextModifierProcessor extends AbstractAttrib
     protected BroadleafTagTextModifierProcessor processor;
     
     public DelegatingThymeleaf3TagTextModifierProcessor(String name, BroadleafTagTextModifierProcessor processor, int precedence) {
-        super(TemplateMode.HTML, processor.getPrefix().toString(), null, false, name, true, precedence, true);
+        super(TemplateMode.HTML, processor.getPrefix(), null, false, name, true, precedence, true);
         this.processor = processor;
     }
 

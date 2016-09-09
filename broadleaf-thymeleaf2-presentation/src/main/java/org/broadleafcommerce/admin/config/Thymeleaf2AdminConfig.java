@@ -72,7 +72,7 @@ public class Thymeleaf2AdminConfig {
         Collection<BroadleafProcessor> blcProcessors = applicationContext.getBeansOfType(BroadleafProcessor.class).values();
         Collection<BroadleafProcessor> commonProcessors = new ArrayList<>();
         for (BroadleafProcessor processor : blcProcessors) {
-            if (processor.getPrefix().equals(BroadleafDialectPrefix.BLC)) {
+            if (BroadleafDialectPrefix.BLC.equals(processor.getPrefix())) {
                 commonProcessors.add(processor);
             }
         }
@@ -84,7 +84,7 @@ public class Thymeleaf2AdminConfig {
         Collection<BroadleafProcessor> blcProcessors = applicationContext.getBeansOfType(BroadleafProcessor.class).values();
         Collection<BroadleafProcessor> adminProcessors = new ArrayList<>();
         for (BroadleafProcessor processor : blcProcessors) {
-            if (processor.getPrefix().equals(BroadleafDialectPrefix.BLC_ADMIN)) {
+            if (BroadleafDialectPrefix.BLC_ADMIN.equals(processor.getPrefix())) {
                 adminProcessors.add(processor);
             }
         }
