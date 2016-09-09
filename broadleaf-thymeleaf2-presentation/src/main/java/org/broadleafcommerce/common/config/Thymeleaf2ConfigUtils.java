@@ -75,7 +75,6 @@ public class Thymeleaf2ConfigUtils {
     public static Set<ITemplateResolver> getWebResovlers(Collection<BroadleafTemplateResolver> resolvers, ApplicationContext applicationContext) {
         Set<ITemplateResolver> webResolvers = new HashSet<>();
         for (BroadleafTemplateResolver resolver : resolvers) {
-            LOG.error("RESOLVER: " + resolver.getPrefix() + ", cache: " + resolver.isCacheable() + ", ttl: " + resolver.getCacheTTLMs());
             if (!resolver.isEmailResolver()) {
                 ITemplateResolver iResolver = createCorrectTemplateResolver(resolver, applicationContext);
                 if (iResolver != null) {
