@@ -20,6 +20,12 @@
     - Spring's way of knowing what to use to resolve a template path
       - By default we tell Spring to use Thymeleaf who then uses Template resolvers to decide how to resolve the template path. Then uses the built in processors that are in Thymeleaf along with all of the dialects' processors and variable expressions to evaluate the template file that resolved.
 
+### When to use processors and variable expressions
+- Processors
+  - Anytime the contents of an HTML has to be changed. This can be when you need to add input fields, spans, or any other type of tags.
+- Variable Expressions
+  - Anytime Java code needs to be ran to output something with a given input. This can be used to change text for a tag, add a local variable with the addition of `th:with`, or setting the value of an input. It is also possible to use a variable expression to add an arbitrary number of attributes to a tag using `th:attr` which just takes a string.
+
 ### Creating new variable expressions
 1. Create class that implements BroadleafVariableExpression
 2. Implement `getName`
@@ -39,8 +45,8 @@
  - ~~`AbstractBroadleafAttributeModifierProcessor`~~
     - Using a custom attribute on any, tag add and/or remove attributes to/from that tag
     - DEPRECATED: It is generally better to create a variable expression and set that result as an attribute or use multiple expressions to set multiple attributes
- - `AbstractBroadleafFormReplacementProcessor`
-    - Using a custom tag, create a custom model using the Broadleaf common layer template domain. This model gets inserted as the last child of this tag. Also set local variables for the form
+ - `AbstractBroadleafModelModifierProcessor`
+    - Using a custom tag, create a custom model using the Broadleaf common layer template domain. This model gets inserted as the last child of this tag. Also set local variables for the tag
       - Refer to the next section on how to create a model
  - ~~`AbstractBroadleafModelVariableModifierProcessor`~~
     - Using a custom tag, add variables to the global or local model (adding to global will be deprecated)
@@ -99,14 +105,16 @@ The result will look like
 ### Adding a Template Resolver
 1. Create a bean of class type:
   - `BroadleafClasspathTemplateResolver`
-    - Used if the templates are on the classpath but not in `WEB-INF`
+    - Used if the templates are on the classpath but not in `WEB-INF` and don't need to be aware of the current theme that is being used
       - Example: `src/main/resources/module_style/templates`
   - `BroadleafDatabaseTemplateResolver`
     - Used if the templates are in the database
       - Example: CMS uses this since the templates live in the database
-  - `BroadleafServletTemplateResolver`
-    - Used if the templates are in `WEB-INF`
-      - Example: Generally, if not exclusively, used to resolve client templates.
+  - `BroadleafThemeAwareTemplateResolver`
+    - Used if the templates are in `WEB-INF` or somewhere on the classpath and need to be aware of the current theme
+      - If the templates reside in `WEB-INF` then the prefix should start with `WEB-INF/`
+        - Example: Generally, if not exclusively, used to resolve client templates.
+      - If the templates reside elsewhere on the classpath then the prefix should start with `classpath:`
 2. Set a prefix
   - This is the base path to prepend to the beginning of the returned template string. Must end in a `/`
     - Example: The default for client's servlet resolver is `/WEB-INF/`

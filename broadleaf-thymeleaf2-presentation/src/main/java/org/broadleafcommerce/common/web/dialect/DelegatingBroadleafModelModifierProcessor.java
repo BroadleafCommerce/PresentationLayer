@@ -19,9 +19,9 @@ package org.broadleafcommerce.common.web.dialect;
 
 import org.apache.commons.collections.MapUtils;
 import org.broadleafcommerce.common.web.domain.BroadleafTemplateContext;
-import org.broadleafcommerce.common.web.domain.BroadleafThymeleafContextImpl;
 import org.broadleafcommerce.common.web.domain.BroadleafTemplateElement;
-import org.broadleafcommerce.common.web.domain.BroadleafTemplateFormReplacementDTO;
+import org.broadleafcommerce.common.web.domain.BroadleafTemplateModelModifierDTO;
+import org.broadleafcommerce.common.web.domain.BroadleafThymeleafContextImpl;
 import org.broadleafcommerce.common.web.domain.BroadleafThymeleafModelImpl;
 import org.broadleafcommerce.common.web.domain.BroadleafThymeleafTemplateEvent;
 import org.thymeleaf.Arguments;
@@ -34,12 +34,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class DelegatingBroadleafFormReplacementProcessor extends AbstractElementProcessor {
+public class DelegatingBroadleafModelModifierProcessor extends AbstractElementProcessor {
 
     private int precedence;
-    protected BroadleafFormReplacementProcessor processor;
+    protected BroadleafModelModifierProcessor processor;
     
-    public DelegatingBroadleafFormReplacementProcessor(String elementName, BroadleafFormReplacementProcessor processor, int precedence) {
+    public DelegatingBroadleafModelModifierProcessor(String elementName, BroadleafModelModifierProcessor processor, int precedence) {
         super(elementName);
         this.precedence = precedence;
         this.processor = processor;
@@ -54,15 +54,15 @@ public class DelegatingBroadleafFormReplacementProcessor extends AbstractElement
         for (String key : attributeMap.keySet()) {
             tagAttributes.put(element.getAttributeOriginalNameFromNormalizedName(key), attributeMap.get(key).getValue());
         }
-        BroadleafTemplateFormReplacementDTO dto = processor.getInjectedModelAndFormAttributes(tagName, tagAttributes, context);
+        BroadleafTemplateModelModifierDTO dto = processor.getInjectedModelAndTagAttributes(tagName, tagAttributes, context);
         if (dto == null) {
-            dto = new BroadleafTemplateFormReplacementDTO();
+            dto = new BroadleafTemplateModelModifierDTO();
         }
         Map<String, String> newParams = dto.getFormParameters();
         if (newParams == null) {
             newParams = new HashMap<>();
         }
-        Element newForm = element.cloneElementNodeWithNewName(element.getParent(), "form", false);
+        Element newForm = element.cloneElementNodeWithNewName(element.getParent(), dto.getTagName() != null ? dto.getTagName() : "form", false);
         if (!MapUtils.isEmpty(dto.getFormLocalVariables())) {
             newForm.setAllNodeLocalVariables(dto.getFormLocalVariables());
         }

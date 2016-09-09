@@ -30,11 +30,11 @@ import java.util.Map;
  * Overrides the Thymeleaf ContextTemplateResolver and appends the org.broadleafcommerce.common.web.Theme path to the url
  * if it exists.
  */
-public class BroadleafThymeleaf3ServletContextTemplateResolver extends SpringResourceTemplateResolver {    
+public class BroadleafThymeleaf3ThemeAwareTemplateResolver extends SpringResourceTemplateResolver {    
     
     protected String templateFolder = "";
     
-    public BroadleafThymeleaf3ServletContextTemplateResolver() {
+    public BroadleafThymeleaf3ThemeAwareTemplateResolver() {
         super();
         setCheckExistence(true);
     }

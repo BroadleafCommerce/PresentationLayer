@@ -24,11 +24,11 @@ package org.broadleafcommerce.common.web.resolver;
  * @author Jay Aisenbrey (cja769)
  *
  */
-public class BroadleafServletTemplateResolver extends AbstractBroadleafTemplateResolver {
+public class BroadleafThemeAwareTemplateResolver extends AbstractBroadleafTemplateResolver {
 
     @Override
     public BroadleafTemplateResolverType getResolverType() {
-        return BroadleafTemplateResolverType.SERVLET;
+        return BroadleafTemplateResolverType.THEME_AWARE;
     }
 
 }

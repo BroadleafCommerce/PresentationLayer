@@ -19,17 +19,17 @@ package org.broadleafcommerce.common.config;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.broadleafcommerce.common.web.BroadleafThymeleafServletContextTemplateResolver;
+import org.broadleafcommerce.common.web.BroadleafThymeleafThemeAwareTemplateResolver;
 import org.broadleafcommerce.common.web.dialect.BroadleafAttributeModelVariableModifierProcessor;
 import org.broadleafcommerce.common.web.dialect.BroadleafAttributeModifierProcessor;
-import org.broadleafcommerce.common.web.dialect.BroadleafFormReplacementProcessor;
+import org.broadleafcommerce.common.web.dialect.BroadleafModelModifierProcessor;
 import org.broadleafcommerce.common.web.dialect.BroadleafModelVariableModifierProcessor;
 import org.broadleafcommerce.common.web.dialect.BroadleafProcessor;
 import org.broadleafcommerce.common.web.dialect.BroadleafTagReplacementProcessor;
 import org.broadleafcommerce.common.web.dialect.BroadleafTagTextModifierProcessor;
 import org.broadleafcommerce.common.web.dialect.DelegatingBroadleafAttributeModelVariableModifierProcessor;
 import org.broadleafcommerce.common.web.dialect.DelegatingBroadleafAttributeModifierProcessor;
-import org.broadleafcommerce.common.web.dialect.DelegatingBroadleafFormReplacementProcessor;
+import org.broadleafcommerce.common.web.dialect.DelegatingBroadleafModelModifierProcessor;
 import org.broadleafcommerce.common.web.dialect.DelegatingBroadleafModelVariableModifierProcessor;
 import org.broadleafcommerce.common.web.dialect.DelegatingBroadleafTagReplacementProcessor;
 import org.broadleafcommerce.common.web.dialect.DelegatingBroadleafTagTextModifierProcessor;
@@ -59,8 +59,8 @@ public class Thymeleaf2ConfigUtils {
                 iProcessors.add(createDelegatingTagTextModifierProcessor((BroadleafTagTextModifierProcessor) proc));
             } else if (BroadleafTagReplacementProcessor.class.isAssignableFrom(proc.getClass())) {
                 iProcessors.add(createDelegatingTagReplacementProcessor((BroadleafTagReplacementProcessor) proc));
-            } else if (BroadleafFormReplacementProcessor.class.isAssignableFrom(proc.getClass())) {
-                iProcessors.add(createDelegatingFormReplacementProcessor((BroadleafFormReplacementProcessor) proc));
+            } else if (BroadleafModelModifierProcessor.class.isAssignableFrom(proc.getClass())) {
+                iProcessors.add(createDelegatingFormReplacementProcessor((BroadleafModelModifierProcessor) proc));
             } else if (BroadleafAttributeModifierProcessor.class.isAssignableFrom(proc.getClass())) {
                 iProcessors.add(createDelegatingAttributeModifierProcessor((BroadleafAttributeModifierProcessor) proc));
             } else if (BroadleafAttributeModelVariableModifierProcessor.class.isAssignableFrom(proc.getClass())) {
@@ -75,6 +75,7 @@ public class Thymeleaf2ConfigUtils {
     public static Set<ITemplateResolver> getWebResovlers(Collection<BroadleafTemplateResolver> resolvers, ApplicationContext applicationContext) {
         Set<ITemplateResolver> webResolvers = new HashSet<>();
         for (BroadleafTemplateResolver resolver : resolvers) {
+            LOG.error("RESOLVER: " + resolver.getPrefix() + ", cache: " + resolver.isCacheable() + ", ttl: " + resolver.getCacheTTLMs());
             if (!resolver.isEmailResolver()) {
                 ITemplateResolver iResolver = createCorrectTemplateResolver(resolver, applicationContext);
                 if (iResolver != null) {
@@ -112,8 +113,8 @@ public class Thymeleaf2ConfigUtils {
         return new DelegatingBroadleafTagReplacementProcessor(processor.getName(), processor, processor.getPrecedence());
     }
     
-    protected static DelegatingBroadleafFormReplacementProcessor createDelegatingFormReplacementProcessor(BroadleafFormReplacementProcessor processor) {
-        return new DelegatingBroadleafFormReplacementProcessor(processor.getName(), processor, processor.getPrecedence());
+    protected static DelegatingBroadleafModelModifierProcessor createDelegatingFormReplacementProcessor(BroadleafModelModifierProcessor processor) {
+        return new DelegatingBroadleafModelModifierProcessor(processor.getName(), processor, processor.getPrecedence());
     }
     
     protected static DelegatingBroadleafAttributeModifierProcessor createDelegatingAttributeModifierProcessor(BroadleafAttributeModifierProcessor processor) {
@@ -129,8 +130,8 @@ public class Thymeleaf2ConfigUtils {
             return createClassLoaderTemplateResolver(resolver);
         } else if (BroadleafTemplateResolverType.DATABASE.equals(resolver.getResolverType())) {
             return createDatabaseTemplateResolver(resolver, applicationContext);
-        } else if (BroadleafTemplateResolverType.SERVLET.equals(resolver.getResolverType())) {
-            return createServletTemplateResolver(resolver);
+        } else if (BroadleafTemplateResolverType.THEME_AWARE.equals(resolver.getResolverType())) {
+            return createServletTemplateResolver(resolver, applicationContext);
         } else {
             LOG.warn("No known Thmeleaf 3 template resolver can be mapped to BroadleafThymeleafTemplateResolverType " + resolver.getResolverType());
             return null;
@@ -162,8 +163,8 @@ public class Thymeleaf2ConfigUtils {
         return databaseResolver;
     }
     
-    protected static BroadleafThymeleafServletContextTemplateResolver createServletTemplateResolver(BroadleafTemplateResolver resolver) {
-        BroadleafThymeleafServletContextTemplateResolver servletResolver = new BroadleafThymeleafServletContextTemplateResolver();
+    protected static BroadleafThymeleafThemeAwareTemplateResolver createServletTemplateResolver(BroadleafTemplateResolver resolver, ApplicationContext context) {
+        BroadleafThymeleafThemeAwareTemplateResolver servletResolver = context.getAutowireCapableBeanFactory().createBean(BroadleafThymeleafThemeAwareTemplateResolver.class);
         servletResolver.setCacheable(resolver.isCacheable());
         servletResolver.setCacheTTLMs(resolver.getCacheTTLMs());
         servletResolver.setCharacterEncoding(resolver.getCharacterEncoding());

@@ -38,7 +38,7 @@
         <property name="order" value="100"/>         
     </bean>
     
-    <bean id="blWebTemplateResolver" class="org.broadleafcommerce.common.web.resolver.BroadleafServletTemplateResolver">
+    <bean id="blWebTemplateResolver" class="org.broadleafcommerce.common.web.resolver.BroadleafThemeAwareTemplateResolver">
         <property name="prefix" value="/WEB-INF/" />
         <property name="templateFolder" value="${theme.templates.folder}" />
         <property name="suffix" value=".html" />

@@ -18,12 +18,12 @@
 package org.broadleafcommerce.common.web.dialect;
 
 /**
- * Default implementation of {@link BroadleafFormReplacementProcessor} that provides some defaults
+ * Default implementation of {@link BroadleafModelModifierProcessor} that provides some defaults
  * 
  * @author Jay Aisenbrey (cja769)
  *
  */
-public abstract class AbstractBroadleafFormReplacementProcessor implements BroadleafFormReplacementProcessor {
+public abstract class AbstractBroadleafModelModifierProcessor implements BroadleafModelModifierProcessor {
     
     @Override
     public boolean useSingleQuotes() {
@@ -41,7 +41,7 @@ public abstract class AbstractBroadleafFormReplacementProcessor implements Broad
     }
     
     @Override
-    public BroadleafDialectPrefix getPrefix() {
+    public String getPrefix() {
         return BroadleafProcessor.DEFAULT_PREFIX;
     }
 }

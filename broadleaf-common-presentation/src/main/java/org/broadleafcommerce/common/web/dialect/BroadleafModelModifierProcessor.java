@@ -18,22 +18,22 @@
 package org.broadleafcommerce.common.web.dialect;
 
 import org.broadleafcommerce.common.web.domain.BroadleafTemplateContext;
-import org.broadleafcommerce.common.web.domain.BroadleafTemplateFormReplacementDTO;
 import org.broadleafcommerce.common.web.domain.BroadleafTemplateModel;
+import org.broadleafcommerce.common.web.domain.BroadleafTemplateModelModifierDTO;
 
 import java.util.Map;
 
 /**
- * A tag processor that changes the targeted tag into a form, adds attributes to that form, adds local variables to that from, and adds a 
- * {@link BroadleafTemplateModel} as the last child of the form
+ * A tag processor that changes the tag to the tagName specified in the {@link BroadleafTemplateModelModifierDTO}, adds attributes to that tag, adds local variables to that tag, and adds a 
+ * {@link BroadleafTemplateModel} as the last child of the tag
  * 
  * @author Jay Aisenbrey (cja769)
  *
  */
-public interface BroadleafFormReplacementProcessor extends BroadleafProcessor {
+public interface BroadleafModelModifierProcessor extends BroadleafProcessor {
     
     /**
-     * @return true if the attribute values on the form tag should be surrounded by single quotes or false if they should be surrounded by double quotes
+     * @return true if the attribute values on the tag should be surrounded by single quotes or false if they should be surrounded by double quotes
      */
     public boolean useSingleQuotes();
     
@@ -46,8 +46,8 @@ public interface BroadleafFormReplacementProcessor extends BroadleafProcessor {
      * @param rootTagName The name of the tag the event was triggered on
      * @param rootTagAttributes A map of String to String of all of the attributes on the tag
      * @param context The {@link BroadleafTemplateContext} that should be used to perform operations on the tag with
-     * @return A {@link BroadleafTemplateFormReplacementDTO} that has the form parameters that should be added to the form tag, the model variables
-     * that should be added to the local model and the {@link BroadleafTemplateModel} that should be added as the last child of the form
+     * @return A {@link BroadleafTemplateModelModifierDTO} that has the parameters that should be added to the tag, the model variables
+     * that should be added to the local model and the {@link BroadleafTemplateModel} that should be added as the last child of the tag
      */
-    public BroadleafTemplateFormReplacementDTO getInjectedModelAndFormAttributes(String rootTagName, Map<String, String> rootTagAttributes, BroadleafTemplateContext context);
+    public BroadleafTemplateModelModifierDTO getInjectedModelAndTagAttributes(String rootTagName, Map<String, String> rootTagAttributes, BroadleafTemplateContext context);
 }

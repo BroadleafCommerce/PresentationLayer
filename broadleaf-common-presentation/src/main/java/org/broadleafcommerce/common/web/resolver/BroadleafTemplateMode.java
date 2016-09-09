@@ -26,5 +26,5 @@ package org.broadleafcommerce.common.web.resolver;
  *
  */
 public enum BroadleafTemplateMode {
-    HTML, XML, TEXT, JAVASCRIPT, CSS, RAW, HTML5;
+    HTML, XML, TEXT, JAVASCRIPT, CSS, RAW, HTML5, LEGACYHTML5;
 }

@@ -19,5 +19,5 @@ package org.broadleafcommerce.common.web.resolver;
 
 
 public enum BroadleafTemplateResolverType {
-    SERVLET, DATABASE, CLASSPATH;
+    THEME_AWARE, DATABASE, CLASSPATH;
 }

@@ -19,14 +19,14 @@ package org.broadleafcommerce.common.web;
 
 import org.broadleafcommerce.common.site.domain.Theme;
 import org.thymeleaf.TemplateProcessingParameters;
-import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
+import org.thymeleaf.spring4.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.util.Validate;
 
 /**
  * Overrides the Thymeleaf ContextTemplateResolver and appends the org.broadleafcommerce.common.web.Theme path to the url
  * if it exists.
  */
-public class BroadleafThymeleafServletContextTemplateResolver extends ServletContextTemplateResolver {    
+public class BroadleafThymeleafThemeAwareTemplateResolver extends SpringResourceTemplateResolver {    
     
     protected String templateFolder = "";
 

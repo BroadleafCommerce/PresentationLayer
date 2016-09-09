@@ -19,8 +19,8 @@ package org.broadleafcommerce.common.web.dialect;
 
 import org.apache.commons.collections.MapUtils;
 import org.broadleafcommerce.common.web.domain.BroadleafTemplateContext;
+import org.broadleafcommerce.common.web.domain.BroadleafTemplateModelModifierDTO;
 import org.broadleafcommerce.common.web.domain.BroadleafThymeleaf3ContextImpl;
-import org.broadleafcommerce.common.web.domain.BroadleafTemplateFormReplacementDTO;
 import org.broadleafcommerce.common.web.domain.BroadleafThymeleaf3ModelImpl;
 import org.thymeleaf.context.ITemplateContext;
 import org.thymeleaf.model.AttributeValueQuotes;
@@ -33,12 +33,12 @@ import org.thymeleaf.templatemode.TemplateMode;
 import java.util.HashMap;
 import java.util.Map;
 
-public class DelegatingThymeleaf3FormReplacementProcessor extends AbstractElementModelProcessor {
+public class DelegatingThymeleaf3ModelModifierProcessor extends AbstractElementModelProcessor {
     
-    protected BroadleafFormReplacementProcessor processor;
+    protected BroadleafModelModifierProcessor processor;
     
-    public DelegatingThymeleaf3FormReplacementProcessor(String elementName, BroadleafFormReplacementProcessor processor, int precedence) {
-        super(TemplateMode.HTML, processor.getPrefix().toString(), elementName, true, null, false, precedence);
+    public DelegatingThymeleaf3ModelModifierProcessor(String elementName, BroadleafModelModifierProcessor processor, int precedence) {
+        super(TemplateMode.HTML, processor.getPrefix(), elementName, true, null, false, precedence);
         this.processor = processor;
     }
     
@@ -48,7 +48,7 @@ public class DelegatingThymeleaf3FormReplacementProcessor extends AbstractElemen
         String rootTagName = rootTag.getElementCompleteName();
         Map<String, String> rootTagAttributes = rootTag.getAttributeMap();
         BroadleafTemplateContext blcContext = new BroadleafThymeleaf3ContextImpl(context, structureHandler);
-        BroadleafTemplateFormReplacementDTO dto = processor.getInjectedModelAndFormAttributes(rootTagName, rootTagAttributes, blcContext);
+        BroadleafTemplateModelModifierDTO dto = processor.getInjectedModelAndTagAttributes(rootTagName, rootTagAttributes, blcContext);
         if (dto.getModel() != null) {
             model.insertModel(model.size() - 1, ((BroadleafThymeleaf3ModelImpl) dto.getModel()).getModel());
         }
@@ -56,8 +56,9 @@ public class DelegatingThymeleaf3FormReplacementProcessor extends AbstractElemen
         if (newParams == null) {
             newParams = new HashMap<>();
         }
-        model.replace(0, context.getModelFactory().createOpenElementTag("form", dto.getFormParameters(), processor.useSingleQuotes() ? AttributeValueQuotes.SINGLE : AttributeValueQuotes.DOUBLE, false));
-        model.replace(model.size() - 1, context.getModelFactory().createCloseElementTag("form"));
+        String tagName = dto.getTagName() != null ? dto.getTagName() : "form";
+        model.replace(0, context.getModelFactory().createOpenElementTag(tagName, dto.getFormParameters(), processor.useSingleQuotes() ? AttributeValueQuotes.SINGLE : AttributeValueQuotes.DOUBLE, false));
+        model.replace(model.size() - 1, context.getModelFactory().createCloseElementTag(tagName));
         if (!MapUtils.isEmpty(dto.getFormLocalVariables())) {
             for (String key : dto.getFormLocalVariables().keySet()) {
                 structureHandler.setLocalVariable(key, dto.getFormLocalVariables().get(key));
