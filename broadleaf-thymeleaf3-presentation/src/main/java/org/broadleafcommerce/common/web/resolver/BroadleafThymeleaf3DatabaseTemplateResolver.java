@@ -17,6 +17,7 @@
  */
 package org.broadleafcommerce.common.web.resolver;
 
+import org.broadleafcommerce.core.web.resolver.DatabaseResourceResolverExtensionManager;
 import org.thymeleaf.IEngineConfiguration;
 import org.thymeleaf.templateresolver.AbstractConfigurableTemplateResolver;
 import org.thymeleaf.templateresource.ITemplateResource;
