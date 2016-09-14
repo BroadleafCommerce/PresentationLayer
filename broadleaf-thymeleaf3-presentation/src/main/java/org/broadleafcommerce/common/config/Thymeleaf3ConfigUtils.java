@@ -37,7 +37,7 @@ import org.broadleafcommerce.common.web.resolver.BroadleafTemplateMode;
 import org.broadleafcommerce.common.web.resolver.BroadleafTemplateResolver;
 import org.broadleafcommerce.common.web.resolver.BroadleafTemplateResolverType;
 import org.broadleafcommerce.common.web.resolver.BroadleafThymeleaf3DatabaseTemplateResolver;
-import org.broadleafcommerce.core.web.resolver.DatabaseResourceResolverExtensionManager;
+import org.broadleafcommerce.common.web.resolver.DatabaseResourceResolverExtensionManager;
 import org.springframework.context.ApplicationContext;
 import org.thymeleaf.processor.IProcessor;
 import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
