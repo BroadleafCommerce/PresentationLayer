@@ -31,6 +31,7 @@
     </developers>
     <properties>
         <project.uri>${project.baseUri}/../</project.uri>
+        <!--Do not advance beyond 1.2.5, as the layout dialect codebase shifted to a Groovy implementation, which is much slower -->
         <thymeleaf.layout.version>1.2.5</thymeleaf.layout.version>
         <thymeleaf.version>2.1.4.RELEASE</thymeleaf.version>
     </properties>
