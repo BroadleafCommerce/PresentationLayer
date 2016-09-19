@@ -116,7 +116,7 @@
             <version>${thymeleaf.version}</version>
         </dependency>
         <dependency>
-            <groupId>nz.net.ultraq.thymeleaf</groupId>
+            <groupId>com.github.zhanhb</groupId>
             <artifactId>thymeleaf-layout-dialect</artifactId>
             <version>${thymeleaf.layout.version}</version>
         </dependency>
