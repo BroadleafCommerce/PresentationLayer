@@ -21,6 +21,7 @@ import org.broadleafcommerce.common.config.Thymeleaf3ConfigUtils;
 import org.broadleafcommerce.common.web.dialect.BroadleafProcessor;
 import org.broadleafcommerce.common.web.dialect.BroadleafThymeleaf3Dialect;
 import org.broadleafcommerce.common.web.resolver.BroadleafTemplateResolver;
+import org.broadleafcommerce.thymeleaf.processor.ArbitraryHtmlInsertionProcessor;
 import org.broadleafcommerce.thymeleaf.processor.BroadleafThymeleaf3CacheProcessor;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
@@ -44,6 +45,7 @@ public class Thymeleaf3SiteConfig {
         BroadleafThymeleaf3Dialect dialect = new BroadleafThymeleaf3Dialect();
         Set<IProcessor> iProcessors = blDialectProcessors();
         iProcessors.add(blCacheProcessor());
+        iProcessors.add(blHtmlInsertionProcessor());
         dialect.setProcessors(iProcessors);
         return dialect;
     }
@@ -63,6 +65,11 @@ public class Thymeleaf3SiteConfig {
     @Bean
     public IProcessor blCacheProcessor() {
         return new BroadleafThymeleaf3CacheProcessor();
+    }
+    
+    @Bean
+    public IProcessor blHtmlInsertionProcessor() {
+        return new ArbitraryHtmlInsertionProcessor();
     }
     
     @Bean

@@ -21,6 +21,7 @@ import org.broadleafcommerce.common.config.Thymeleaf2ConfigUtils;
 import org.broadleafcommerce.common.web.dialect.BLCDialect;
 import org.broadleafcommerce.common.web.dialect.BroadleafProcessor;
 import org.broadleafcommerce.common.web.resolver.BroadleafTemplateResolver;
+import org.broadleafcommerce.thymeleaf.processor.ArbitraryHtmlInsertionProcessor;
 import org.broadleafcommerce.thymeleaf.processor.BroadleafCacheProcessor;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
@@ -44,6 +45,7 @@ public class Thymeleaf2SiteConfig {
         BLCDialect dialect = new BLCDialect();
         Set<IProcessor> iProcessors = blDialectProcessors();
         iProcessors.add(blCacheProcessor());
+        iProcessors.add(blArbitraryHtmlInjectionProcessor());
         dialect.setProcessors(iProcessors);
         return dialect;
     }
@@ -58,6 +60,11 @@ public class Thymeleaf2SiteConfig {
     public Set<ITemplateResolver> blEmailTemplateResolvers() {
         Collection<BroadleafTemplateResolver> resolvers = applicationContext.getBeansOfType(BroadleafTemplateResolver.class).values();
         return Thymeleaf2ConfigUtils.getEmailResolvers(resolvers, applicationContext);
+    }
+    
+    @Bean
+    public IProcessor blArbitraryHtmlInjectionProcessor() {
+        return new ArbitraryHtmlInsertionProcessor();
     }
     
     @Bean
