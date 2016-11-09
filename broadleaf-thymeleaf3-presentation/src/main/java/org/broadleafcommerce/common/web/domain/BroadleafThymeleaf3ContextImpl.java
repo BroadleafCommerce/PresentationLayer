@@ -61,12 +61,12 @@ public class BroadleafThymeleaf3ContextImpl implements BroadleafTemplateContext 
     }
 
     @Override
-    public Object parseExpression(String value) {
-        return StandardExpressions.getExpressionParser(context.getConfiguration())
+    public <T> T parseExpression(String value) {
+        return (T) StandardExpressions.getExpressionParser(context.getConfiguration())
             .parseExpression(context, value)
             .execute(context);
     }
-
+    
     @Override
     public List<BroadleafAssignation> getAssignationSequence(String value, boolean allowParametersWithoutValue) {
         List<BroadleafAssignation> assignations = new ArrayList<>();
@@ -148,5 +148,5 @@ public class BroadleafThymeleaf3ContextImpl implements BroadleafTemplateContext 
     public BindStatus getBindStatus(String attributeValue) {
         return FieldUtils.getBindStatus(context, attributeValue);
     }
-    
+
 }

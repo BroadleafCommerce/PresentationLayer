@@ -33,8 +33,8 @@ public interface BroadleafTemplateContext {
     /**
      * @return The object that the {@code value} evaluates to using the underlying template language
      */
-    public Object parseExpression(String value);
-
+    public <T> T parseExpression(String value);
+    
     /**
      * @param allowParametersWithoutValue true if assignations where the key has no value assigning to it is valid
      * @return The list of {@link BroadleafAssignation}s that were evaluated from {@code value}

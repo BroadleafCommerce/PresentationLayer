@@ -46,8 +46,8 @@ public class BroadleafThymeleafContextImpl implements BroadleafTemplateContext {
     }
 
     @Override
-    public Object parseExpression(String value) {
-        return StandardExpressions.getExpressionParser(arguments.getConfiguration())
+    public <T> T parseExpression(String value) {
+        return (T) StandardExpressions.getExpressionParser(arguments.getConfiguration())
             .parseExpression(arguments.getConfiguration(), arguments, value)
             .execute(arguments.getConfiguration(), arguments);
     }
