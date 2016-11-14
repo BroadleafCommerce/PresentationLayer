@@ -61,8 +61,6 @@
         <property name="order" value="300"/> 
     </bean>
     
-    <bean id="thymeleafLayoutDialect" class="nz.net.ultraq.thymeleaf.LayoutDialect" />
-
     <bean id="blICacheManager" class="org.broadleafcommerce.common.web.cache.BroadleafThymeleaf3CacheManager" />
     <bean id="blWebTemplateEngine" class="org.thymeleaf.spring4.SpringTemplateEngine">
         <property name="messageResolvers">
@@ -76,7 +74,6 @@
         <property name="dialects">
             <set>
                 <ref bean="thymeleafSpringStandardDialect" />
-                <ref bean="thymeleafLayoutDialect" />
                 <ref bean="blDialect" />
             </set>
         </property>
