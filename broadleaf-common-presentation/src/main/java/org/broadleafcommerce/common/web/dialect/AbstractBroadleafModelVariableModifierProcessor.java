@@ -28,8 +28,8 @@ import java.util.List;
 public abstract class AbstractBroadleafModelVariableModifierProcessor implements BroadleafModelVariableModifierProcessor {
 
     @Override
-    public boolean addToLocal() {
-        return false;
+    public boolean useGlobalScope() {
+        return true;
     }
     
     @Override

@@ -71,7 +71,7 @@ public class DelegatingThymeleaf3ModelVariableModifierProcessor extends Abstract
     }
 
     private void addToModel(IElementTagStructureHandler structureHandler, String key, Object value) {
-        if (!processor.addToLocal()) {
+        if (processor.useGlobalScope()) {
             if (processor.getCollectionModelVariableNamesToAddTo() != null && processor.getCollectionModelVariableNamesToAddTo().contains(key)) {
                 addItemToExistingSet(key, value);
             }

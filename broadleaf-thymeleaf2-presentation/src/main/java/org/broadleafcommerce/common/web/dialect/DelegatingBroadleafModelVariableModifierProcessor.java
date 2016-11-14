@@ -65,7 +65,7 @@ public class DelegatingBroadleafModelVariableModifierProcessor extends AbstractE
         }
         Map<String, Object> newModelVariables = new HashMap<>();
         processor.populateModelVariables(tagName, tagAttributes, newModelVariables, context);
-        if (!processor.addToLocal()) {
+        if (processor.useGlobalScope()) {
             for (Map.Entry<String, Object> entry : newModelVariables.entrySet()) {
                 addToModel(arguments, entry.getKey(), entry.getValue());
             }
@@ -101,7 +101,7 @@ public class DelegatingBroadleafModelVariableModifierProcessor extends AbstractE
     protected <T> void addCollectionToExistingSet(String key, Collection<T> value, Arguments arguments) {
         Set<T> items = (Set<T>) ((Map<String, Object>) arguments.getExpressionEvaluationRoot()).get(key);
         if (items == null) {
-            items = new HashSet<T>();
+            items = new HashSet<>();
             ((Map<String, Object>) arguments.getExpressionEvaluationRoot()).put(key, items);
         }
         items.addAll(value);
@@ -111,7 +111,7 @@ public class DelegatingBroadleafModelVariableModifierProcessor extends AbstractE
     protected <T> void addItemToExistingSet(String key, Object value, Arguments arguments) {
         Set<T> items = (Set<T>) ((Map<String, Object>) arguments.getExpressionEvaluationRoot()).get(key);
         if (items == null) {
-            items = new HashSet<T>();                         
+            items = new HashSet<>();                         
             ((Map<String, Object>) arguments.getExpressionEvaluationRoot()).put(key, items);
         }
         items.add((T) value);

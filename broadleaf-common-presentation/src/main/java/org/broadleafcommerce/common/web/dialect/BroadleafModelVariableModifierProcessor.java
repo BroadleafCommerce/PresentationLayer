@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Tag processor that modifies the the global variable model if {@link #addToLocal()} is false and local if it's true
+ * Tag processor that modifies the the global variable model if {@link #useGlobalScope()} is false and local if it's true
  * 
  * @author Jay Aisenbrey (cja769)
  *
@@ -31,9 +31,10 @@ import java.util.Map;
 public interface BroadleafModelVariableModifierProcessor extends BroadleafProcessor {
 
     /**
-     * @return true if the newModelVars should be added to the local model or false if they should be added to global
+     * @return true if the newModelVars should be added to the global scope (not recommended) or false if they should be added to local scope
+     * for this tag
      */
-    public boolean addToLocal();
+    public boolean useGlobalScope();
     
     /**
      * @return The list of variables on the model that, if they exist, should have additional values added to the existing list instead of replacing their values
@@ -43,7 +44,7 @@ public interface BroadleafModelVariableModifierProcessor extends BroadleafProces
     /**
      * @param tagName The name of the tag the event was triggered on
      * @param tagAttributes A map of String to String of all of the attributes on the tag
-     * @param newModelVars A map of String to Object of the new variables that should be added to the model. They'll be add to the local model if {@link #addToLocal()} is true, else they'll be added to the global model
+     * @param newModelVars A map of String to Object of the new variables that should be added to the model. They'll be add to the local model if {@link #useGlobalScope()} is true, else they'll be added to the global model
      * @param context The {@link BroadleafTemplateContext} that should be used to perform operations on the tag with
      */
     public void populateModelVariables(String tagName, Map<String, String> tagAttributes, Map<String, Object> newModelVars, BroadleafTemplateContext context);
