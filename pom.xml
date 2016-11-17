@@ -13,7 +13,7 @@
     <version>1.0.0-SNAPSHOT</version>
 
     <packaging>pom</packaging>
-    <name>BroadleafCommerce Core</name>
+    <name>BroadleafCommerce Presentation Parent</name>
     <description>BroadleafCommerce Presentation layer codebase</description>
     <url>http://www.broadleafcommerce.org</url>
     
