@@ -161,7 +161,6 @@
     </dependencyManagement>
 
     <modules>
-        <module>broadleaf-common-presentation</module>
         <module>broadleaf-thymeleaf2-presentation</module>
         <module>broadleaf-thymeleaf3-presentation</module>
     </modules>
