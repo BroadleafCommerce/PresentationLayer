@@ -28,7 +28,7 @@
            http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.0.xsd">
 
     
-    <bean id="blConfiguration" class="org.broadleafcommerce.common.config.RuntimeEnvironmentPropertiesConfigurer">
+    <bean id="blConfiguration" class="org.broadleafcommerce.presentation.thymeleaf3.config.RuntimeEnvironmentPropertiesConfigurer">
         <property name="overridableProperyLocations">
             <set>
                 <value>classpath:config/bc/thymeleaf/</value>
@@ -47,7 +47,7 @@
     </bean>
     
     <bean id="thymeleafSpringStandardDialect" class="org.thymeleaf.spring4.dialect.SpringStandardDialect" />
-    <bean id="blVariableExpressionObjectFactory" class="org.broadleafcommerce.common.web.expression.BroadleafVariableExpressionObjectFactory" />
+    <bean id="blVariableExpressionObjectFactory" class="org.broadleafcommerce.presentation.thymeleaf3.expression.BroadleafVariableExpressionObjectFactory" />
     
     <bean id="blEmailClasspathTemplateResolver" class="org.broadleafcommerce.presentation.resolver.BroadleafClasspathTemplateResolver">
         <property name="prefix" value="emailTemplates/" />

@@ -29,7 +29,7 @@
 
 
     <import resource="classpath:blc-config/bl-thymeleaf2-presentation-common-applicationContext.xml" />
-    <context:component-scan base-package="org.broadleafcommerce.site.config" />
+    <context:component-scan base-package="org.broadleafcommerce.presentation.thymeleaf2.site.config" />
         
     <bean id="blWebDatabaseTemplateResolver" class="org.broadleafcommerce.presentation.resolver.BroadleafDatabaseTemplateResolver">
         <property name="characterEncoding" value="UTF-8" />
@@ -59,10 +59,10 @@
         <property name="order" value="300"/> 
     </bean>
     
-    <bean id="blMessageResolver" class="org.broadleafcommerce.common.web.BroadleafThymeleafMessageResolver" />
+    <bean id="blMessageResolver" class="org.broadleafcommerce.presentation.thymeleaf2.BroadleafThymeleafMessageResolver" />
     
     <bean id="blThymeleafStandardTemplateModeHandlers" 
-        class="org.broadleafcommerce.common.web.BroadleafThymeleafStandardTemplateModeHandlers" />
+        class="org.broadleafcommerce.presentation.thymeleaf2.BroadleafThymeleafStandardTemplateModeHandlers" />
         
     <bean id="blICacheManager" class="org.broadleafcommerce.presentation.cache.BLCICacheManager" />
 
@@ -89,7 +89,7 @@
     </bean>
     
     <!-- Set up the view resolver to be used by Spring -->
-    <bean id="blThymeleafViewResolver" class="org.broadleafcommerce.common.web.BroadleafThymeleafViewResolver">
+    <bean id="blThymeleafViewResolver" class="org.broadleafcommerce.presentation.thymeleaf2.BroadleafThymeleafViewResolver">
         <property name="templateEngine" ref="blWebTemplateEngine" />
         <property name="order" value="1" />
         <property name="cache" value="${thymeleaf.view.resolver.cache}" />
