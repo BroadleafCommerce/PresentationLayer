@@ -20,8 +20,8 @@ package org.broadleafcommerce.presentation.thymeleaf3.dialect;
 import org.broadleafcommerce.presentation.dialect.BroadleafTagReplacementProcessor;
 import org.broadleafcommerce.presentation.model.BroadleafTemplateContext;
 import org.broadleafcommerce.presentation.model.BroadleafTemplateModel;
-import org.broadleafcommerce.presentation.thymeleaf3.model.BroadleafThymeleaf3ContextImpl;
-import org.broadleafcommerce.presentation.thymeleaf3.model.BroadleafThymeleaf3ModelImpl;
+import org.broadleafcommerce.presentation.thymeleaf3.model.BroadleafThymeleaf3Context;
+import org.broadleafcommerce.presentation.thymeleaf3.model.BroadleafThymeleaf3Model;
 import org.thymeleaf.context.ITemplateContext;
 import org.thymeleaf.model.IProcessableElementTag;
 import org.thymeleaf.processor.element.AbstractElementTagProcessor;
@@ -42,12 +42,12 @@ public class DelegatingThymeleaf3TagReplacementProcessor extends AbstractElement
 
     @Override
     protected void doProcess(ITemplateContext context, IProcessableElementTag tag, IElementTagStructureHandler structureHandler) {
-        BroadleafTemplateContext blcContext = new BroadleafThymeleaf3ContextImpl(context, structureHandler);
+        BroadleafTemplateContext blcContext = new BroadleafThymeleaf3Context(context, structureHandler);
         String tagName = tag.getElementCompleteName();
         Map<String, String> tagAttributes = tag.getAttributeMap();
         BroadleafTemplateModel blcModel = processor.getReplacementModel(tagName, tagAttributes, blcContext);
         if (blcModel != null) {
-            structureHandler.replaceWith(((BroadleafThymeleaf3ModelImpl) blcModel).getModel(), processor.replacementNeedsProcessing());
+            structureHandler.replaceWith(((BroadleafThymeleaf3Model) blcModel).getModel(), processor.replacementNeedsProcessing());
         } else {
             structureHandler.removeTags();
         }

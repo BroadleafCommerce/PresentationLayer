@@ -34,7 +34,7 @@ import java.util.ArrayList;
  * @author Jay Aisenbrey (cja769)
  *
  */
-public class BroadleafThymeleaf3NonVoidElementImpl implements BroadleafTemplateNonVoidElement, BroadleafThymeleaf3TemplateEvent {
+public class BroadleafThymeleaf3NonVoidElement implements BroadleafTemplateNonVoidElement, BroadleafThymeleaf3TemplateEvent {
 
     protected IOpenElementTag openTag;
     protected ICloseElementTag closeTag;
@@ -42,7 +42,7 @@ public class BroadleafThymeleaf3NonVoidElementImpl implements BroadleafTemplateN
     // This is an ArrayList specifically so that the elements stay in order for when they're added to the actual DOM 
     protected ArrayList<BroadleafTemplateElement> children;
 
-    public BroadleafThymeleaf3NonVoidElementImpl(IOpenElementTag openTag, ICloseElementTag closeTag) {
+    public BroadleafThymeleaf3NonVoidElement(IOpenElementTag openTag, ICloseElementTag closeTag) {
         this.openTag = openTag;
         this.closeTag = closeTag;
         this.children = new ArrayList<>();

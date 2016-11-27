@@ -15,37 +15,34 @@
  * between you and Broadleaf Commerce. You may not use this file except in compliance with the applicable license.
  * #L%
  */
-package org.broadleafcommerce.presentation.thymeleaf2.domain;
+package org.broadleafcommerce.presentation.thymeleaf3.model;
 
-import org.broadleafcommerce.presentation.model.BroadleafTemplateElement;
-import org.broadleafcommerce.presentation.model.BroadleafTemplateNonVoidElement;
-import org.thymeleaf.dom.Element;
-import org.thymeleaf.dom.Node;
+import org.thymeleaf.model.ITemplateEvent;
+import org.thymeleaf.model.IText;
+
+import java.util.ArrayList;
 
 /**
- * Class used to encapsulate the Thymeleaf 2 version of an element
+ * Class that's used for encapsulating a Thymeleaf 3 text node
  * 
  * Note that this is only for use inside of the Broadleaf common layer for Thymeleaf module
  * 
  * @author Jay Aisenbrey (cja769)
  *
  */
-public class BroadleafThymeleafNonTextElementImpl implements BroadleafTemplateNonVoidElement, BroadleafThymeleafTemplateEvent {
+public class BroadleafThymeleaf3TextElement implements BroadleafThymeleaf3TemplateEvent {
 
-    protected Element element;
+    protected IText text;
 
-    public BroadleafThymeleafNonTextElementImpl(Element element) {
-        this.element = element;
+    public BroadleafThymeleaf3TextElement(IText text) {
+        this.text = text;
     }
 
     @Override
-    public void addChild(BroadleafTemplateElement child) {
-        element.addChild(((BroadleafThymeleafTemplateEvent) child).getNode());
-    }
-
-    @Override
-    public Node getNode() {
-        return element;
+    public ArrayList<ITemplateEvent> getAllTags() {
+        ArrayList<ITemplateEvent> tags = new ArrayList<>();
+        tags.add(text);
+        return tags;
     }
 
 }

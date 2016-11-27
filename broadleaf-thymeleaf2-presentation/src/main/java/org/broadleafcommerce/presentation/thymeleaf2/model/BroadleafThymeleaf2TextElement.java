@@ -15,39 +15,29 @@
  * between you and Broadleaf Commerce. You may not use this file except in compliance with the applicable license.
  * #L%
  */
-package org.broadleafcommerce.presentation.thymeleaf3.model;
+package org.broadleafcommerce.presentation.thymeleaf2.model;
 
-import org.broadleafcommerce.presentation.model.BroadleafTemplateElement;
-import org.broadleafcommerce.presentation.model.BroadleafTemplateModel;
-import org.thymeleaf.model.IModel;
-import org.thymeleaf.model.ITemplateEvent;
+import org.thymeleaf.dom.Node;
 
 /**
- * A class used to encapsulate the underlying IModel for Thymeleaf 3. 
- * The model is modified using {@code BroadleafThymeleafTemplateEvent}s and then used to
- * modify the original model sent to the processor
+ * Class that's used for encapsulating a Thymeleaf 2 text node
  * 
  * Note that this is only for use inside of the Broadleaf common layer for Thymeleaf module
  * 
  * @author Jay Aisenbrey (cja769)
  *
  */
-public class BroadleafThymeleaf3ModelImpl implements BroadleafTemplateModel {
+public class BroadleafThymeleaf2TextElement implements BroadleafThymeleaf2TemplateEvent {
 
-    protected IModel model;
+    protected Node text;
 
-    public BroadleafThymeleaf3ModelImpl(IModel model) {
-        this.model = model;
+    public BroadleafThymeleaf2TextElement(Node text) {
+        this.text = text;
     }
+
     @Override
-    public void addElement(BroadleafTemplateElement elem) {
-        for (ITemplateEvent tag : ((BroadleafThymeleaf3TemplateEvent) elem).getAllTags()) {
-            model.add(tag);
-        }
-    }
-
-    public IModel getModel() {
-        return model;
+    public Node getNode() {
+        return text;
     }
 
 }

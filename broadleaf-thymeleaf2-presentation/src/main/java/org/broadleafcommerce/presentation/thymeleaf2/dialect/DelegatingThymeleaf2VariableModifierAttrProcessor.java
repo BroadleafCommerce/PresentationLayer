@@ -19,7 +19,7 @@ package org.broadleafcommerce.presentation.thymeleaf2.dialect;
 
 import org.broadleafcommerce.presentation.dialect.BroadleafVariableModifierAttrProcessor;
 import org.broadleafcommerce.presentation.model.BroadleafTemplateContext;
-import org.broadleafcommerce.presentation.thymeleaf2.domain.BroadleafThymeleafContextImpl;
+import org.broadleafcommerce.presentation.thymeleaf2.model.BroadleafThymeleaf2Context;
 import org.thymeleaf.Arguments;
 import org.thymeleaf.dom.Attribute;
 import org.thymeleaf.dom.Element;
@@ -47,7 +47,7 @@ public class DelegatingThymeleaf2VariableModifierAttrProcessor extends AbstractA
 
     @Override
     protected ProcessorResult processAttribute(final Arguments arguments, final Element element, final String attributeName) {
-        BroadleafTemplateContext context = new BroadleafThymeleafContextImpl(arguments);
+        BroadleafTemplateContext context = new BroadleafThymeleaf2Context(arguments);
         Map<String, Attribute> attributeMap = element.getAttributeMap();
         Map<String, String> tagAttributes = new HashMap<>();
         for (String key : attributeMap.keySet()) {

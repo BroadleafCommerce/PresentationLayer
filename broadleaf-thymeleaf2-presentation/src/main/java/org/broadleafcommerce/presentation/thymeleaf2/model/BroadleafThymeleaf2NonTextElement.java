@@ -15,29 +15,37 @@
  * between you and Broadleaf Commerce. You may not use this file except in compliance with the applicable license.
  * #L%
  */
-package org.broadleafcommerce.presentation.thymeleaf2.domain;
+package org.broadleafcommerce.presentation.thymeleaf2.model;
 
+import org.broadleafcommerce.presentation.model.BroadleafTemplateElement;
+import org.broadleafcommerce.presentation.model.BroadleafTemplateNonVoidElement;
+import org.thymeleaf.dom.Element;
 import org.thymeleaf.dom.Node;
 
 /**
- * Class that's used for encapsulating a Thymeleaf 2 text node
+ * Class used to encapsulate the Thymeleaf 2 version of an element
  * 
  * Note that this is only for use inside of the Broadleaf common layer for Thymeleaf module
  * 
  * @author Jay Aisenbrey (cja769)
  *
  */
-public class BroadleafThymeleafTextElementImpl implements BroadleafThymeleafTemplateEvent {
+public class BroadleafThymeleaf2NonTextElement implements BroadleafTemplateNonVoidElement, BroadleafThymeleaf2TemplateEvent {
 
-    protected Node text;
+    protected Element element;
 
-    public BroadleafThymeleafTextElementImpl(Node text) {
-        this.text = text;
+    public BroadleafThymeleaf2NonTextElement(Element element) {
+        this.element = element;
+    }
+
+    @Override
+    public void addChild(BroadleafTemplateElement child) {
+        element.addChild(((BroadleafThymeleaf2TemplateEvent) child).getNode());
     }
 
     @Override
     public Node getNode() {
-        return text;
+        return element;
     }
 
 }

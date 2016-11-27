@@ -15,7 +15,7 @@
  * between you and Broadleaf Commerce. You may not use this file except in compliance with the applicable license.
  * #L%
  */
-package org.broadleafcommerce.presentation.thymeleaf2.domain;
+package org.broadleafcommerce.presentation.thymeleaf2.model;
 
 import org.broadleafcommerce.presentation.model.BroadleafTemplateElement;
 import org.broadleafcommerce.presentation.model.BroadleafTemplateModel;
@@ -25,7 +25,7 @@ import java.util.List;
 
 /**
  * A class used to mimic Thymeleaf 3's model in order for processor code to be the same for Thymeleaf 2 and 3. 
- * The model is modified using {@code BroadleafThymeleafTemplateEvent}s and then used to
+ * The model is modified using {@code BroadleafThymeleaf2TemplateEvent}s and then used to
  * modify the original model sent to the processor
  * 
  * Note that this is only for use inside of the Broadleaf common layer for Thymeleaf module
@@ -33,16 +33,16 @@ import java.util.List;
  * @author Jay Aisenbrey (cja769)
  *
  */
-public class BroadleafThymeleafModelImpl implements BroadleafTemplateModel {
+public class BroadleafThymeleaf2Model implements BroadleafTemplateModel {
 
     // This is an ArrayList specifically so that the elements stay in order for when they're added to the actual DOM
     protected ArrayList<BroadleafTemplateElement> elements;
 
-    public BroadleafThymeleafModelImpl(ArrayList<BroadleafTemplateElement> elements) {
+    public BroadleafThymeleaf2Model(ArrayList<BroadleafTemplateElement> elements) {
         this.elements = elements;
     }
 
-    public BroadleafThymeleafModelImpl() {
+    public BroadleafThymeleaf2Model() {
         this.elements = new ArrayList<>();
     }
 

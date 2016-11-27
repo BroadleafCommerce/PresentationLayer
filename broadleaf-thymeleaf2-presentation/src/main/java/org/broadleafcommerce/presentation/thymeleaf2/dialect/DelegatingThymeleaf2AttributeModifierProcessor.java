@@ -20,7 +20,7 @@ package org.broadleafcommerce.presentation.thymeleaf2.dialect;
 import org.broadleafcommerce.presentation.dialect.BroadleafAttributeModifierProcessor;
 import org.broadleafcommerce.presentation.model.BroadleafAttributeModifier;
 import org.broadleafcommerce.presentation.model.BroadleafTemplateContext;
-import org.broadleafcommerce.presentation.thymeleaf2.domain.BroadleafThymeleafContextImpl;
+import org.broadleafcommerce.presentation.thymeleaf2.model.BroadleafThymeleaf2Context;
 import org.thymeleaf.Arguments;
 import org.thymeleaf.dom.Attribute;
 import org.thymeleaf.dom.Element;
@@ -42,7 +42,7 @@ public class DelegatingThymeleaf2AttributeModifierProcessor extends AbstractAttr
 
     @Override
     protected Map<String, String> getModifiedAttributeValues(Arguments arguments, Element element, String attributeName) {
-        BroadleafTemplateContext context = new BroadleafThymeleafContextImpl(arguments);
+        BroadleafTemplateContext context = new BroadleafThymeleaf2Context(arguments);
         String tagName = element.getNormalizedName();
         Map<String, Attribute> attributeMap = element.getAttributeMap();
         Map<String, String> tagAttributes = new HashMap<>();

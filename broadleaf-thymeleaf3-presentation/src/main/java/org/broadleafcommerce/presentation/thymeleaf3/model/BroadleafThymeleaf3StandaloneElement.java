@@ -15,21 +15,35 @@
  * between you and Broadleaf Commerce. You may not use this file except in compliance with the applicable license.
  * #L%
  */
-package org.broadleafcommerce.presentation.thymeleaf2.domain;
+package org.broadleafcommerce.presentation.thymeleaf3.model;
 
-import org.broadleafcommerce.presentation.model.BroadleafTemplateElement;
-import org.thymeleaf.dom.Node;
+import org.thymeleaf.model.IStandaloneElementTag;
+import org.thymeleaf.model.ITemplateEvent;
+
+import java.util.ArrayList;
 
 /**
- * Interface that should be implemented for all {@code BroadleafThymeleafElement}s so that 
- * the module code can retrieve the underlying Thymeleaf 2 objects
+ * Class used to encapsulate the Thymeleaf 3 version of a standalone tag which is a void tag.
+ * A void tag is any tag that does not have a body
  * 
  * Note that this is only for use inside of the Broadleaf common layer for Thymeleaf module
  * 
  * @author Jay Aisenbrey (cja769)
  *
  */
-public interface BroadleafThymeleafTemplateEvent extends BroadleafTemplateElement {
+public class BroadleafThymeleaf3StandaloneElement implements BroadleafThymeleaf3TemplateEvent {
 
-    public Node getNode();
+    protected IStandaloneElementTag standaloneTag;
+
+    public BroadleafThymeleaf3StandaloneElement(IStandaloneElementTag standaloneTag) {
+        this.standaloneTag = standaloneTag;
+    }
+
+    @Override
+    public ArrayList<ITemplateEvent> getAllTags() {
+        ArrayList<ITemplateEvent> tags = new ArrayList<>();
+        tags.add(standaloneTag);
+        return tags;
+    }
+
 }

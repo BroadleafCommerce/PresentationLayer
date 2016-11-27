@@ -19,7 +19,7 @@ package org.broadleafcommerce.presentation.thymeleaf3.dialect;
 
 import org.broadleafcommerce.presentation.dialect.BroadleafTagTextModifierProcessor;
 import org.broadleafcommerce.presentation.model.BroadleafTemplateContext;
-import org.broadleafcommerce.presentation.thymeleaf3.model.BroadleafThymeleaf3ContextImpl;
+import org.broadleafcommerce.presentation.thymeleaf3.model.BroadleafThymeleaf3Context;
 import org.thymeleaf.context.ITemplateContext;
 import org.thymeleaf.engine.AttributeName;
 import org.thymeleaf.model.IProcessableElementTag;
@@ -40,7 +40,7 @@ public class DelegatingThymeleaf3TagTextModifierProcessor extends AbstractAttrib
 
     @Override
     protected void doProcess(ITemplateContext context, IProcessableElementTag tag, AttributeName attributeName, String attributeValue, IElementTagStructureHandler structureHandler) {
-        BroadleafTemplateContext blcContext = new BroadleafThymeleaf3ContextImpl(context, structureHandler);
+        BroadleafTemplateContext blcContext = new BroadleafThymeleaf3Context(context, structureHandler);
         String tagName = tag.getElementCompleteName();
         Map<String, String> tagAttributes = tag.getAttributeMap();
         String newText = processor.getTagText(tagName, tagAttributes, attributeName.getAttributeName(), attributeValue, blcContext);

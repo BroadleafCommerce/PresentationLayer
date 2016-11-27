@@ -22,7 +22,7 @@ import org.apache.commons.logging.LogFactory;
 import org.broadleafcommerce.common.web.BroadleafRequestContext;
 import org.broadleafcommerce.presentation.dialect.BroadleafVariableModifierProcessor;
 import org.broadleafcommerce.presentation.model.BroadleafTemplateContext;
-import org.broadleafcommerce.presentation.thymeleaf3.model.BroadleafThymeleaf3ContextImpl;
+import org.broadleafcommerce.presentation.thymeleaf3.model.BroadleafThymeleaf3Context;
 import org.springframework.web.context.request.WebRequest;
 import org.thymeleaf.context.ITemplateContext;
 import org.thymeleaf.model.IProcessableElementTag;
@@ -56,7 +56,7 @@ public class DelegatingThymeleaf3VariableModifierProcessor extends AbstractEleme
     protected void doProcess(ITemplateContext context, IProcessableElementTag tag, IElementTagStructureHandler structureHandler) {
         Map<String, String> attributes = tag.getAttributeMap();
         Map<String, Object> newModelVariables = new HashMap<>();
-        BroadleafTemplateContext blcContext = new BroadleafThymeleaf3ContextImpl(context, structureHandler);
+        BroadleafTemplateContext blcContext = new BroadleafThymeleaf3Context(context, structureHandler);
         processor.populateModelVariables(tag.getElementCompleteName(), attributes, blcContext);
         
         for (Map.Entry<String, Object> entry : newModelVariables.entrySet()) {

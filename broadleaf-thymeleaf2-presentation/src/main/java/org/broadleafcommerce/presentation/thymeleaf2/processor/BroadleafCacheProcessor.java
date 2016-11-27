@@ -27,7 +27,7 @@ import org.broadleafcommerce.common.config.service.SystemPropertiesService;
 import org.broadleafcommerce.common.web.BroadleafRequestContext;
 import org.broadleafcommerce.presentation.cache.service.SimpleCacheKeyResolver;
 import org.broadleafcommerce.presentation.cache.service.TemplateCacheKeyResolverService;
-import org.broadleafcommerce.presentation.thymeleaf2.domain.BroadleafThymeleafContextImpl;
+import org.broadleafcommerce.presentation.thymeleaf2.model.BroadleafThymeleaf2Context;
 import org.springframework.web.context.request.WebRequest;
 import org.thymeleaf.Arguments;
 import org.thymeleaf.dom.Attribute;
@@ -196,7 +196,7 @@ public class BroadleafCacheProcessor extends AbstractAttrProcessor {
             for (String key : attributeMap.keySet()) {
                 tagAttributes.put(element.getAttributeOriginalNameFromNormalizedName(key), attributeMap.get(key).getValue());
             }
-            String cacheKey = cacheKeyResolver.resolveCacheKey(element.getNormalizedName(), tagAttributes, element.getDocumentName(), element.getLineNumber(), new BroadleafThymeleafContextImpl(arguments));
+            String cacheKey = cacheKeyResolver.resolveCacheKey(element.getNormalizedName(), tagAttributes, element.getDocumentName(), element.getLineNumber(), new BroadleafThymeleaf2Context(arguments));
             // tag attributes can be modified when they're sent to the cache key resolver
             element.setAttributes(tagAttributes);
 

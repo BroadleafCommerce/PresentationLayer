@@ -21,8 +21,8 @@ import org.apache.commons.collections.MapUtils;
 import org.broadleafcommerce.presentation.dialect.BroadleafModelModifierProcessor;
 import org.broadleafcommerce.presentation.model.BroadleafTemplateContext;
 import org.broadleafcommerce.presentation.model.BroadleafTemplateModelModifierDTO;
-import org.broadleafcommerce.presentation.thymeleaf3.model.BroadleafThymeleaf3ContextImpl;
-import org.broadleafcommerce.presentation.thymeleaf3.model.BroadleafThymeleaf3ModelImpl;
+import org.broadleafcommerce.presentation.thymeleaf3.model.BroadleafThymeleaf3Context;
+import org.broadleafcommerce.presentation.thymeleaf3.model.BroadleafThymeleaf3Model;
 import org.thymeleaf.context.ITemplateContext;
 import org.thymeleaf.model.AttributeValueQuotes;
 import org.thymeleaf.model.IModel;
@@ -48,10 +48,10 @@ public class DelegatingThymeleaf3ModelModifierProcessor extends AbstractElementM
         IProcessableElementTag rootTag = (IProcessableElementTag) model.get(0);
         String rootTagName = rootTag.getElementCompleteName();
         Map<String, String> rootTagAttributes = rootTag.getAttributeMap();
-        BroadleafTemplateContext blcContext = new BroadleafThymeleaf3ContextImpl(context, structureHandler);
+        BroadleafTemplateContext blcContext = new BroadleafThymeleaf3Context(context, structureHandler);
         BroadleafTemplateModelModifierDTO dto = processor.getInjectedModelAndTagAttributes(rootTagName, rootTagAttributes, blcContext);
         if (dto.getModel() != null) {
-            model.insertModel(model.size() - 1, ((BroadleafThymeleaf3ModelImpl) dto.getModel()).getModel());
+            model.insertModel(model.size() - 1, ((BroadleafThymeleaf3Model) dto.getModel()).getModel());
         }
         Map<String, String> newParams = dto.getFormParameters();
         if (newParams == null) {

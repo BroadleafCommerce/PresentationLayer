@@ -22,9 +22,9 @@ import org.broadleafcommerce.presentation.dialect.BroadleafModelModifierProcesso
 import org.broadleafcommerce.presentation.model.BroadleafTemplateContext;
 import org.broadleafcommerce.presentation.model.BroadleafTemplateElement;
 import org.broadleafcommerce.presentation.model.BroadleafTemplateModelModifierDTO;
-import org.broadleafcommerce.presentation.thymeleaf2.domain.BroadleafThymeleafContextImpl;
-import org.broadleafcommerce.presentation.thymeleaf2.domain.BroadleafThymeleafModelImpl;
-import org.broadleafcommerce.presentation.thymeleaf2.domain.BroadleafThymeleafTemplateEvent;
+import org.broadleafcommerce.presentation.thymeleaf2.model.BroadleafThymeleaf2Context;
+import org.broadleafcommerce.presentation.thymeleaf2.model.BroadleafThymeleaf2Model;
+import org.broadleafcommerce.presentation.thymeleaf2.model.BroadleafThymeleaf2TemplateEvent;
 import org.thymeleaf.Arguments;
 import org.thymeleaf.dom.Attribute;
 import org.thymeleaf.dom.Element;
@@ -48,7 +48,7 @@ public class DelegatingThymeleaf2ModelModifierProcessor extends AbstractElementP
     
     @Override
     protected ProcessorResult processElement(Arguments arguments, Element element) {
-        BroadleafTemplateContext context = new BroadleafThymeleafContextImpl(arguments);
+        BroadleafTemplateContext context = new BroadleafThymeleaf2Context(arguments);
         String tagName = element.getNormalizedName();
         Map<String, Attribute> attributeMap = element.getAttributeMap();
         Map<String, String> tagAttributes = new HashMap<>();
@@ -69,9 +69,9 @@ public class DelegatingThymeleaf2ModelModifierProcessor extends AbstractElementP
         }
         newForm.setAttributes(newParams);
         if (dto.getModel() != null) {
-            List<BroadleafTemplateElement> elementsToAdd = ((BroadleafThymeleafModelImpl) dto.getModel()).getElements();
+            List<BroadleafTemplateElement> elementsToAdd = ((BroadleafThymeleaf2Model) dto.getModel()).getElements();
             for (BroadleafTemplateElement elem : elementsToAdd) {
-                newForm.addChild(((BroadleafThymeleafTemplateEvent) elem).getNode());
+                newForm.addChild(((BroadleafThymeleaf2TemplateEvent) elem).getNode());
             }
         }
         if (processor.reprocessModel()) {

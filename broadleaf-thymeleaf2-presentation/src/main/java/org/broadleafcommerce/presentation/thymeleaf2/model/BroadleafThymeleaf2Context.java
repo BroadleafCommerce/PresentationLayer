@@ -15,7 +15,7 @@
  * between you and Broadleaf Commerce. You may not use this file except in compliance with the applicable license.
  * #L%
  */
-package org.broadleafcommerce.presentation.thymeleaf2.domain;
+package org.broadleafcommerce.presentation.thymeleaf2.model;
 
 import org.broadleafcommerce.presentation.model.BroadleafAssignation;
 import org.broadleafcommerce.presentation.model.BroadleafTemplateContext;
@@ -42,11 +42,11 @@ import java.util.Map;
  * @author Jay Aisenbrey (cja769)
  *
  */
-public class BroadleafThymeleafContextImpl implements BroadleafTemplateContext { 
+public class BroadleafThymeleaf2Context implements BroadleafTemplateContext { 
 
     protected Arguments arguments;
     
-    public BroadleafThymeleafContextImpl(Arguments arguments) {
+    public BroadleafThymeleaf2Context(Arguments arguments) {
         this.arguments = arguments;
     }
 
@@ -61,7 +61,7 @@ public class BroadleafThymeleafContextImpl implements BroadleafTemplateContext {
     public List<BroadleafAssignation> getAssignationSequence(String value, boolean allowParametersWithoutValue) {
         List<BroadleafAssignation> assignations = new ArrayList<>();
         for (Assignation assignation : AssignationUtils.parseAssignationSequence(arguments.getConfiguration(), arguments, value, allowParametersWithoutValue)) {
-            assignations.add(new BroadleafAssignationImpl(assignation));
+            assignations.add(new BroadleafThymeleaf2Assignation(assignation));
         }
         return assignations;
     }
@@ -90,35 +90,35 @@ public class BroadleafThymeleafContextImpl implements BroadleafTemplateContext {
         return createNonTextElement(tagName);
     }
 
-    protected BroadleafThymeleafNonTextElementImpl createNonTextElement(String tagName) {
-        return new BroadleafThymeleafNonTextElementImpl(new Element(tagName));
+    protected BroadleafThymeleaf2NonTextElement createNonTextElement(String tagName) {
+        return new BroadleafThymeleaf2NonTextElement(new Element(tagName));
     }
 
-    protected BroadleafThymeleafNonTextElementImpl createNonTextElement(String tagName, Map<String, String> attributes) {
+    protected BroadleafThymeleaf2NonTextElement createNonTextElement(String tagName, Map<String, String> attributes) {
         Element elem = new Element(tagName);
         elem.setAttributes(attributes);
-        return new BroadleafThymeleafNonTextElementImpl(elem);
+        return new BroadleafThymeleaf2NonTextElement(elem);
     }
 
     @Override
     public BroadleafTemplateElement createTextElement(String text) {
-        return new BroadleafThymeleafTextElementImpl(new Macro(text));
+        return new BroadleafThymeleaf2TextElement(new Macro(text));
     }
 
     @Override
     public BroadleafTemplateModel createModel() {
-        return new BroadleafThymeleafModelImpl();
+        return new BroadleafThymeleaf2Model();
     }
 
     @Override
     public void setNodeLocalVariable(BroadleafTemplateElement element, String key, Object value) {
-        ((BroadleafThymeleafTemplateEvent) element).getNode().setNodeLocalVariable(key, value);
+        ((BroadleafThymeleaf2TemplateEvent) element).getNode().setNodeLocalVariable(key, value);
         
     }
 
     @Override
     public void setNodeLocalVariables(BroadleafTemplateElement element, Map<String, Object> variableMap) {
-        ((BroadleafThymeleafTemplateEvent) element).getNode().setAllNodeLocalVariables(variableMap);
+        ((BroadleafThymeleaf2TemplateEvent) element).getNode().setAllNodeLocalVariables(variableMap);
     }
 
     @Override

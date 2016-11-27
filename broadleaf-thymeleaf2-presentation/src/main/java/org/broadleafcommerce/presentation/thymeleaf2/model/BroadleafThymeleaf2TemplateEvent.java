@@ -15,34 +15,21 @@
  * between you and Broadleaf Commerce. You may not use this file except in compliance with the applicable license.
  * #L%
  */
-package org.broadleafcommerce.presentation.thymeleaf3.model;
+package org.broadleafcommerce.presentation.thymeleaf2.model;
 
-import org.thymeleaf.model.ITemplateEvent;
-import org.thymeleaf.model.IText;
-
-import java.util.ArrayList;
+import org.broadleafcommerce.presentation.model.BroadleafTemplateElement;
+import org.thymeleaf.dom.Node;
 
 /**
- * Class that's used for encapsulating a Thymeleaf 3 text node
+ * Interface that should be implemented for all {@code BroadleafThymeleafElement}s so that 
+ * the module code can retrieve the underlying Thymeleaf 2 objects
  * 
  * Note that this is only for use inside of the Broadleaf common layer for Thymeleaf module
  * 
  * @author Jay Aisenbrey (cja769)
  *
  */
-public class BroadleafThymeleaf3TextElementImpl implements BroadleafThymeleaf3TemplateEvent {
+public interface BroadleafThymeleaf2TemplateEvent extends BroadleafTemplateElement {
 
-    protected IText text;
-
-    public BroadleafThymeleaf3TextElementImpl(IText text) {
-        this.text = text;
-    }
-
-    @Override
-    public ArrayList<ITemplateEvent> getAllTags() {
-        ArrayList<ITemplateEvent> tags = new ArrayList<>();
-        tags.add(text);
-        return tags;
-    }
-
+    public Node getNode();
 }

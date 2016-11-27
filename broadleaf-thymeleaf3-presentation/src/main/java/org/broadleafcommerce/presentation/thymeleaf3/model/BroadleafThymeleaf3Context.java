@@ -47,19 +47,19 @@ import java.util.Map;
  * @author Jay Aisenbrey (cja769)
  *
  */
-public class BroadleafThymeleaf3ContextImpl implements BroadleafTemplateContext {
+public class BroadleafThymeleaf3Context implements BroadleafTemplateContext {
 
     protected ITemplateContext context;
     protected IElementModelStructureHandler modelHandler;
     protected IElementTagStructureHandler tagHandler;
 
-    public BroadleafThymeleaf3ContextImpl(ITemplateContext context, IElementModelStructureHandler modelHandler) {
+    public BroadleafThymeleaf3Context(ITemplateContext context, IElementModelStructureHandler modelHandler) {
         this.context = context;
         this.modelHandler = modelHandler;
         this.tagHandler = null;
     }
     
-    public BroadleafThymeleaf3ContextImpl(ITemplateContext context, IElementTagStructureHandler tagHandler) {
+    public BroadleafThymeleaf3Context(ITemplateContext context, IElementTagStructureHandler tagHandler) {
         this.context = context;
         this.tagHandler = tagHandler;
         this.modelHandler = null;
@@ -76,7 +76,7 @@ public class BroadleafThymeleaf3ContextImpl implements BroadleafTemplateContext 
     public List<BroadleafAssignation> getAssignationSequence(String value, boolean allowParametersWithoutValue) {
         List<BroadleafAssignation> assignations = new ArrayList<>();
         for (Assignation assignation : AssignationUtils.parseAssignationSequence(context, value, allowParametersWithoutValue)) {
-            assignations.add(new BroadleafThymeleaf3AssignationImpl(assignation));
+            assignations.add(new BroadleafThymeleaf3Assignation(assignation));
         }
         return assignations;
     }
@@ -89,37 +89,37 @@ public class BroadleafThymeleaf3ContextImpl implements BroadleafTemplateContext 
     public BroadleafTemplateNonVoidElement createNonVoidElement(String tagName, Map<String, String> attributes, boolean useDoubleQuotes) {
         IOpenElementTag open = context.getModelFactory().createOpenElementTag(tagName, attributes, useDoubleQuotes ? AttributeValueQuotes.DOUBLE : AttributeValueQuotes.SINGLE, false);
         ICloseElementTag close = context.getModelFactory().createCloseElementTag(tagName, false, false);
-        return new BroadleafThymeleaf3NonVoidElementImpl(open, close);
+        return new BroadleafThymeleaf3NonVoidElement(open, close);
     }
 
     @Override
     public BroadleafTemplateNonVoidElement createNonVoidElement(String tagName) {
         IOpenElementTag open = context.getModelFactory().createOpenElementTag(tagName);
         ICloseElementTag close = context.getModelFactory().createCloseElementTag(tagName, false, false);
-        return new BroadleafThymeleaf3NonVoidElementImpl(open, close);
+        return new BroadleafThymeleaf3NonVoidElement(open, close);
     }
 
     @Override
     public BroadleafTemplateElement createStandaloneElement(String tagName, Map<String, String> attributes, boolean useDoubleQuotes) {
         IStandaloneElementTag standaloneTag = context.getModelFactory().createStandaloneElementTag(tagName, attributes, useDoubleQuotes ? AttributeValueQuotes.DOUBLE : AttributeValueQuotes.SINGLE, false, true);
-        return new BroadleafThymeleaf3StandaloneElementImpl(standaloneTag);
+        return new BroadleafThymeleaf3StandaloneElement(standaloneTag);
     }
 
     @Override
     public BroadleafTemplateElement createStandaloneElement(String tagName) {
         IStandaloneElementTag standaloneTag = context.getModelFactory().createStandaloneElementTag(tagName);
-        return new BroadleafThymeleaf3StandaloneElementImpl(standaloneTag);
+        return new BroadleafThymeleaf3StandaloneElement(standaloneTag);
     }
 
     @Override
     public BroadleafTemplateElement createTextElement(String text) {
         IText textNode = context.getModelFactory().createText(text);
-        return new BroadleafThymeleaf3TextElementImpl(textNode);
+        return new BroadleafThymeleaf3TextElement(textNode);
     }
 
     @Override
     public BroadleafTemplateModel createModel() {
-        return new BroadleafThymeleaf3ModelImpl(context.getModelFactory().createModel());
+        return new BroadleafThymeleaf3Model(context.getModelFactory().createModel());
     }
 
     @Override

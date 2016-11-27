@@ -20,7 +20,7 @@ package org.broadleafcommerce.presentation.thymeleaf3.dialect;
 import org.broadleafcommerce.presentation.dialect.BroadleafAttributeModifierProcessor;
 import org.broadleafcommerce.presentation.model.BroadleafAttributeModifier;
 import org.broadleafcommerce.presentation.model.BroadleafTemplateContext;
-import org.broadleafcommerce.presentation.thymeleaf3.model.BroadleafThymeleaf3ContextImpl;
+import org.broadleafcommerce.presentation.thymeleaf3.model.BroadleafThymeleaf3Context;
 import org.thymeleaf.context.ITemplateContext;
 import org.thymeleaf.engine.AttributeName;
 import org.thymeleaf.model.AttributeValueQuotes;
@@ -42,7 +42,7 @@ public class DelegatingThymeleaf3AttributeModifierProcessor extends AbstractAttr
 
     @Override
     protected void doProcess(ITemplateContext context, IProcessableElementTag tag, AttributeName attributeName, String attributeValue, IElementTagStructureHandler structureHandler) {
-        BroadleafTemplateContext blcContext = new BroadleafThymeleaf3ContextImpl(context, structureHandler);
+        BroadleafTemplateContext blcContext = new BroadleafThymeleaf3Context(context, structureHandler);
         String tagName = tag.getElementCompleteName();
         Map<String, String> tagAttributes = tag.getAttributeMap();
         BroadleafAttributeModifier modifications = processor.getModifiedAttributes(tagName, tagAttributes, attributeName.getAttributeName(), attributeValue, blcContext);

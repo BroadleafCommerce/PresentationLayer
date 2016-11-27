@@ -25,7 +25,7 @@ import org.broadleafcommerce.common.web.BroadleafRequestContext;
 import org.broadleafcommerce.presentation.cache.service.TemplateCacheKeyResolverService;
 import org.broadleafcommerce.presentation.dialect.BroadleafDialectPrefix;
 import org.broadleafcommerce.presentation.model.BroadleafTemplateContext;
-import org.broadleafcommerce.presentation.thymeleaf3.model.BroadleafThymeleaf3ContextImpl;
+import org.broadleafcommerce.presentation.thymeleaf3.model.BroadleafThymeleaf3Context;
 import org.springframework.web.context.request.WebRequest;
 import org.thymeleaf.context.ITemplateContext;
 import org.thymeleaf.engine.AttributeName;
@@ -73,7 +73,7 @@ public class BroadleafThymeleaf3CacheProcessor extends AbstractAttributeModelPro
         Map<String, String> tagAttributes = rootTag.getAttributeMap();
         String documentName = iContext.getTemplateData().getTemplate();
         Integer lineNumber = rootTag.getLine();
-        BroadleafTemplateContext context = new BroadleafThymeleaf3ContextImpl(iContext, structureHandler);
+        BroadleafTemplateContext context = new BroadleafThymeleaf3Context(iContext, structureHandler);
         if (shouldCache(attributeValue, context)) {
             String cacheKey = cacheKeyResolver.resolveCacheKey(tagName, tagAttributes, documentName, lineNumber, context);
             Element cacheElement = checkCacheForElement(tagAttributes, cacheKey);

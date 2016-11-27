@@ -15,28 +15,31 @@
  * between you and Broadleaf Commerce. You may not use this file except in compliance with the applicable license.
  * #L%
  */
-package org.broadleafcommerce.presentation.thymeleaf3.model;
+package org.broadleafcommerce.presentation.thymeleaf2.model;
 
 import org.broadleafcommerce.presentation.model.BroadleafAssignation;
 import org.broadleafcommerce.presentation.model.BroadleafTemplateContext;
+import org.thymeleaf.Arguments;
 import org.thymeleaf.standard.expression.Assignation;
 
-public class BroadleafThymeleaf3AssignationImpl implements BroadleafAssignation {
+public class BroadleafThymeleaf2Assignation implements BroadleafAssignation {
 
     protected Assignation assignation;
 
-    public BroadleafThymeleaf3AssignationImpl(Assignation assignation) {
+    public BroadleafThymeleaf2Assignation(Assignation assignation) {
         this.assignation = assignation;
     }
 
     @Override
     public Object parseLeft(BroadleafTemplateContext context) {
-        return assignation.getLeft().execute(((BroadleafThymeleaf3ContextImpl) context).getThymeleafContext());
+        Arguments arguments = ((BroadleafThymeleaf2Context) context).getThymeleafContext();
+        return assignation.getLeft().execute(arguments.getConfiguration(), arguments);
     }
 
     @Override
     public Object parseRight(BroadleafTemplateContext context) {
-        return assignation.getRight().execute(((BroadleafThymeleaf3ContextImpl) context).getThymeleafContext());
+        Arguments arguments = ((BroadleafThymeleaf2Context) context).getThymeleafContext();
+        return assignation.getRight().execute(arguments.getConfiguration(), arguments);
     }
 
     @Override
