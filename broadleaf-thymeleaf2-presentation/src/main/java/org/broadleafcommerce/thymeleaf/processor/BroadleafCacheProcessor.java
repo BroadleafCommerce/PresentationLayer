@@ -17,6 +17,7 @@
  * between you and Broadleaf Commerce. You may not use this file except in compliance with the applicable license.
  * #L%
 */
+
 package org.broadleafcommerce.thymeleaf.processor;
 
 import org.apache.commons.lang.StringUtils;
@@ -24,9 +25,9 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.broadleafcommerce.common.config.service.SystemPropertiesService;
 import org.broadleafcommerce.common.web.BroadleafRequestContext;
-import org.broadleafcommerce.common.web.cache.service.SimpleCacheKeyResolver;
-import org.broadleafcommerce.common.web.cache.service.TemplateCacheKeyResolverService;
 import org.broadleafcommerce.common.web.domain.BroadleafThymeleafContextImpl;
+import org.broadleafcommerce.presentation.cache.service.SimpleCacheKeyResolver;
+import org.broadleafcommerce.presentation.cache.service.TemplateCacheKeyResolverService;
 import org.springframework.web.context.request.WebRequest;
 import org.thymeleaf.Arguments;
 import org.thymeleaf.dom.Attribute;
@@ -81,211 +82,209 @@ import net.sf.ehcache.CacheManager;
 */
 public class BroadleafCacheProcessor extends AbstractAttrProcessor {
 
- private static final Log LOG = LogFactory.getLog(BroadleafCacheProcessor.class);
+    private static final Log LOG = LogFactory.getLog(BroadleafCacheProcessor.class);
 
- public static final String ATTR_NAME = "cache";
+    public static final String ATTR_NAME = "cache";
 
- protected Cache cache;
+    protected Cache cache;
 
- @Resource(name = "blSystemPropertiesService")
- protected SystemPropertiesService systemPropertiesService;
+    @Resource(name = "blSystemPropertiesService")
+    protected SystemPropertiesService systemPropertiesService;
 
- @Resource(name = "blTemplateCacheKeyResolver")
- protected TemplateCacheKeyResolverService cacheKeyResolver;
+    @Resource(name = "blTemplateCacheKeyResolver")
+    protected TemplateCacheKeyResolverService cacheKeyResolver;
 
- public BroadleafCacheProcessor() {
-     super(ATTR_NAME);
- }
+    public BroadleafCacheProcessor() {
+        super(ATTR_NAME);
+    }
 
- public void fixElement(Element element, Arguments arguments) {
-     boolean elementAdded = false;
-     boolean removeElement = false;
-     Set<String> attributeNames = element.getAttributeMap().keySet();
+    public void fixElement(Element element, Arguments arguments) {
+        boolean elementAdded = false;
+        boolean removeElement = false;
+        Set<String> attributeNames = element.getAttributeMap().keySet();
 
-     for (String a : attributeNames) {
-         String attrName = a.toLowerCase();
-         if (attrName.startsWith("th")) {
-             if (attrName.equals("th:substituteby") || (attrName.equals("th:replace") || attrName.equals("th:include"))) {
-                 if (!elementAdded) {
-                     Element extraDiv = new Element("div");
-                     String attrValue = element.getAttributeValue(attrName);
-                     element.removeAttribute(attrName);
-                     extraDiv.setAttribute(attrName, attrValue);
-                     element.addChild(extraDiv);
-                     elementAdded = true;
-                     element.setNodeProperty("templateName", attrValue);
+        for (String a : attributeNames) {
+            String attrName = a.toLowerCase();
+            if (attrName.startsWith("th")) {
+                if (attrName.equals("th:substituteby") || (attrName.equals("th:replace") || attrName.equals("th:include"))) {
+                    if (!elementAdded) {
+                        Element extraDiv = new Element("div");
+                        String attrValue = element.getAttributeValue(attrName);
+                        element.removeAttribute(attrName);
+                        extraDiv.setAttribute(attrName, attrValue);
+                        element.addChild(extraDiv);
+                        elementAdded = true;
+                        element.setNodeProperty("templateName", attrValue);
 
-                     // This will ensure that the substituteby and replace processors only run for the child element
-                     element.setRecomputeProcessorsImmediately(true);
-                 }
-             } else if (attrName.equals("th:remove")) {
-                 Attribute attr = element.getAttributeMap().get(attrName);
-                 if ("tag".equals(attr.getValue())) {
-                     removeElement = true;
+                        // This will ensure that the substituteby and replace processors only run for the child element
+                        element.setRecomputeProcessorsImmediately(true);
+                    }
+                } else if (attrName.equals("th:remove")) {
+                    Attribute attr = element.getAttributeMap().get(attrName);
+                    if ("tag".equals(attr.getValue())) {
+                        removeElement = true;
 
-                     // The cache functionality will remove the element. 
-                     element.setAttribute(attrName, "none");
-                 }
-             }
-         }
-     }
+                        // The cache functionality will remove the element. 
+                        element.setAttribute(attrName, "none");
+                    }
+                }
+            }
+        }
 
-     if (!elementAdded || removeElement) {
-         element.setNodeProperty("blcOutputParentNode", Boolean.TRUE);
-     }
- }
+        if (!elementAdded || removeElement) {
+            element.setNodeProperty("blcOutputParentNode", Boolean.TRUE);
+        }
+    }
 
- protected boolean shouldCache(Arguments args, Element element, String attributeName) {
-     String cacheAttrValue = element.getAttributeValue(attributeName);
-     element.removeAttribute(attributeName);
+    protected boolean shouldCache(Arguments args, Element element, String attributeName) {
+        String cacheAttrValue = element.getAttributeValue(attributeName);
+        element.removeAttribute(attributeName);
 
-     if (StringUtils.isEmpty(cacheAttrValue)) {
-         return false;
-     }
+        if (StringUtils.isEmpty(cacheAttrValue)) {
+            return false;
+        }
 
-     cacheAttrValue = cacheAttrValue.toLowerCase();
-     if (!isCachingEnabled() || "false".equals(cacheAttrValue)) {
-         return false;
-     } else if ("true".equals(cacheAttrValue)) {
-         return true;
-     }
+        cacheAttrValue = cacheAttrValue.toLowerCase();
+        if (!isCachingEnabled() || "false".equals(cacheAttrValue)) {
+            return false;
+        } else if ("true".equals(cacheAttrValue)) {
+            return true;
+        }
 
-     // Check for an expression
-     Expression expression = (Expression) StandardExpressions.getExpressionParser(args.getConfiguration())
-             .parseExpression(args.getConfiguration(), args, cacheAttrValue);
-     Object o = expression.execute(args.getConfiguration(), args);
-     if (o instanceof Boolean) {
-         return (Boolean) o;
-     } else if (o instanceof String) {
-         cacheAttrValue = (String) o;
-         cacheAttrValue = cacheAttrValue.toLowerCase();
-         return "true".equals(cacheAttrValue);
-     }
-     return false;
- }
+        // Check for an expression
+        Expression expression = (Expression) StandardExpressions.getExpressionParser(args.getConfiguration()).parseExpression(args.getConfiguration(), args, cacheAttrValue);
+        Object o = expression.execute(args.getConfiguration(), args);
+        if (o instanceof Boolean) {
+            return (Boolean) o;
+        } else if (o instanceof String) {
+            cacheAttrValue = (String) o;
+            cacheAttrValue = cacheAttrValue.toLowerCase();
+            return "true".equals(cacheAttrValue);
+        }
+        return false;
+    }
 
- @Override
- public ProcessorResult processAttribute(final Arguments arguments, final Element element, String attributeName) {
-     if (shouldCache(arguments, element, attributeName)) {
-         fixElement(element, arguments);
-         if (checkCacheForElement(arguments, element)) {
-             // This template has been cached.
-             element.clearChildren();
-             element.clearAttributes();
-             element.setRecomputeProcessorsImmediately(true);
-         }
-     }
-     return ProcessorResult.OK;
- }
+    @Override
+    public ProcessorResult processAttribute(final Arguments arguments, final Element element, String attributeName) {
+        if (shouldCache(arguments, element, attributeName)) {
+            fixElement(element, arguments);
+            if (checkCacheForElement(arguments, element)) {
+                // This template has been cached.
+                element.clearChildren();
+                element.clearAttributes();
+                element.setRecomputeProcessorsImmediately(true);
+            }
+        }
+        return ProcessorResult.OK;
+    }
 
- /**
-  * If this template was found in cache, adds the response to the element and returns true.
-  * 
-  * If not found in cache, adds the cacheKey to the element so that the Writer can cache after the
-  * first process.
-  * 
-  * @param arguments
-  * @param element
-  * @return
-  */
- protected boolean checkCacheForElement(Arguments arguments, Element element) {
+    /**
+     * If this template was found in cache, adds the response to the element and returns true.
+     * 
+     * If not found in cache, adds the cacheKey to the element so that the Writer can cache after the
+     * first process.
+     * 
+     * @param arguments
+     * @param element
+     * @return
+     */
+    protected boolean checkCacheForElement(Arguments arguments, Element element) {
 
-     if (isCachingEnabled()) {
-         Map<String, Attribute> attributeMap = element.getAttributeMap();
-         Map<String, String> tagAttributes = new HashMap<>();
-         for (String key : attributeMap.keySet()) {
-             tagAttributes.put(element.getAttributeOriginalNameFromNormalizedName(key), attributeMap.get(key).getValue());
-         }
-         String cacheKey = cacheKeyResolver.resolveCacheKey(element.getNormalizedName(), tagAttributes, element.getDocumentName(), element.getLineNumber(), new BroadleafThymeleafContextImpl(arguments));
-         // tag attributes can be modified when they're sent to the cache key resolver
-         element.setAttributes(tagAttributes);
- 
-         if (!StringUtils.isEmpty(cacheKey)) {
-             element.setNodeProperty("cacheKey", cacheKey);
- 
-             net.sf.ehcache.Element cacheElement = getCache().get(cacheKey);
-             if (cacheElement != null && !checkExpired(element, cacheElement)) {
-                 if (LOG.isTraceEnabled()) {
-                     LOG.trace("Template Cache Hit with cacheKey " + cacheKey + " found in cache.");
-                 }
-                 element.setNodeProperty("blCacheResponse", cacheElement.getObjectValue());
-                 return true;
-             } else {
-                 if (LOG.isTraceEnabled()) {
-                     LOG.trace("Template Cache Miss with cacheKey " + cacheKey + " not found in cache.");
-                 }
-             }
-         } else {
-             if (LOG.isTraceEnabled()) {
-                 LOG.trace("Template not cached due to empty cacheKey");
-             }
-         }
-     } else {
-         if (LOG.isTraceEnabled()) {
-             LOG.trace("Template caching disabled - not retrieving template from cache");
-         }
-     }
-     return false;
- }
+        if (isCachingEnabled()) {
+            Map<String, Attribute> attributeMap = element.getAttributeMap();
+            Map<String, String> tagAttributes = new HashMap<>();
+            for (String key : attributeMap.keySet()) {
+                tagAttributes.put(element.getAttributeOriginalNameFromNormalizedName(key), attributeMap.get(key).getValue());
+            }
+            String cacheKey = cacheKeyResolver.resolveCacheKey(element.getNormalizedName(), tagAttributes, element.getDocumentName(), element.getLineNumber(), new BroadleafThymeleafContextImpl(arguments));
+            // tag attributes can be modified when they're sent to the cache key resolver
+            element.setAttributes(tagAttributes);
 
- /**
-  * Returns true if the item has been 
-  * @param element
-  * @param cacheElement
-  * @return
-  */
- protected boolean checkExpired(Element element, net.sf.ehcache.Element cacheElement) {
-     if (cacheElement.isExpired()) {
-         return true;
-     } else {
-         String cacheTimeout = element.getAttributeValue("cacheTimeout");
-         if (!StringUtils.isEmpty(cacheTimeout) && StringUtils.isNumeric(cacheTimeout)) {
-             Long timeout = Long.valueOf(cacheTimeout) * 1000;
-             Long expiryTime = cacheElement.getCreationTime() + timeout;
-             if (expiryTime < System.currentTimeMillis()) {
-                 return true;
-             }
-         }
-     }
-     return false;
- }
+            if (StringUtils.isNotEmpty(cacheKey)) {
+                element.setNodeProperty("cacheKey", cacheKey);
 
- protected String getFragmentSignatureUnprefixedAttributeName(final Arguments arguments, final Element element,
-         final String attributeName, final String attributeValue) {
-     return StandardFragmentAttrProcessor.ATTR_NAME;
- }
+                net.sf.ehcache.Element cacheElement = getCache().get(cacheKey);
+                if (cacheElement != null && !checkExpired(element, cacheElement)) {
+                    if (LOG.isTraceEnabled()) {
+                        LOG.trace("Template Cache Hit with cacheKey " + cacheKey + " found in cache.");
+                    }
+                    element.setNodeProperty("blCacheResponse", cacheElement.getObjectValue());
+                    return true;
+                } else {
+                    if (LOG.isTraceEnabled()) {
+                        LOG.trace("Template Cache Miss with cacheKey " + cacheKey + " not found in cache.");
+                    }
+                }
+            } else {
+                if (LOG.isTraceEnabled()) {
+                    LOG.trace("Template not cached due to empty cacheKey");
+                }
+            }
+        } else {
+            if (LOG.isTraceEnabled()) {
+                LOG.trace("Template caching disabled - not retrieving template from cache");
+            }
+        }
+        return false;
+    }
 
- @Override
- public int getPrecedence() {
-     return Integer.MIN_VALUE;
- }
+    /**
+     * Returns true if the item has been 
+     * @param element
+     * @param cacheElement
+     * @return
+     */
+    protected boolean checkExpired(Element element, net.sf.ehcache.Element cacheElement) {
+        if (cacheElement.isExpired()) {
+            return true;
+        } else {
+            String cacheTimeout = element.getAttributeValue("cacheTimeout");
+            if (!StringUtils.isEmpty(cacheTimeout) && StringUtils.isNumeric(cacheTimeout)) {
+                Long timeout = Long.valueOf(cacheTimeout) * 1000;
+                Long expiryTime = cacheElement.getCreationTime() + timeout;
+                if (expiryTime < System.currentTimeMillis()) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 
- public Cache getCache() {
-     if (cache == null) {
-         cache = CacheManager.getInstance().getCache("blTemplateElements");
-     }
-     return cache;
- }
+    protected String getFragmentSignatureUnprefixedAttributeName(final Arguments arguments, final Element element, final String attributeName, final String attributeValue) {
+        return StandardFragmentAttrProcessor.ATTR_NAME;
+    }
 
- public void setCache(Cache cache) {
-     this.cache = cache;
- }
+    @Override
+    public int getPrecedence() {
+        return Integer.MIN_VALUE;
+    }
 
- public boolean isCachingEnabled() {
-     boolean enabled = !systemPropertiesService.resolveBooleanSystemProperty("disableThymeleafTemplateCaching");
-     if (enabled) {
-         // check for a URL param that overrides caching - useful for testing if this processor is incorrectly
-         // caching a page (possibly due to an bad cacheKey).
+    public Cache getCache() {
+        if (cache == null) {
+            cache = CacheManager.getInstance().getCache("blTemplateElements");
+        }
+        return cache;
+    }
 
-         BroadleafRequestContext brc = BroadleafRequestContext.getBroadleafRequestContext();
-         if (brc != null && brc.getWebRequest() != null) {
-             WebRequest request = brc.getWebRequest();
-             String disableCachingParam = request.getParameter("disableThymeleafTemplateCaching");
-             if ("true".equals(disableCachingParam)) {
-                 return false;
-             }
-         }
-     }
-     return enabled;
- }
+    public void setCache(Cache cache) {
+        this.cache = cache;
+    }
+
+    public boolean isCachingEnabled() {
+        boolean enabled = !systemPropertiesService.resolveBooleanSystemProperty("disableThymeleafTemplateCaching");
+        if (enabled) {
+            // check for a URL param that overrides caching - useful for testing if this processor is incorrectly
+            // caching a page (possibly due to an bad cacheKey).
+
+            BroadleafRequestContext brc = BroadleafRequestContext.getBroadleafRequestContext();
+            if (brc != null && brc.getWebRequest() != null) {
+                WebRequest request = brc.getWebRequest();
+                String disableCachingParam = request.getParameter("disableThymeleafTemplateCaching");
+                if ("true".equals(disableCachingParam)) {
+                    return false;
+                }
+            }
+        }
+        return enabled;
+    }
 }

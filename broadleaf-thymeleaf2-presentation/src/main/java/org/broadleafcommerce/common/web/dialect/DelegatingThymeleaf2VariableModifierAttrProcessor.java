@@ -17,8 +17,9 @@
  */
 package org.broadleafcommerce.common.web.dialect;
 
-import org.broadleafcommerce.common.web.domain.BroadleafTemplateContext;
 import org.broadleafcommerce.common.web.domain.BroadleafThymeleafContextImpl;
+import org.broadleafcommerce.presentation.dialect.BroadleafVariableModifierAttrProcessor;
+import org.broadleafcommerce.presentation.model.BroadleafTemplateContext;
 import org.thymeleaf.Arguments;
 import org.thymeleaf.dom.Attribute;
 import org.thymeleaf.dom.Element;
@@ -28,17 +29,23 @@ import org.thymeleaf.processor.attr.AbstractAttrProcessor;
 import java.util.HashMap;
 import java.util.Map;
 
-public class DelegatingBroadleafAttributeModelVariableModifierProcessor extends AbstractAttrProcessor {
+/**
+ * @deprecated {@link BroadleafVariableModifierAttrProcessor}
+ * @see {@link BroadleafVariableModifierAttrProcessor}
+ */
+@Deprecated
+public class DelegatingThymeleaf2VariableModifierAttrProcessor extends AbstractAttrProcessor {
 
     protected int precedence;
-    protected BroadleafAttributeModelVariableModifierProcessor processor;
+    protected BroadleafVariableModifierAttrProcessor processor;
     
-    public DelegatingBroadleafAttributeModelVariableModifierProcessor(String attributeName, BroadleafAttributeModelVariableModifierProcessor processor, int precedence) {
+    public DelegatingThymeleaf2VariableModifierAttrProcessor(String attributeName, BroadleafVariableModifierAttrProcessor processor, int precedence) {
         super(attributeName);
         this.precedence = precedence;
         this.processor = processor;
     }
 
+    @Override
     protected ProcessorResult processAttribute(final Arguments arguments, final Element element, final String attributeName) {
         BroadleafTemplateContext context = new BroadleafThymeleafContextImpl(arguments);
         Map<String, Attribute> attributeMap = element.getAttributeMap();
@@ -46,8 +53,7 @@ public class DelegatingBroadleafAttributeModelVariableModifierProcessor extends 
         for (String key : attributeMap.keySet()) {
             tagAttributes.put(element.getAttributeOriginalNameFromNormalizedName(key), attributeMap.get(key).getValue());
         }
-        Map<String, Object> newModelVariables = new HashMap<>();
-        processor.populateModelVariables(element.getNormalizedName(), tagAttributes, attributeName, element.getAttributeValueFromNormalizedName(attributeName), newModelVariables, context);
+        Map<String, Object> newModelVariables = processor.populateModelVariables(element.getNormalizedName(), tagAttributes, attributeName, element.getAttributeValueFromNormalizedName(attributeName), context);
         return ProcessorResult.setLocalVariables(newModelVariables);
     }
     

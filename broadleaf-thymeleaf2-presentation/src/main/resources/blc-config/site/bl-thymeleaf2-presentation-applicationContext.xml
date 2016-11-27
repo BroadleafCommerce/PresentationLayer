@@ -31,14 +31,14 @@
     <import resource="classpath:blc-config/bl-thymeleaf2-presentation-common-applicationContext.xml" />
     <context:component-scan base-package="org.broadleafcommerce.site.config" />
         
-    <bean id="blWebDatabaseTemplateResolver" class="org.broadleafcommerce.common.web.resolver.BroadleafDatabaseTemplateResolver">
+    <bean id="blWebDatabaseTemplateResolver" class="org.broadleafcommerce.presentation.resolver.BroadleafDatabaseTemplateResolver">
         <property name="characterEncoding" value="UTF-8" />
         <property name="cacheable" value="${cache.page.templates}"/>
         <property name="cacheTTLMs" value="${cache.page.templates.ttl}" />
         <property name="order" value="100"/>         
     </bean>
     
-    <bean id="blWebTemplateResolver" class="org.broadleafcommerce.common.web.resolver.BroadleafThemeAwareTemplateResolver">
+    <bean id="blWebTemplateResolver" class="org.broadleafcommerce.presentation.resolver.BroadleafThemeAwareTemplateResolver">
         <property name="prefix" value="/WEB-INF/" />
         <property name="templateFolder" value="${theme.templates.folder}" />
         <property name="suffix" value=".html" />
@@ -49,7 +49,7 @@
         <property name="order" value="200"/>
     </bean>
     
-    <bean id="blWebClasspathTemplateResolver" class="org.broadleafcommerce.common.web.resolver.BroadleafClasspathTemplateResolver">
+    <bean id="blWebClasspathTemplateResolver" class="org.broadleafcommerce.presentation.resolver.BroadleafClasspathTemplateResolver">
         <property name="prefix" value="webTemplates/" />
         <property name="suffix" value=".html" />
         <property name="templateMode" value="HTML5" />        
@@ -64,7 +64,7 @@
     <bean id="blThymeleafStandardTemplateModeHandlers" 
         class="org.broadleafcommerce.common.web.BroadleafThymeleafStandardTemplateModeHandlers" />
         
-    <bean id="blICacheManager" class="org.broadleafcommerce.common.web.cache.BLCICacheManager" />
+    <bean id="blICacheManager" class="org.broadleafcommerce.presentation.cache.BLCICacheManager" />
 
     <bean id="blWebTemplateEngine" class="org.thymeleaf.spring4.SpringTemplateEngine">
         <property name="messageResolvers">
@@ -84,7 +84,7 @@
         </property>
     </bean>
     
-    <bean id="blTemplateCacheInvalidationContext" class="org.broadleafcommerce.common.web.cache.BroadleafThymeleafCacheInvalidationContextImpl">
+    <bean id="blTemplateCacheInvalidationContext" class="org.broadleafcommerce.presentation.cache.BroadleafThymeleafCacheInvalidationContextImpl">
         <property name="templateEngine" ref="blWebTemplateEngine" />
     </bean>
     

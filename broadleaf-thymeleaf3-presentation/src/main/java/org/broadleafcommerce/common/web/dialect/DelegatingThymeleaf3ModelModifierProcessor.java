@@ -18,10 +18,11 @@
 package org.broadleafcommerce.common.web.dialect;
 
 import org.apache.commons.collections.MapUtils;
-import org.broadleafcommerce.common.web.domain.BroadleafTemplateContext;
-import org.broadleafcommerce.common.web.domain.BroadleafTemplateModelModifierDTO;
 import org.broadleafcommerce.common.web.domain.BroadleafThymeleaf3ContextImpl;
 import org.broadleafcommerce.common.web.domain.BroadleafThymeleaf3ModelImpl;
+import org.broadleafcommerce.presentation.dialect.BroadleafModelModifierProcessor;
+import org.broadleafcommerce.presentation.model.BroadleafTemplateContext;
+import org.broadleafcommerce.presentation.model.BroadleafTemplateModelModifierDTO;
 import org.thymeleaf.context.ITemplateContext;
 import org.thymeleaf.model.AttributeValueQuotes;
 import org.thymeleaf.model.IModel;
@@ -56,7 +57,7 @@ public class DelegatingThymeleaf3ModelModifierProcessor extends AbstractElementM
         if (newParams == null) {
             newParams = new HashMap<>();
         }
-        String tagName = dto.getTagName() != null ? dto.getTagName() : "form";
+        String tagName = dto.getReplacementTagName() != null ? dto.getReplacementTagName() : "form";
         model.replace(0, context.getModelFactory().createOpenElementTag(tagName, dto.getFormParameters(), processor.useSingleQuotes() ? AttributeValueQuotes.SINGLE : AttributeValueQuotes.DOUBLE, false));
         model.replace(model.size() - 1, context.getModelFactory().createCloseElementTag(tagName));
         if (!MapUtils.isEmpty(dto.getFormLocalVariables())) {

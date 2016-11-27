@@ -18,12 +18,13 @@
 package org.broadleafcommerce.common.web.dialect;
 
 import org.apache.commons.collections.MapUtils;
-import org.broadleafcommerce.common.web.domain.BroadleafTemplateContext;
-import org.broadleafcommerce.common.web.domain.BroadleafTemplateElement;
-import org.broadleafcommerce.common.web.domain.BroadleafTemplateModelModifierDTO;
 import org.broadleafcommerce.common.web.domain.BroadleafThymeleafContextImpl;
 import org.broadleafcommerce.common.web.domain.BroadleafThymeleafModelImpl;
 import org.broadleafcommerce.common.web.domain.BroadleafThymeleafTemplateEvent;
+import org.broadleafcommerce.presentation.dialect.BroadleafModelModifierProcessor;
+import org.broadleafcommerce.presentation.model.BroadleafTemplateContext;
+import org.broadleafcommerce.presentation.model.BroadleafTemplateElement;
+import org.broadleafcommerce.presentation.model.BroadleafTemplateModelModifierDTO;
 import org.thymeleaf.Arguments;
 import org.thymeleaf.dom.Attribute;
 import org.thymeleaf.dom.Element;
@@ -34,12 +35,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class DelegatingBroadleafModelModifierProcessor extends AbstractElementProcessor {
+public class DelegatingThymeleaf2ModelModifierProcessor extends AbstractElementProcessor {
 
     private int precedence;
     protected BroadleafModelModifierProcessor processor;
     
-    public DelegatingBroadleafModelModifierProcessor(String elementName, BroadleafModelModifierProcessor processor, int precedence) {
+    public DelegatingThymeleaf2ModelModifierProcessor(String elementName, BroadleafModelModifierProcessor processor, int precedence) {
         super(elementName);
         this.precedence = precedence;
         this.processor = processor;
@@ -62,7 +63,7 @@ public class DelegatingBroadleafModelModifierProcessor extends AbstractElementPr
         if (newParams == null) {
             newParams = new HashMap<>();
         }
-        Element newForm = element.cloneElementNodeWithNewName(element.getParent(), dto.getTagName() != null ? dto.getTagName() : "form", false);
+        Element newForm = element.cloneElementNodeWithNewName(element.getParent(), dto.getReplacementTagName() != null ? dto.getReplacementTagName() : "form", false);
         if (!MapUtils.isEmpty(dto.getFormLocalVariables())) {
             newForm.setAllNodeLocalVariables(dto.getFormLocalVariables());
         }

@@ -17,6 +17,7 @@
  */
 package org.broadleafcommerce.common.web.cache;
 
+import org.broadleafcommerce.presentation.cache.BroadleafTemplateCacheInvalidationContext;
 import org.thymeleaf.TemplateEngine;
 
 public class BroadleafThymeleafCacheInvalidationContextImpl implements BroadleafTemplateCacheInvalidationContext {

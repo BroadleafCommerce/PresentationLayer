@@ -17,12 +17,13 @@
  */
 package org.broadleafcommerce.common.web.cache;
 
+import org.broadleafcommerce.presentation.cache.BroadleafTemplateCacheContext;
 
-public class BroadleafThymeleaf3CacheContextImpl<K, V> implements BroadleafTemplateCacheContext<K, V> {
+public class BroadleafThymeleaf3CacheContext<K, V> implements BroadleafTemplateCacheContext<K, V> {
 
     protected BroadleafThymeleaf3ICache<K, V> blcCache;
     
-    public BroadleafThymeleaf3CacheContextImpl(BroadleafThymeleaf3ICache blcCache) {
+    public BroadleafThymeleaf3CacheContext(BroadleafThymeleaf3ICache blcCache) {
         this.blcCache = blcCache;
     }
     

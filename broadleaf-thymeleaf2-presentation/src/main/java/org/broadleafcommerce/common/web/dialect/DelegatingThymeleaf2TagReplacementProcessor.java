@@ -17,12 +17,13 @@
  */
 package org.broadleafcommerce.common.web.dialect;
 
-import org.broadleafcommerce.common.web.domain.BroadleafTemplateContext;
 import org.broadleafcommerce.common.web.domain.BroadleafThymeleafContextImpl;
-import org.broadleafcommerce.common.web.domain.BroadleafTemplateElement;
-import org.broadleafcommerce.common.web.domain.BroadleafTemplateModel;
 import org.broadleafcommerce.common.web.domain.BroadleafThymeleafModelImpl;
 import org.broadleafcommerce.common.web.domain.BroadleafThymeleafTemplateEvent;
+import org.broadleafcommerce.presentation.dialect.BroadleafTagReplacementProcessor;
+import org.broadleafcommerce.presentation.model.BroadleafTemplateContext;
+import org.broadleafcommerce.presentation.model.BroadleafTemplateElement;
+import org.broadleafcommerce.presentation.model.BroadleafTemplateModel;
 import org.thymeleaf.Arguments;
 import org.thymeleaf.dom.Attribute;
 import org.thymeleaf.dom.Element;
@@ -35,12 +36,12 @@ import java.util.List;
 import java.util.Map;
 
 
-public class DelegatingBroadleafTagReplacementProcessor extends AbstractElementProcessor {
+public class DelegatingThymeleaf2TagReplacementProcessor extends AbstractElementProcessor {
 
     private int precedence;
     protected BroadleafTagReplacementProcessor processor;
 
-    public DelegatingBroadleafTagReplacementProcessor(String tagName, BroadleafTagReplacementProcessor processor, int precedence) {
+    public DelegatingThymeleaf2TagReplacementProcessor(String tagName, BroadleafTagReplacementProcessor processor, int precedence) {
         super(tagName);
         this.precedence = precedence;
         this.processor = processor;

@@ -17,6 +17,8 @@
  */
 package org.broadleafcommerce.common.web.domain;
 
+import org.broadleafcommerce.presentation.model.BroadleafAssignation;
+import org.broadleafcommerce.presentation.model.BroadleafTemplateContext;
 import org.thymeleaf.Arguments;
 import org.thymeleaf.standard.expression.Assignation;
 

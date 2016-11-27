@@ -17,6 +17,7 @@
  */
 package org.broadleafcommerce.common.web.cache;
 
+import org.broadleafcommerce.presentation.cache.BroadleafTemplateCacheContext;
 
 public class BroadleafThymeleafCacheContextImpl<K, V> implements BroadleafTemplateCacheContext<K, V> {
 

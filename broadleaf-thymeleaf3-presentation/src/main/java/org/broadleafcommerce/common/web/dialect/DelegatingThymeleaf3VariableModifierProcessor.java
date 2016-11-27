@@ -20,8 +20,9 @@ package org.broadleafcommerce.common.web.dialect;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.broadleafcommerce.common.web.BroadleafRequestContext;
-import org.broadleafcommerce.common.web.domain.BroadleafTemplateContext;
 import org.broadleafcommerce.common.web.domain.BroadleafThymeleaf3ContextImpl;
+import org.broadleafcommerce.presentation.dialect.BroadleafVariableModifierProcessor;
+import org.broadleafcommerce.presentation.model.BroadleafTemplateContext;
 import org.springframework.web.context.request.WebRequest;
 import org.thymeleaf.context.ITemplateContext;
 import org.thymeleaf.model.IProcessableElementTag;
@@ -42,12 +43,12 @@ import java.util.Set;
  * to the current evaluation context (model) for processing in the remainder of the page.
  *
  */
-public class DelegatingThymeleaf3ModelVariableModifierProcessor extends AbstractElementTagProcessor {
+public class DelegatingThymeleaf3VariableModifierProcessor extends AbstractElementTagProcessor {
     
-    private static final Log LOG = LogFactory.getLog(DelegatingThymeleaf3ModelVariableModifierProcessor.class);
-    protected BroadleafModelVariableModifierProcessor processor;
+    private static final Log LOG = LogFactory.getLog(DelegatingThymeleaf3VariableModifierProcessor.class);
+    protected BroadleafVariableModifierProcessor processor;
     
-    public DelegatingThymeleaf3ModelVariableModifierProcessor(String elementName, BroadleafModelVariableModifierProcessor processor, int precedence) {
+    public DelegatingThymeleaf3VariableModifierProcessor(String elementName, BroadleafVariableModifierProcessor processor, int precedence) {
         super(TemplateMode.HTML, processor.getPrefix(), elementName, true, null, false, precedence);
         this.processor = processor;
     }
@@ -60,7 +61,7 @@ public class DelegatingThymeleaf3ModelVariableModifierProcessor extends Abstract
         Map<String, String> attributes = tag.getAttributeMap();
         Map<String, Object> newModelVariables = new HashMap<>();
         BroadleafTemplateContext blcContext = new BroadleafThymeleaf3ContextImpl(context, structureHandler);
-        processor.populateModelVariables(tag.getElementCompleteName(), attributes, newModelVariables, blcContext);
+        processor.populateModelVariables(tag.getElementCompleteName(), attributes, blcContext);
         
         for (Map.Entry<String, Object> entry : newModelVariables.entrySet()) {
             addToModel(structureHandler, entry.getKey(), entry.getValue());

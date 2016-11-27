@@ -17,8 +17,9 @@
  */
 package org.broadleafcommerce.common.web.dialect;
 
-import org.broadleafcommerce.common.web.domain.BroadleafTemplateContext;
 import org.broadleafcommerce.common.web.domain.BroadleafThymeleafContextImpl;
+import org.broadleafcommerce.presentation.dialect.BroadleafVariableModifierProcessor;
+import org.broadleafcommerce.presentation.model.BroadleafTemplateContext;
 import org.thymeleaf.Arguments;
 import org.thymeleaf.dom.Attribute;
 import org.thymeleaf.dom.Element;
@@ -39,12 +40,12 @@ import java.util.Set;
  * to the current evaluation context (model) for processing in the remainder of the page.
  *
  */
-public class DelegatingBroadleafModelVariableModifierProcessor extends AbstractElementProcessor {
+public class DelegatingThymeleaf2VariableModifierProcessor extends AbstractElementProcessor {
     
     private int precedence;
-    protected BroadleafModelVariableModifierProcessor processor;
+    protected BroadleafVariableModifierProcessor processor;
 
-    public DelegatingBroadleafModelVariableModifierProcessor(String elementName, BroadleafModelVariableModifierProcessor processor, int precedence) {
+    public DelegatingThymeleaf2VariableModifierProcessor(String elementName, BroadleafVariableModifierProcessor processor, int precedence) {
         super(elementName);
         this.precedence = precedence;
         this.processor = processor;
@@ -63,8 +64,7 @@ public class DelegatingBroadleafModelVariableModifierProcessor extends AbstractE
         for (String key : attributeMap.keySet()) {
             tagAttributes.put(element.getAttributeOriginalNameFromNormalizedName(key), attributeMap.get(key).getValue());
         }
-        Map<String, Object> newModelVariables = new HashMap<>();
-        processor.populateModelVariables(tagName, tagAttributes, newModelVariables, context);
+        Map<String, Object> newModelVariables = processor.populateModelVariables(tagName, tagAttributes, context);
         if (processor.useGlobalScope()) {
             for (Map.Entry<String, Object> entry : newModelVariables.entrySet()) {
                 addToModel(arguments, entry.getKey(), entry.getValue());

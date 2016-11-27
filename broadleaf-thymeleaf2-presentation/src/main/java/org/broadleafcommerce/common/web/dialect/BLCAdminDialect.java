@@ -17,6 +17,7 @@
  */
 package org.broadleafcommerce.common.web.dialect;
 
+import org.broadleafcommerce.presentation.dialect.BroadleafDialectPrefix;
 import org.thymeleaf.dialect.AbstractDialect;
 import org.thymeleaf.processor.IProcessor;
 

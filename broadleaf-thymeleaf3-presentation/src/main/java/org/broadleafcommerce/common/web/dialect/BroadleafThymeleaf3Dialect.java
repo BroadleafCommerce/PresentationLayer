@@ -18,6 +18,7 @@
 
 package org.broadleafcommerce.common.web.dialect;
 
+import org.broadleafcommerce.presentation.dialect.BroadleafDialectPrefix;
 import org.thymeleaf.dialect.AbstractProcessorDialect;
 import org.thymeleaf.dialect.IExpressionObjectDialect;
 import org.thymeleaf.expression.IExpressionObjectFactory;

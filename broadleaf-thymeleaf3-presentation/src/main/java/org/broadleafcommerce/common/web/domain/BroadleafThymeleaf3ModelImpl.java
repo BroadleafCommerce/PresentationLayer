@@ -17,6 +17,8 @@
  */
 package org.broadleafcommerce.common.web.domain;
 
+import org.broadleafcommerce.presentation.model.BroadleafTemplateElement;
+import org.broadleafcommerce.presentation.model.BroadleafTemplateModel;
 import org.thymeleaf.model.IModel;
 import org.thymeleaf.model.ITemplateEvent;
 

@@ -17,8 +17,9 @@
  */
 package org.broadleafcommerce.common.web.dialect;
 
-import org.broadleafcommerce.common.web.domain.BroadleafTemplateContext;
 import org.broadleafcommerce.common.web.domain.BroadleafThymeleafContextImpl;
+import org.broadleafcommerce.presentation.dialect.BroadleafTagTextModifierProcessor;
+import org.broadleafcommerce.presentation.model.BroadleafTemplateContext;
 import org.thymeleaf.Arguments;
 import org.thymeleaf.dom.Attribute;
 import org.thymeleaf.dom.Element;
@@ -27,12 +28,12 @@ import org.thymeleaf.processor.attr.AbstractTextChildModifierAttrProcessor;
 import java.util.HashMap;
 import java.util.Map;
 
-public class DelegatingBroadleafTagTextModifierProcessor extends AbstractTextChildModifierAttrProcessor {
+public class DelegatingThymeleaf2TagTextModifierProcessor extends AbstractTextChildModifierAttrProcessor {
 
     private int precedence;
     protected BroadleafTagTextModifierProcessor processor;
 
-    public DelegatingBroadleafTagTextModifierProcessor(String name, BroadleafTagTextModifierProcessor processor, int precedence) {
+    public DelegatingThymeleaf2TagTextModifierProcessor(String name, BroadleafTagTextModifierProcessor processor, int precedence) {
         super(name);
         this.precedence = precedence;
         this.processor = processor;

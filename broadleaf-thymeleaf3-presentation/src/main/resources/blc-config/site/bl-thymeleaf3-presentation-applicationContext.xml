@@ -35,14 +35,14 @@
     
     <bean id="blMessageResolver" class="org.broadleafcommerce.common.web.BroadleafThymeleaf3MessageResolver" />
     
-     <bean id="blWebDatabaseTemplateResolver" class="org.broadleafcommerce.common.web.resolver.BroadleafDatabaseTemplateResolver">
+     <bean id="blWebDatabaseTemplateResolver" class="org.broadleafcommerce.presentation.resolver.BroadleafDatabaseTemplateResolver">
         <property name="characterEncoding" value="UTF-8" />
         <property name="cacheable" value="${cache.page.templates}"/>
         <property name="cacheTTLMs" value="${cache.page.templates.ttl}" />
         <property name="order" value="100"/>         
     </bean>
     
-    <bean id="blWebTemplateResolver" class="org.broadleafcommerce.common.web.resolver.BroadleafThemeAwareTemplateResolver">
+    <bean id="blWebTemplateResolver" class="org.broadleafcommerce.presentation.resolver.BroadleafThemeAwareTemplateResolver">
         <property name="prefix" value="/WEB-INF/" />
         <property name="templateFolder" value="${theme.templates.folder}" />
         <property name="suffix" value=".html" />
@@ -52,7 +52,7 @@
         <property name="order" value="200"/>
     </bean>
     
-     <bean id="blWebClasspathTemplateResolver" class="org.broadleafcommerce.common.web.resolver.BroadleafClasspathTemplateResolver">
+     <bean id="blWebClasspathTemplateResolver" class="org.broadleafcommerce.presentation.resolver.BroadleafClasspathTemplateResolver">
         <property name="prefix" value="webTemplates/" />
         <property name="suffix" value=".html" />
         <property name="characterEncoding" value="UTF-8" />
@@ -61,7 +61,7 @@
         <property name="order" value="300"/> 
     </bean>
     
-    <bean id="blICacheManager" class="org.broadleafcommerce.common.web.cache.BroadleafThymeleaf3CacheManager" />
+    <bean id="blICacheManager" class="org.broadleafcommerce.presentation.cache.BroadleafThymeleaf3CacheManager" />
     <bean id="blWebTemplateEngine" class="org.thymeleaf.spring4.SpringTemplateEngine">
         <property name="messageResolvers">
             <set>
@@ -87,7 +87,7 @@
         <property name="characterEncoding" value="UTF-8" />
     </bean>
     
-    <bean id="blTemplateCacheInvalidationContext" class="org.broadleafcommerce.common.web.cache.BroadleafThymeleaf3CacheInvalidationContextImpl">
+    <bean id="blTemplateCacheInvalidationContext" class="org.broadleafcommerce.presentation.cache.BroadleafThymeleaf3CacheInvalidationContext">
         <property name="templateEngine" ref="blWebTemplateEngine" />
     </bean>
     

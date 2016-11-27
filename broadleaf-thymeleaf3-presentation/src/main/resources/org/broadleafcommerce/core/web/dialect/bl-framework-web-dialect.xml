@@ -21,7 +21,7 @@
                              http://www.thymeleaf.org/xsd/thymeleaf-extras-dialect-2.1.xsd"
          prefix="blc"
          namespace-uri="http://www.broadleafcommerce.com/"
-         class="org.broadleafcommerce.common.web.dialect.BroadleafThymeleaf3Dialect">
+         class="org.broadleafcommerce.presentation.dialect.BroadleafThymeleaf3Dialect">
     
     <!-- Element processors -->
     <element-processor name="categories" class="org.broadleafcommerce.core.web.processor.CategoriesProcessor" />

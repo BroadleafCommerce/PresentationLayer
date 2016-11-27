@@ -18,11 +18,11 @@
 package org.broadleafcommerce.admin.config;
 
 import org.broadleafcommerce.common.config.Thymeleaf3ConfigUtils;
-import org.broadleafcommerce.common.web.dialect.BroadleafDialectPrefix;
-import org.broadleafcommerce.common.web.dialect.BroadleafProcessor;
 import org.broadleafcommerce.common.web.dialect.BroadleafThymeleaf3AdminDialect;
 import org.broadleafcommerce.common.web.dialect.BroadleafThymeleaf3Dialect;
-import org.broadleafcommerce.common.web.resolver.BroadleafTemplateResolver;
+import org.broadleafcommerce.presentation.dialect.BroadleafDialectPrefix;
+import org.broadleafcommerce.presentation.dialect.BroadleafProcessor;
+import org.broadleafcommerce.presentation.resolver.BroadleafTemplateResolver;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

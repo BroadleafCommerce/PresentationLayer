@@ -20,24 +20,24 @@ package org.broadleafcommerce.common.config;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.broadleafcommerce.common.web.BroadleafThymeleaf3ThemeAwareTemplateResolver;
-import org.broadleafcommerce.common.web.dialect.BroadleafAttributeModelVariableModifierProcessor;
-import org.broadleafcommerce.common.web.dialect.BroadleafAttributeModifierProcessor;
-import org.broadleafcommerce.common.web.dialect.BroadleafModelModifierProcessor;
-import org.broadleafcommerce.common.web.dialect.BroadleafModelVariableModifierProcessor;
-import org.broadleafcommerce.common.web.dialect.BroadleafProcessor;
-import org.broadleafcommerce.common.web.dialect.BroadleafTagReplacementProcessor;
-import org.broadleafcommerce.common.web.dialect.BroadleafTagTextModifierProcessor;
 import org.broadleafcommerce.common.web.dialect.DelegatingThymeleaf3AttributeModelVariableModifierProcessor;
 import org.broadleafcommerce.common.web.dialect.DelegatingThymeleaf3AttributeModifierProcessor;
 import org.broadleafcommerce.common.web.dialect.DelegatingThymeleaf3ModelModifierProcessor;
-import org.broadleafcommerce.common.web.dialect.DelegatingThymeleaf3ModelVariableModifierProcessor;
+import org.broadleafcommerce.common.web.dialect.DelegatingThymeleaf3VariableModifierProcessor;
 import org.broadleafcommerce.common.web.dialect.DelegatingThymeleaf3TagReplacementProcessor;
 import org.broadleafcommerce.common.web.dialect.DelegatingThymeleaf3TagTextModifierProcessor;
-import org.broadleafcommerce.common.web.resolver.BroadleafTemplateMode;
-import org.broadleafcommerce.common.web.resolver.BroadleafTemplateResolver;
-import org.broadleafcommerce.common.web.resolver.BroadleafTemplateResolverType;
 import org.broadleafcommerce.common.web.resolver.BroadleafThymeleaf3DatabaseTemplateResolver;
 import org.broadleafcommerce.core.web.resolver.DatabaseResourceResolverExtensionManager;
+import org.broadleafcommerce.presentation.dialect.BroadleafAttributeModifierProcessor;
+import org.broadleafcommerce.presentation.dialect.BroadleafModelModifierProcessor;
+import org.broadleafcommerce.presentation.dialect.BroadleafProcessor;
+import org.broadleafcommerce.presentation.dialect.BroadleafTagReplacementProcessor;
+import org.broadleafcommerce.presentation.dialect.BroadleafTagTextModifierProcessor;
+import org.broadleafcommerce.presentation.dialect.BroadleafVariableModifierAttrProcessor;
+import org.broadleafcommerce.presentation.dialect.BroadleafVariableModifierProcessor;
+import org.broadleafcommerce.presentation.resolver.BroadleafTemplateMode;
+import org.broadleafcommerce.presentation.resolver.BroadleafTemplateResolver;
+import org.broadleafcommerce.presentation.resolver.BroadleafTemplateResolverType;
 import org.springframework.context.ApplicationContext;
 import org.thymeleaf.processor.IProcessor;
 import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
@@ -54,8 +54,8 @@ public class Thymeleaf3ConfigUtils {
     public static Set<IProcessor> getDialectProcessors(Collection<BroadleafProcessor> blcProcessors) {
         Set<IProcessor> iProcessors = new HashSet<>();
         for (BroadleafProcessor proc : blcProcessors) {
-            if (BroadleafModelVariableModifierProcessor.class.isAssignableFrom(proc.getClass())) {
-                iProcessors.add(createDelegatingModelVariableModifierProcessor((BroadleafModelVariableModifierProcessor) proc));
+            if (BroadleafVariableModifierProcessor.class.isAssignableFrom(proc.getClass())) {
+                iProcessors.add(createDelegatingModelVariableModifierProcessor((BroadleafVariableModifierProcessor) proc));
             } else if (BroadleafTagTextModifierProcessor.class.isAssignableFrom(proc.getClass())) {
                 iProcessors.add(createDelegatingTagTextModifierProcessor((BroadleafTagTextModifierProcessor) proc));
             } else if (BroadleafTagReplacementProcessor.class.isAssignableFrom(proc.getClass())) {
@@ -64,8 +64,8 @@ public class Thymeleaf3ConfigUtils {
                 iProcessors.add(createDelegatingFormReplacementProcessor((BroadleafModelModifierProcessor) proc));
             } else if (BroadleafAttributeModifierProcessor.class.isAssignableFrom(proc.getClass())) {
                 iProcessors.add(createDelegatingAttributeModifierProcessor((BroadleafAttributeModifierProcessor) proc));
-            } else if (BroadleafAttributeModelVariableModifierProcessor.class.isAssignableFrom(proc.getClass())) {
-                iProcessors.add(createDelegatingAttributeModelVariableModifierProcessor((BroadleafAttributeModelVariableModifierProcessor) proc));
+            } else if (BroadleafVariableModifierAttrProcessor.class.isAssignableFrom(proc.getClass())) {
+                iProcessors.add(createDelegatingAttributeModelVariableModifierProcessor((BroadleafVariableModifierAttrProcessor) proc));
             } else {
                 LOG.warn("No known delegating processor to instantiate processor " + proc);
             }
@@ -101,8 +101,8 @@ public class Thymeleaf3ConfigUtils {
         return emailResovlers;
     }
 
-    protected static DelegatingThymeleaf3ModelVariableModifierProcessor createDelegatingModelVariableModifierProcessor(BroadleafModelVariableModifierProcessor processor) {
-        return new DelegatingThymeleaf3ModelVariableModifierProcessor(processor.getName(), processor, processor.getPrecedence());
+    protected static DelegatingThymeleaf3VariableModifierProcessor createDelegatingModelVariableModifierProcessor(BroadleafVariableModifierProcessor processor) {
+        return new DelegatingThymeleaf3VariableModifierProcessor(processor.getName(), processor, processor.getPrecedence());
     }
     
     protected static DelegatingThymeleaf3TagTextModifierProcessor createDelegatingTagTextModifierProcessor(BroadleafTagTextModifierProcessor processor) {
@@ -121,7 +121,7 @@ public class Thymeleaf3ConfigUtils {
         return new DelegatingThymeleaf3AttributeModifierProcessor(processor.getName(), processor, processor.getPrecedence());
     }
 
-    protected static DelegatingThymeleaf3AttributeModelVariableModifierProcessor createDelegatingAttributeModelVariableModifierProcessor(BroadleafAttributeModelVariableModifierProcessor processor) {
+    protected static DelegatingThymeleaf3AttributeModelVariableModifierProcessor createDelegatingAttributeModelVariableModifierProcessor(BroadleafVariableModifierAttrProcessor processor) {
         return new DelegatingThymeleaf3AttributeModelVariableModifierProcessor(processor.getName(), processor, processor.getPrecedence());
     }
     

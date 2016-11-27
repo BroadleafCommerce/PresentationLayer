@@ -17,9 +17,10 @@
  */
 package org.broadleafcommerce.common.web.dialect;
 
-import org.broadleafcommerce.common.web.domain.BroadleafAttributeModifier;
-import org.broadleafcommerce.common.web.domain.BroadleafTemplateContext;
 import org.broadleafcommerce.common.web.domain.BroadleafThymeleafContextImpl;
+import org.broadleafcommerce.presentation.dialect.BroadleafAttributeModifierProcessor;
+import org.broadleafcommerce.presentation.model.BroadleafAttributeModifier;
+import org.broadleafcommerce.presentation.model.BroadleafTemplateContext;
 import org.thymeleaf.Arguments;
 import org.thymeleaf.dom.Attribute;
 import org.thymeleaf.dom.Element;
@@ -28,12 +29,12 @@ import org.thymeleaf.processor.attr.AbstractAttributeModifierAttrProcessor;
 import java.util.HashMap;
 import java.util.Map;
 
-public class DelegatingBroadleafAttributeModifierProcessor extends AbstractAttributeModifierAttrProcessor {
+public class DelegatingThymeleaf2AttributeModifierProcessor extends AbstractAttributeModifierAttrProcessor {
 
     private int precedence;
     protected BroadleafAttributeModifierProcessor processor;
     
-    public DelegatingBroadleafAttributeModifierProcessor(String name, BroadleafAttributeModifierProcessor processor, int precedence) {
+    public DelegatingThymeleaf2AttributeModifierProcessor(String name, BroadleafAttributeModifierProcessor processor, int precedence) {
         super(name);
         this.precedence = precedence;
         this.processor = processor;

@@ -17,10 +17,11 @@
  */
 package org.broadleafcommerce.common.web.dialect;
 
-import org.broadleafcommerce.common.web.domain.BroadleafTemplateContext;
-import org.broadleafcommerce.common.web.domain.BroadleafTemplateModel;
 import org.broadleafcommerce.common.web.domain.BroadleafThymeleaf3ContextImpl;
 import org.broadleafcommerce.common.web.domain.BroadleafThymeleaf3ModelImpl;
+import org.broadleafcommerce.presentation.dialect.BroadleafTagReplacementProcessor;
+import org.broadleafcommerce.presentation.model.BroadleafTemplateContext;
+import org.broadleafcommerce.presentation.model.BroadleafTemplateModel;
 import org.thymeleaf.context.ITemplateContext;
 import org.thymeleaf.model.IProcessableElementTag;
 import org.thymeleaf.processor.element.AbstractElementTagProcessor;

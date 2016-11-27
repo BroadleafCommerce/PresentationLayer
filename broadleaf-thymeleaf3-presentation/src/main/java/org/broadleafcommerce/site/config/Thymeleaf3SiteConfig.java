@@ -18,9 +18,9 @@
 package org.broadleafcommerce.site.config;
 
 import org.broadleafcommerce.common.config.Thymeleaf3ConfigUtils;
-import org.broadleafcommerce.common.web.dialect.BroadleafProcessor;
 import org.broadleafcommerce.common.web.dialect.BroadleafThymeleaf3Dialect;
-import org.broadleafcommerce.common.web.resolver.BroadleafTemplateResolver;
+import org.broadleafcommerce.presentation.dialect.BroadleafProcessor;
+import org.broadleafcommerce.presentation.resolver.BroadleafTemplateResolver;
 import org.broadleafcommerce.thymeleaf.processor.ArbitraryHtmlInsertionProcessor;
 import org.broadleafcommerce.thymeleaf.processor.BroadleafThymeleaf3CacheProcessor;
 import org.springframework.context.ApplicationContext;
