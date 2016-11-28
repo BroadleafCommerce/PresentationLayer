@@ -29,7 +29,7 @@
 
 
     <import resource="classpath:blc-config/bl-thymeleaf2-presentation-common-applicationContext.xml" />
-    <context:component-scan base-package="org.broadleafcommerce.presentation.thymeleaf2.site.config" />
+    <context:component-scan base-package="org.broadleafcommerce.site.config" />
         
     <bean id="blWebDatabaseTemplateResolver" class="org.broadleafcommerce.presentation.resolver.BroadleafDatabaseTemplateResolver">
         <property name="characterEncoding" value="UTF-8" />
@@ -64,8 +64,17 @@
     <bean id="blThymeleafStandardTemplateModeHandlers" 
         class="org.broadleafcommerce.presentation.thymeleaf2.BroadleafThymeleafStandardTemplateModeHandlers" />
         
-    <bean id="blICacheManager" class="org.broadleafcommerce.presentation.cache.BLCICacheManager" />
+    <bean id="blICacheManager" class="org.broadleafcommerce.presentation.thymeleaf2.cache.BLCICacheManager" />
 
+    <bean id="blWebDialects" class="org.springframework.beans.factory.config.SetFactoryBean">
+        <property name="sourceSet">
+            <set>
+                <ref bean="thymeleafSpringStandardDialect" />
+                <ref bean="blDialect" />
+            </set>
+        </property>
+    </bean>
+    
     <bean id="blWebTemplateEngine" class="org.thymeleaf.spring4.SpringTemplateEngine">
         <property name="messageResolvers">
             <set>
@@ -76,15 +85,10 @@
         <property name="templateResolvers" ref="blWebTemplateResolvers" />
         <property name="cacheManager" ref="blICacheManager" />
         <property name="templateModeHandlers" value="#{blThymeleafStandardTemplateModeHandlers.standardTemplateModeHandlers}" />
-        <property name="dialects">
-            <set>
-                <ref bean="thymeleafSpringStandardDialect" />
-                <ref bean="blDialect" />
-            </set>
-        </property>
+        <property name="dialects" ref="blWebDialects" />
     </bean>
     
-    <bean id="blTemplateCacheInvalidationContext" class="org.broadleafcommerce.presentation.cache.BroadleafThymeleafCacheInvalidationContextImpl">
+    <bean id="blTemplateCacheInvalidationContext" class="org.broadleafcommerce.presentation.thymeleaf2.cache.BroadleafThymeleaf2CacheInvalidationContext">
         <property name="templateEngine" ref="blWebTemplateEngine" />
     </bean>
     

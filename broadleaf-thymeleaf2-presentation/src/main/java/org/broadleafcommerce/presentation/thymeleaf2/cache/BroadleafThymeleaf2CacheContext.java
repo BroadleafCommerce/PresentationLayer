@@ -19,11 +19,11 @@ package org.broadleafcommerce.presentation.thymeleaf2.cache;
 
 import org.broadleafcommerce.presentation.cache.BroadleafTemplateCacheContext;
 
-public class BroadleafThymeleafCacheContextImpl<K, V> implements BroadleafTemplateCacheContext<K, V> {
+public class BroadleafThymeleaf2CacheContext<K, V> implements BroadleafTemplateCacheContext<K, V> {
 
     protected BLCICache<K, V> blcCache;
     
-    public BroadleafThymeleafCacheContextImpl(BLCICache blcCache) {
+    public BroadleafThymeleaf2CacheContext(BLCICache blcCache) {
         this.blcCache = blcCache;
     }
     

@@ -55,7 +55,7 @@ public class BLCICacheManager extends AbstractCacheManager {
         if (maxSize == 0) {
             return null;
         }
-        return new BLCICache<String, Template>(
+        return new BLCICache<>(
                 standardCacheManager.getTemplateCacheName(), standardCacheManager.getTemplateCacheUseSoftReferences(),
                 standardCacheManager.getTemplateCacheInitialSize(), maxSize,
                 standardCacheManager.getTemplateCacheValidityChecker(), standardCacheManager.getTemplateCacheLogger(),
@@ -73,7 +73,7 @@ public class BLCICacheManager extends AbstractCacheManager {
         if (maxSize == 0) {
             return null;
         }
-        return new StandardCache<String, List<Node>>(
+        return new StandardCache<>(
                 standardCacheManager.getFragmentCacheName(), standardCacheManager.getFragmentCacheUseSoftReferences(),
                 standardCacheManager.getFragmentCacheInitialSize(), maxSize,
                 standardCacheManager.getFragmentCacheValidityChecker(), standardCacheManager.getFragmentCacheLogger());
@@ -90,7 +90,7 @@ public class BLCICacheManager extends AbstractCacheManager {
         if (maxSize == 0) {
             return null;
         }
-        return new StandardCache<String, Properties>(
+        return new StandardCache<>(
                 standardCacheManager.getMessageCacheName(), standardCacheManager.getMessageCacheUseSoftReferences(),
                 standardCacheManager.getMessageCacheInitialSize(), maxSize,
                 standardCacheManager.getMessageCacheValidityChecker(), standardCacheManager.getMessageCacheLogger());
@@ -107,7 +107,7 @@ public class BLCICacheManager extends AbstractCacheManager {
         if (maxSize == 0) {
             return null;
         }
-        return new StandardCache<String, Object>(
+        return new StandardCache<>(
                 standardCacheManager.getExpressionCacheName(), standardCacheManager.getExpressionCacheUseSoftReferences(),
                 standardCacheManager.getExpressionCacheInitialSize(), maxSize,
                 standardCacheManager.getExpressionCacheValidityChecker(), standardCacheManager.getExpressionCacheLogger());

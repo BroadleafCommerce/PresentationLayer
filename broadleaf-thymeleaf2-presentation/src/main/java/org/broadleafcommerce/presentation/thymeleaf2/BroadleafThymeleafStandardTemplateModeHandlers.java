@@ -26,7 +26,7 @@ import java.util.Set;
 
 public class BroadleafThymeleafStandardTemplateModeHandlers {
 
-    public static final Set<ITemplateModeHandler> ALL_BLC_TEMPLATE_MODE_HANDLERS = new HashSet<ITemplateModeHandler>();
+    public static final Set<ITemplateModeHandler> ALL_BLC_TEMPLATE_MODE_HANDLERS = new HashSet<>();
     
     static {
         for (ITemplateModeHandler handler : StandardTemplateModeHandlers.ALL_TEMPLATE_MODE_HANDLERS) {

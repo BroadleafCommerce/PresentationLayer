@@ -62,7 +62,7 @@ public class BLCICache<K, V> implements ICache<K, V> {
             return;
         }
 
-        ExtensionResultStatusType erst = extensionManager.getProxy().putCache(key, value, new BroadleafThymeleafCacheContextImpl(this));
+        ExtensionResultStatusType erst = extensionManager.getProxy().putCache(key, value, new BroadleafThymeleaf2CacheContext(this));
 
         if (erst.equals(ExtensionResultStatusType.NOT_HANDLED)) {
             defaultPut(key, value);
@@ -86,7 +86,7 @@ public class BLCICache<K, V> implements ICache<K, V> {
         }
 
         ExtensionResultHolder<V> result = new ExtensionResultHolder<V>();
-        ExtensionResultStatusType erst = extensionManager.getProxy().getCache(key, (ExtensionResultHolder<Object>) result, new BroadleafThymeleafCacheContextImpl(this));
+        ExtensionResultStatusType erst = extensionManager.getProxy().getCache(key, (ExtensionResultHolder<Object>) result, new BroadleafThymeleaf2CacheContext(this));
 
         if (erst.equals(ExtensionResultStatusType.HANDLED)) {
             value = result.getResult();

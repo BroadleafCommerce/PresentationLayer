@@ -51,6 +51,7 @@ public class BroadleafThymeleafMessageResolver extends AbstractMessageResolver {
      * @param messageParams
      * @return the resolved message
      */
+    @Override
     public MessageResolution resolveMessage(final Arguments args, final String key, final Object[] messageParams) {
         Validate.notNull(args, "args cannot be null");
         Validate.notNull(args.getContext().getLocale(), "Locale in context cannot be null");

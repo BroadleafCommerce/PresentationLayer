@@ -24,8 +24,7 @@ import org.thymeleaf.templatewriter.CacheAwareGeneralTemplateWriter;
 import org.thymeleaf.templatewriter.ITemplateWriter;
 
 /**
- * Overrides the Thymeleaf ContextTemplateResolver and appends the org.broadleafcommerce.presentation.thymeleaf2.Theme path to the url
- * if it exists.
+ * Overrides the Thymeleaf ContextTemplateResolver and appends the Theme path to the url if it exists.
  */
 public class BroadleafThymeleafTemplateModeHandler implements ITemplateModeHandler {
 
@@ -37,14 +36,17 @@ public class BroadleafThymeleafTemplateModeHandler implements ITemplateModeHandl
         this.handler = handler;
     }
 
+    @Override
     public String getTemplateModeName() {
         return handler.getTemplateModeName();
     }
 
+    @Override
     public ITemplateParser getTemplateParser() {
         return handler.getTemplateParser();
     }
 
+    @Override
     public ITemplateWriter getTemplateWriter() {
         if (handler.getTemplateWriter() instanceof AbstractGeneralTemplateWriter) {
             if (writer == null) {
