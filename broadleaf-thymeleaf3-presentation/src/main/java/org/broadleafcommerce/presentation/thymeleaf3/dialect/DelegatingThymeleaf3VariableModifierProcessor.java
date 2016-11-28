@@ -17,6 +17,7 @@
  */
 package org.broadleafcommerce.presentation.thymeleaf3.dialect;
 
+import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.broadleafcommerce.common.web.BroadleafRequestContext;
@@ -31,7 +32,6 @@ import org.thymeleaf.processor.element.IElementTagStructureHandler;
 import org.thymeleaf.templatemode.TemplateMode;
 
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -55,12 +55,13 @@ public class DelegatingThymeleaf3VariableModifierProcessor extends AbstractEleme
     @Override
     protected void doProcess(ITemplateContext context, IProcessableElementTag tag, IElementTagStructureHandler structureHandler) {
         Map<String, String> attributes = tag.getAttributeMap();
-        Map<String, Object> newModelVariables = new HashMap<>();
         BroadleafTemplateContext blcContext = new BroadleafThymeleaf3Context(context, structureHandler);
-        processor.populateModelVariables(tag.getElementCompleteName(), attributes, blcContext);
+        Map<String, Object> newModelVariables = processor.populateModelVariables(tag.getElementCompleteName(), attributes, blcContext);
         
-        for (Map.Entry<String, Object> entry : newModelVariables.entrySet()) {
-            addToModel(structureHandler, entry.getKey(), entry.getValue());
+        if (MapUtils.isNotEmpty(newModelVariables)) {
+            for (Map.Entry<String, Object> entry : newModelVariables.entrySet()) {
+                addToModel(structureHandler, entry.getKey(), entry.getValue());
+            }
         }
         
         // Remove the tag from the DOM

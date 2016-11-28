@@ -17,6 +17,7 @@
  */
 package org.broadleafcommerce.presentation.thymeleaf2.dialect;
 
+import org.apache.commons.collections4.MapUtils;
 import org.broadleafcommerce.presentation.dialect.BroadleafVariableModifierProcessor;
 import org.broadleafcommerce.presentation.model.BroadleafTemplateContext;
 import org.broadleafcommerce.presentation.thymeleaf2.model.BroadleafThymeleaf2Context;
@@ -38,7 +39,6 @@ import java.util.Set;
  * 
  * Wrapper class around Thymeleaf's AbstractElementProcessor that facilitates adding Objects
  * to the current evaluation context (model) for processing in the remainder of the page.
- *
  */
 public class DelegatingThymeleaf2VariableModifierProcessor extends AbstractElementProcessor {
     
@@ -65,6 +65,11 @@ public class DelegatingThymeleaf2VariableModifierProcessor extends AbstractEleme
             tagAttributes.put(element.getAttributeOriginalNameFromNormalizedName(key), attributeMap.get(key).getValue());
         }
         Map<String, Object> newModelVariables = processor.populateModelVariables(tagName, tagAttributes, context);
+        
+        if (MapUtils.isEmpty(newModelVariables)) {
+            return ProcessorResult.OK;
+        }
+        
         if (processor.useGlobalScope()) {
             for (Map.Entry<String, Object> entry : newModelVariables.entrySet()) {
                 addToModel(arguments, entry.getKey(), entry.getValue());
