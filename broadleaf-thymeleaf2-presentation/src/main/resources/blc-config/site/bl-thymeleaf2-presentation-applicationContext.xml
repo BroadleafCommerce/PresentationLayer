@@ -59,6 +59,7 @@
         <property name="order" value="300"/> 
     </bean>
     
+    
     <bean id="blMessageResolver" class="org.broadleafcommerce.presentation.thymeleaf2.BroadleafThymeleafMessageResolver" />
     
     <bean id="blThymeleafStandardTemplateModeHandlers" 

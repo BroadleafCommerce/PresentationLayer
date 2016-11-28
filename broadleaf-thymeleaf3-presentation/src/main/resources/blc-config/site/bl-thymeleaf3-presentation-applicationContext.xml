@@ -28,7 +28,7 @@
            http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.0.xsd">
     
     
-    <import resource="classpath:blc-config/bl-thymeleaf3-presentation-common-applicationContext.xml" />
+    <import resource="classpath:blc-config/bl-thymeleaf3-presentation-base-applicationContext.xml" />
     <context:component-scan base-package="org.broadleafcommerce.presentation.thymeleaf3.site.config" />
     
     <bean id="thymeleafSpringStandardDialect" class="org.thymeleaf.spring4.dialect.SpringStandardDialect" />
@@ -61,7 +61,7 @@
         <property name="order" value="300"/> 
     </bean>
     
-    <bean id="blICacheManager" class="org.broadleafcommerce.presentation.cache.BroadleafThymeleaf3CacheManager" />
+    <bean id="blICacheManager" class="org.broadleafcommerce.presentation.thymeleaf3.cache.BroadleafThymeleaf3CacheManager" />
     
     <bean id="blWebDialects" class="org.springframework.beans.factory.config.SetFactoryBean">
         <property name="sourceSet">
@@ -92,7 +92,7 @@
         <property name="characterEncoding" value="UTF-8" />
     </bean>
     
-    <bean id="blTemplateCacheInvalidationContext" class="org.broadleafcommerce.presentation.cache.BroadleafThymeleaf3CacheInvalidationContext">
+    <bean id="blTemplateCacheInvalidationContext" class="org.broadleafcommerce.presentation.thymeleaf3.cache.BroadleafThymeleaf3CacheInvalidationContext">
         <property name="templateEngine" ref="blWebTemplateEngine" />
     </bean>
     

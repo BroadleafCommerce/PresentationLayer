@@ -27,11 +27,11 @@ import org.thymeleaf.context.Context;
 import java.util.Iterator;
 import java.util.Map;
 
-public class ThymeleafMessageCreator extends MessageCreator {
+public class Thymeleaf2MessageCreator extends MessageCreator {
 
     private TemplateEngine templateEngine;
     
-    public ThymeleafMessageCreator(TemplateEngine templateEngine, JavaMailSender mailSender) {
+    public Thymeleaf2MessageCreator(TemplateEngine templateEngine, JavaMailSender mailSender) {
         super(mailSender);
         this.templateEngine = templateEngine;        
     }

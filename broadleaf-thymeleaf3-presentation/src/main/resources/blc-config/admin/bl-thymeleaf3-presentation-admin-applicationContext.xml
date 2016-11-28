@@ -27,7 +27,7 @@
             http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.1.xsd
             http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.1.xsd">
             
-    <import resource="classpath:blc-config/bl-thymeleaf3-presentation-common-applicationContext.xml" />
+    <import resource="classpath:blc-config/bl-thymeleaf3-presentation-base-applicationContext.xml" />
     <context:component-scan base-package="org.broadleafcommerce.presentation.thymeleaf3.admin.config" />
 
     <bean id="blAdminWebTemplateResolver" class="org.broadleafcommerce.presentation.resolver.BroadleafThemeAwareTemplateResolver">
