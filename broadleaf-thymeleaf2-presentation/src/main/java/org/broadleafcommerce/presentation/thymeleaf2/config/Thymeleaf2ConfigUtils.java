@@ -72,7 +72,7 @@ public class Thymeleaf2ConfigUtils {
         return iProcessors;
     }
     
-    public static Set<ITemplateResolver> getWebResovlers(Collection<BroadleafTemplateResolver> resolvers, ApplicationContext applicationContext) {
+    public static Set<ITemplateResolver> getWebResolvers(Collection<BroadleafTemplateResolver> resolvers, ApplicationContext applicationContext) {
         Set<ITemplateResolver> webResolvers = new HashSet<>();
         for (BroadleafTemplateResolver resolver : resolvers) {
             if (!resolver.isEmailResolver()) {

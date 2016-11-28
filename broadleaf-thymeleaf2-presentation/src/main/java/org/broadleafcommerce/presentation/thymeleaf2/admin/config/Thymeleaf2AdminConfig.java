@@ -58,7 +58,7 @@ public class Thymeleaf2AdminConfig {
     @Bean
     public Set<ITemplateResolver> blAdminWebTemplateResolvers() {
         Collection<BroadleafTemplateResolver> resolvers = applicationContext.getBeansOfType(BroadleafTemplateResolver.class).values();
-        return Thymeleaf2ConfigUtils.getWebResovlers(resolvers, applicationContext);
+        return Thymeleaf2ConfigUtils.getWebResolvers(resolvers, applicationContext);
     }
     
     @Bean 

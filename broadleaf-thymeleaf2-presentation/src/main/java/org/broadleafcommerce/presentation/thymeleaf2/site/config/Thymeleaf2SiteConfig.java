@@ -53,7 +53,7 @@ public class Thymeleaf2SiteConfig {
     @Bean
     public Set<ITemplateResolver> blWebTemplateResolvers() {
         Collection<BroadleafTemplateResolver> resolvers = applicationContext.getBeansOfType(BroadleafTemplateResolver.class).values();
-        return Thymeleaf2ConfigUtils.getWebResovlers(resolvers, applicationContext);
+        return Thymeleaf2ConfigUtils.getWebResolvers(resolvers, applicationContext);
     }
     
     @Bean 
