@@ -62,6 +62,16 @@
     </bean>
     
     <bean id="blICacheManager" class="org.broadleafcommerce.presentation.cache.BroadleafThymeleaf3CacheManager" />
+    
+    <bean id="blWebDialects" class="org.springframework.beans.factory.config.SetFactoryBean">
+        <property name="sourceSet">
+            <set>
+                <ref bean="thymeleafSpringStandardDialect" />
+                <ref bean="blDialect" />
+            </set>
+        </property>
+    </bean>
+    
     <bean id="blWebTemplateEngine" class="org.thymeleaf.spring4.SpringTemplateEngine">
         <property name="messageResolvers">
             <set>
@@ -71,12 +81,7 @@
         </property>
         <property name="templateResolvers" ref="blWebTemplateResolvers" />
         <property name="cacheManager" ref="blICacheManager" />
-        <property name="dialects">
-            <set>
-                <ref bean="thymeleafSpringStandardDialect" />
-                <ref bean="blDialect" />
-            </set>
-        </property>
+        <property name="dialects" ref="blWebDialects" />
     </bean>
     
     <!-- Set up the view resolver to be used by Spring -->
