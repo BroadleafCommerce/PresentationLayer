@@ -24,6 +24,7 @@ import org.broadleafcommerce.presentation.model.BroadleafTemplateModel;
 import org.broadleafcommerce.presentation.model.BroadleafTemplateNonVoidElement;
 import org.springframework.web.servlet.support.BindStatus;
 import org.thymeleaf.Arguments;
+import org.thymeleaf.context.IWebContext;
 import org.thymeleaf.dom.Element;
 import org.thymeleaf.dom.Macro;
 import org.thymeleaf.spring4.util.FieldUtils;
@@ -34,6 +35,8 @@ import org.thymeleaf.standard.expression.StandardExpressions;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * Concrete implementation of utilities that can be done during execution of a processor.
@@ -129,6 +132,14 @@ public class BroadleafThymeleaf2Context implements BroadleafTemplateContext {
     @Override
     public BindStatus getBindStatus(String attributeValue) {
         return FieldUtils.getBindStatus(arguments.getConfiguration(), arguments, attributeValue);
+    }
+
+    @Override
+    public HttpServletRequest getRequest() {
+        if (arguments.getContext() instanceof IWebContext) {
+            return ((IWebContext) arguments.getContext()).getHttpServletRequest();
+        }
+        return null;
     }
 
 }
