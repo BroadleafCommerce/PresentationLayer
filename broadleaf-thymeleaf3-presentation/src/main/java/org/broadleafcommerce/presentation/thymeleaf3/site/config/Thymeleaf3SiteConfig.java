@@ -23,13 +23,15 @@ import org.broadleafcommerce.presentation.thymeleaf3.config.Thymeleaf3ConfigUtil
 import org.broadleafcommerce.presentation.thymeleaf3.dialect.BroadleafThymeleaf3Dialect;
 import org.broadleafcommerce.presentation.thymeleaf3.processor.ArbitraryHtmlInsertionProcessor;
 import org.broadleafcommerce.presentation.thymeleaf3.processor.BroadleafThymeleaf3CacheProcessor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.thymeleaf.processor.IProcessor;
 import org.thymeleaf.templateresolver.ITemplateResolver;
 
-import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.annotation.Resource;
@@ -40,26 +42,28 @@ public class Thymeleaf3SiteConfig {
     @Resource
     protected ApplicationContext applicationContext;
     
-    @Bean
-    public BroadleafThymeleaf3Dialect blDialect() {
-        BroadleafThymeleaf3Dialect dialect = new BroadleafThymeleaf3Dialect();
-        Set<IProcessor> iProcessors = blDialectProcessors();
-        iProcessors.add(blCacheProcessor());
-        iProcessors.add(blHtmlInsertionProcessor());
-        dialect.setProcessors(iProcessors);
-        return dialect;
-    }
+    @Resource
+    protected Thymeleaf3ConfigUtils configUtil;
+    
+    @Autowired
+    protected List<BroadleafTemplateResolver> templateResolvers;
+    
+    @Autowired
+    protected List<BroadleafProcessor> processors;
     
     @Bean
     public Set<ITemplateResolver> blWebTemplateResolvers() {
-        Collection<BroadleafTemplateResolver> resolvers = applicationContext.getBeansOfType(BroadleafTemplateResolver.class).values();
-        return Thymeleaf3ConfigUtils.getWebResovlers(resolvers, applicationContext);
+        return configUtil.getWebResolvers(templateResolvers);
     }
     
-    @Bean 
+    @Bean
     public Set<ITemplateResolver> blEmailTemplateResolvers() {
-        Collection<BroadleafTemplateResolver> resolvers = applicationContext.getBeansOfType(BroadleafTemplateResolver.class).values();
-        return Thymeleaf3ConfigUtils.getEmailResolvers(resolvers, applicationContext);
+        return configUtil.getEmailResolvers(templateResolvers);
+    }
+    
+    @Bean
+    public IProcessor blArbitraryHtmlInjectionProcessor() {
+        return new ArbitraryHtmlInsertionProcessor();
     }
     
     @Bean
@@ -68,14 +72,19 @@ public class Thymeleaf3SiteConfig {
     }
     
     @Bean
-    public IProcessor blHtmlInsertionProcessor() {
-        return new ArbitraryHtmlInsertionProcessor();
-    }
-    
-    @Bean
     public Set<IProcessor> blDialectProcessors() {
-        Collection<BroadleafProcessor> blcProcessors = applicationContext.getBeansOfType(BroadleafProcessor.class).values();
-        return Thymeleaf3ConfigUtils.getDialectProcessors(blcProcessors);
+        return configUtil.getDialectProcessors(processors);
     }
 
+    @Bean
+    public BroadleafThymeleaf3Dialect blDialect() {
+        BroadleafThymeleaf3Dialect dialect = new BroadleafThymeleaf3Dialect();
+        Set<IProcessor> iProcessors = new HashSet<>();
+        iProcessors.addAll(blDialectProcessors());
+        iProcessors.add(blArbitraryHtmlInjectionProcessor());
+        iProcessors.add(blCacheProcessor());
+        dialect.setProcessors(iProcessors);
+        return dialect;
+    }
+    
 }

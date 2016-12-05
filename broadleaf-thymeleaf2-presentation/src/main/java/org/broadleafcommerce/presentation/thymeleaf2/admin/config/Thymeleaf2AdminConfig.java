@@ -19,10 +19,9 @@ package org.broadleafcommerce.presentation.thymeleaf2.admin.config;
 
 import org.broadleafcommerce.presentation.dialect.BroadleafDialectPrefix;
 import org.broadleafcommerce.presentation.dialect.BroadleafProcessor;
-import org.broadleafcommerce.presentation.resolver.BroadleafTemplateResolver;
 import org.broadleafcommerce.presentation.thymeleaf2.config.Thymeleaf2ConfigUtils;
 import org.broadleafcommerce.presentation.thymeleaf2.dialect.BLCAdminDialect;
-import org.broadleafcommerce.presentation.thymeleaf2.dialect.BLCDialect;
+import org.broadleafcommerce.presentation.thymeleaf2.site.config.Thymeleaf2SiteConfig;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -36,10 +35,13 @@ import java.util.Set;
 import javax.annotation.Resource;
 
 @Configuration
-public class Thymeleaf2AdminConfig {
+public class Thymeleaf2AdminConfig extends Thymeleaf2SiteConfig {
 
     @Resource
     protected ApplicationContext applicationContext;
+    
+    @Resource
+    protected Thymeleaf2ConfigUtils configUtil;
     
     @Bean
     public BLCAdminDialect blAdminDialect() {
@@ -48,46 +50,31 @@ public class Thymeleaf2AdminConfig {
         return dialect;
     }
     
-    @Bean 
-    public BLCDialect blDialect() {
-        BLCDialect dialect = new BLCDialect();
-        dialect.setProcessors(blDialectProcessors());
-        return dialect;
-    }
-    
     @Bean
     public Set<ITemplateResolver> blAdminWebTemplateResolvers() {
-        Collection<BroadleafTemplateResolver> resolvers = applicationContext.getBeansOfType(BroadleafTemplateResolver.class).values();
-        return Thymeleaf2ConfigUtils.getWebResolvers(resolvers, applicationContext);
-    }
-    
-    @Bean 
-    public Set<ITemplateResolver> blEmailTemplateResolvers() {
-        Collection<BroadleafTemplateResolver> resolvers = applicationContext.getBeansOfType(BroadleafTemplateResolver.class).values();
-        return Thymeleaf2ConfigUtils.getEmailResolvers(resolvers, applicationContext);
+        return configUtil.getWebResolvers(templateResolvers);
     }
     
     @Bean
+    @Override
     public Set<IProcessor> blDialectProcessors() {
-        Collection<BroadleafProcessor> blcProcessors = applicationContext.getBeansOfType(BroadleafProcessor.class).values();
         Collection<BroadleafProcessor> commonProcessors = new ArrayList<>();
-        for (BroadleafProcessor processor : blcProcessors) {
+        for (BroadleafProcessor processor : processors) {
             if (BroadleafDialectPrefix.BLC.equals(processor.getPrefix())) {
                 commonProcessors.add(processor);
             }
         }
-        return Thymeleaf2ConfigUtils.getDialectProcessors(commonProcessors);
+        return configUtil.getDialectProcessors(commonProcessors);
     }
     
     @Bean
     public Set<IProcessor> blAdminDialectProcessors() {
-        Collection<BroadleafProcessor> blcProcessors = applicationContext.getBeansOfType(BroadleafProcessor.class).values();
         Collection<BroadleafProcessor> adminProcessors = new ArrayList<>();
-        for (BroadleafProcessor processor : blcProcessors) {
+        for (BroadleafProcessor processor : processors) {
             if (BroadleafDialectPrefix.BLC_ADMIN.equals(processor.getPrefix())) {
                 adminProcessors.add(processor);
             }
         }
-        return Thymeleaf2ConfigUtils.getDialectProcessors(adminProcessors);
+        return configUtil.getDialectProcessors(adminProcessors);
     }
 }
