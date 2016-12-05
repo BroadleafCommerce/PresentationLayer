@@ -23,13 +23,15 @@ import org.broadleafcommerce.presentation.thymeleaf2.config.Thymeleaf2ConfigUtil
 import org.broadleafcommerce.presentation.thymeleaf2.dialect.BLCDialect;
 import org.broadleafcommerce.presentation.thymeleaf2.processor.ArbitraryHtmlInsertionProcessor;
 import org.broadleafcommerce.presentation.thymeleaf2.processor.BroadleafCacheProcessor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.thymeleaf.processor.IProcessor;
 import org.thymeleaf.templateresolver.ITemplateResolver;
 
-import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.annotation.Resource;
@@ -40,26 +42,23 @@ public class Thymeleaf2SiteConfig {
     @Resource
     protected ApplicationContext applicationContext;
     
-    @Bean
-    public BLCDialect blDialect() {
-        BLCDialect dialect = new BLCDialect();
-        Set<IProcessor> iProcessors = blDialectProcessors();
-        iProcessors.add(blCacheProcessor());
-        iProcessors.add(blArbitraryHtmlInjectionProcessor());
-        dialect.setProcessors(iProcessors);
-        return dialect;
-    }
+    @Resource
+    protected Thymeleaf2ConfigUtils configUtil;
+    
+    @Autowired
+    protected List<BroadleafTemplateResolver> templateResolvers;
+    
+    @Autowired
+    protected List<BroadleafProcessor> processors;
     
     @Bean
     public Set<ITemplateResolver> blWebTemplateResolvers() {
-        Collection<BroadleafTemplateResolver> resolvers = applicationContext.getBeansOfType(BroadleafTemplateResolver.class).values();
-        return Thymeleaf2ConfigUtils.getWebResolvers(resolvers, applicationContext);
+        return configUtil.getWebResolvers(templateResolvers);
     }
     
-    @Bean 
+    @Bean
     public Set<ITemplateResolver> blEmailTemplateResolvers() {
-        Collection<BroadleafTemplateResolver> resolvers = applicationContext.getBeansOfType(BroadleafTemplateResolver.class).values();
-        return Thymeleaf2ConfigUtils.getEmailResolvers(resolvers, applicationContext);
+        return configUtil.getEmailResolvers(templateResolvers);
     }
     
     @Bean
@@ -74,8 +73,18 @@ public class Thymeleaf2SiteConfig {
     
     @Bean
     public Set<IProcessor> blDialectProcessors() {
-        Collection<BroadleafProcessor> blcProcessors = applicationContext.getBeansOfType(BroadleafProcessor.class).values();
-        return Thymeleaf2ConfigUtils.getDialectProcessors(blcProcessors);
+        return configUtil.getDialectProcessors(processors);
+    }
+
+    @Bean
+    public BLCDialect blDialect() {
+        BLCDialect dialect = new BLCDialect();
+        Set<IProcessor> iProcessors = new HashSet<>();
+        iProcessors.addAll(blDialectProcessors());
+        iProcessors.add(blArbitraryHtmlInjectionProcessor());
+        iProcessors.add(blCacheProcessor());
+        dialect.setProcessors(iProcessors);
+        return dialect;
     }
     
 }

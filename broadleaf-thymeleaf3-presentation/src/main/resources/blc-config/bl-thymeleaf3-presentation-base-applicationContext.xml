@@ -28,6 +28,8 @@
            http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.0.xsd">
 
     
+    <context:component-scan base-package="org.broadleafcommerce.presentation.thymeleaf3.config" />
+    
     <bean id="blConfiguration" class="org.broadleafcommerce.common.config.RuntimeEnvironmentPropertiesConfigurer">
         <property name="overridableProperyLocations">
             <set>
