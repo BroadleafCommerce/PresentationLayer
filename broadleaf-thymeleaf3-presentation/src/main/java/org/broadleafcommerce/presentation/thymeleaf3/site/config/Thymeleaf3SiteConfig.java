@@ -17,6 +17,7 @@
  */
 package org.broadleafcommerce.presentation.thymeleaf3.site.config;
 
+import org.broadleafcommerce.common.config.FrameworkCommonPropertySource;
 import org.broadleafcommerce.presentation.dialect.BroadleafProcessor;
 import org.broadleafcommerce.presentation.resolver.BroadleafTemplateResolver;
 import org.broadleafcommerce.presentation.thymeleaf3.config.Thymeleaf3ConfigUtils;
@@ -50,6 +51,11 @@ public class Thymeleaf3SiteConfig {
     
     @Autowired
     protected List<BroadleafProcessor> processors;
+    
+    @Bean
+    public static FrameworkCommonPropertySource blThymeleafProperties() {
+        return new FrameworkCommonPropertySource("config/bc/thymeleaf/");
+    }
     
     @Bean
     public Set<ITemplateResolver> blWebTemplateResolvers() {

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
@@ -10,20 +11,20 @@
 
     <groupId>org.broadleafcommerce</groupId>
     <artifactId>broadleaf-presentation</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.1.0-SNAPSHOT</version>
 
     <packaging>pom</packaging>
     <name>BroadleafCommerce Presentation Parent</name>
     <description>BroadleafCommerce Presentation layer codebase</description>
     <url>http://www.broadleafcommerce.org</url>
-    
+
     <properties>
         <project.uri>${project.baseUri}</project.uri>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <blc.version>5.1.0-SNAPSHOT</blc.version>
+        <blc.version>5.2.0-SNAPSHOT</blc.version>
         <attachSources>false</attachSources>
     </properties>
-    
+
     <repositories>
         <repository>
             <id>releases</id>
@@ -36,7 +37,7 @@
             <url>http://nexus.broadleafcommerce.org/nexus/content/repositories/snapshots/</url>
         </repository>
     </repositories>
-    
+
     <licenses>
         <license>
             <name>Broadleaf Fair Use 1.0</name>
@@ -51,7 +52,7 @@
             <comments>Commercial License Applicable When Bounds of Fair Use License Are Exceeded</comments>
         </license>
     </licenses>
-    
+
     <developers>
         <developer>
             <id>jeff</id>
@@ -80,7 +81,7 @@
             <timezone>-6</timezone>
         </developer>
     </developers>
-    
+
     <build>
         <plugins>
             <plugin>
@@ -103,7 +104,7 @@
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
             </plugin>
-        
+
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>license-maven-plugin</artifactId>
@@ -114,7 +115,7 @@
             </plugin>
         </plugins>
     </build>
-    
+
     <distributionManagement>
         <snapshotRepository>
             <id>snapshots</id>
@@ -146,19 +147,27 @@
             </distributionManagement>
         </profile>
     </profiles>
-    
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>org.broadleafcommerce</groupId>
-                <artifactId>broadleaf-common</artifactId>
-                <version>${blc.version}</version>
-                <type>jar</type>
-                <scope>compile</scope>
-                <optional>true</optional>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.broadleafcommerce</groupId>
+            <artifactId>broadleaf-common</artifactId>
+            <version>${blc.version}</version>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>org.broadleafcommerce</groupId>
+            <artifactId>broadleaf-common-presentation</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>servlet-api</artifactId>
+            <version>2.5</version>
+            <type>jar</type>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
 
     <modules>
         <module>broadleaf-thymeleaf2-presentation</module>
