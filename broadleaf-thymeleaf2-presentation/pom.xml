@@ -32,6 +32,7 @@
     <properties>
         <project.uri>${project.baseUri}/../</project.uri>
         <thymeleaf.version>2.1.5.RELEASE</thymeleaf.version>
+        <common.presentation.version>1.0.0-GA</common.presentation.version>
     </properties>
     <dependencies>
         <dependency>
@@ -41,7 +42,7 @@
         <dependency>
             <groupId>org.broadleafcommerce</groupId>
             <artifactId>broadleaf-common-presentation</artifactId>
-            <version>${project.version}</version>
+            <version>${common.presentation.version}</version>
         </dependency>
         <dependency>
             <groupId>javax.servlet</groupId>
