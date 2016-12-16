@@ -20,7 +20,7 @@
     <properties>
         <project.uri>${project.baseUri}</project.uri>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <blc.version>5.1.0-SNAPSHOT</blc.version>
+        <blc.version>5.1.0-GA</blc.version>
         <attachSources>false</attachSources>
     </properties>
     
