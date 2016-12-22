@@ -17,42 +17,37 @@
  */
 package org.broadleafcommerce.presentation.thymeleaf3.email;
 
-import org.broadleafcommerce.common.email.service.info.EmailInfo;
-import org.broadleafcommerce.common.email.service.message.MessageCreator;
-import org.broadleafcommerce.common.web.BroadleafRequestContext;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.thymeleaf.TemplateEngine;
-import org.thymeleaf.context.Context;
 
-import java.util.Iterator;
-import java.util.Map;
-
-public class BroadleafThymeleaf3MessageCreator extends MessageCreator {
+public class BroadleafThymeleaf3MessageCreator { // TODO microservices deal with email service extends MessageCreator {
 
     private TemplateEngine templateEngine;
     
     public BroadleafThymeleaf3MessageCreator(TemplateEngine templateEngine, JavaMailSender mailSender) {
-        super(mailSender);
+        // TODO microservices deal with email service
+        //super(mailSender);
         this.templateEngine = templateEngine;        
     }
 
-    @Override
-    public String buildMessageBody(EmailInfo info, Map<String,Object> props) {
-        BroadleafRequestContext blcContext = BroadleafRequestContext.getBroadleafRequestContext();
-        
-        final Context thymeleafContext = new Context();
-        if (blcContext != null && blcContext.getJavaLocale() != null) {
-            thymeleafContext.setLocale(blcContext.getJavaLocale());             
-        }           
-        
-        if (props != null) {
-            Iterator<String> propsIterator = props.keySet().iterator();
-            while(propsIterator.hasNext()) {
-                String key = propsIterator.next();
-                thymeleafContext.setVariable(key, props.get(key));
-            }
-        }
-        
-        return this.templateEngine.process( info.getEmailTemplate(), thymeleafContext); 
-    }
+// TODO microservices deal with email service
+//    @Override
+//    public String buildMessageBody(EmailInfo info, Map<String,Object> props) {
+//        BroadleafRequestContext blcContext = BroadleafRequestContext.getBroadleafRequestContext();
+//        
+//        final Context thymeleafContext = new Context();
+//        if (blcContext != null && blcContext.getJavaLocale() != null) {
+//            thymeleafContext.setLocale(blcContext.getJavaLocale());             
+//        }           
+//        
+//        if (props != null) {
+//            Iterator<String> propsIterator = props.keySet().iterator();
+//            while(propsIterator.hasNext()) {
+//                String key = propsIterator.next();
+//                thymeleafContext.setVariable(key, props.get(key));
+//            }
+//        }
+//        
+//        return this.templateEngine.process( info.getEmailTemplate(), thymeleafContext); 
+//    }
 }

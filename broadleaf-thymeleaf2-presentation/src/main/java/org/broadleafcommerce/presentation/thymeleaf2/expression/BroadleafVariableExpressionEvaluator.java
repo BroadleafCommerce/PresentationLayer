@@ -18,7 +18,6 @@
 package org.broadleafcommerce.presentation.thymeleaf2.expression;
 
 import org.broadleafcommerce.common.web.expression.BroadleafVariableExpression;
-import org.broadleafcommerce.common.web.expression.NullBroadleafVariableExpression;
 import org.thymeleaf.context.IProcessingContext;
 import org.thymeleaf.spring4.expression.SpelVariableExpressionEvaluator;
 
@@ -44,9 +43,7 @@ public class BroadleafVariableExpressionEvaluator extends SpelVariableExpression
         Map<String, Object> map = new HashMap<String, Object>();
         
         for (BroadleafVariableExpression expression : expressions) {
-            if (!(expression instanceof NullBroadleafVariableExpression)) {
-                map.put(expression.getName(), expression);
-            }
+            map.put(expression.getName(), expression);
         }
         
         return map;

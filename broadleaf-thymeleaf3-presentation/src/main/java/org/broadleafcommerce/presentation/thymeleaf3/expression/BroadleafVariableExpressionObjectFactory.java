@@ -18,7 +18,6 @@
 package org.broadleafcommerce.presentation.thymeleaf3.expression;
 
 import org.broadleafcommerce.common.web.expression.BroadleafVariableExpression;
-import org.broadleafcommerce.common.web.expression.NullBroadleafVariableExpression;
 import org.thymeleaf.context.IExpressionContext;
 import org.thymeleaf.context.IWebContext;
 import org.thymeleaf.expression.IExpressionObjectFactory;
@@ -39,9 +38,7 @@ public class BroadleafVariableExpressionObjectFactory implements IExpressionObje
     public Set<String> getAllExpressionObjectNames() {
         Set<String> expressionObjectNames = new HashSet<String>();
         for (BroadleafVariableExpression expression : expressions) {
-            if (!(expression instanceof NullBroadleafVariableExpression)) {
-                expressionObjectNames.add(expression.getName());
-            }
+            expressionObjectNames.add(expression.getName());
         }
         return expressionObjectNames;
     }

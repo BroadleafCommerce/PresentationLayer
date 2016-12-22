@@ -17,17 +17,13 @@
  */
 package org.broadleafcommerce.presentation.thymeleaf3;
 
-import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.broadleafcommerce.common.i18n.service.TranslationService;
 import org.thymeleaf.context.ITemplateContext;
 import org.thymeleaf.messageresolver.AbstractMessageResolver;
 import org.thymeleaf.util.Validate;
 
 import java.util.Locale;
-
-import javax.annotation.Resource;
 
 /**
  * This implementation will check to see if the key matches the known i18n value key. If that is the case, we will attempt 
@@ -38,9 +34,10 @@ import javax.annotation.Resource;
 public class BroadleafThymeleaf3MessageResolver extends AbstractMessageResolver {
     protected static final Log LOG = LogFactory.getLog(BroadleafThymeleaf3MessageResolver.class);
     protected static final String I18N_VALUE_KEY = "translate";
-    
-    @Resource(name = "blTranslationService")
-    protected TranslationService translationService;
+
+// TODO microservices - deal with i18n
+//    @Resource(name = "blTranslationService")
+//    protected TranslationService translationService;
     
     /**
      * Resolve a translated value of an object's property.
@@ -65,12 +62,13 @@ public class BroadleafThymeleaf3MessageResolver extends AbstractMessageResolver 
                 LOG.trace(String.format("Attempting to resolve translated value for object %s, property %s, locale %s",
                         entity, property, locale));
             }
-            
-            String resolvedMessage = translationService.getTranslatedValue(entity, property, locale);
-            
-            if (StringUtils.isNotBlank(resolvedMessage)) {
-                return resolvedMessage;
-            }
+
+// TODO microservices - deal with i18n
+//            String resolvedMessage = translationService.getTranslatedValue(entity, property, locale);
+//            
+//            if (StringUtils.isNotBlank(resolvedMessage)) {
+//                return resolvedMessage;
+//            }
         }
         
         return null;

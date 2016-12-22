@@ -50,7 +50,8 @@
         <property name="order" value="300"/> 
     </bean>  
 
-    <bean id="blAdminMessageResolver" class="org.broadleafcommerce.presentation.thymeleaf3.BroadleafThymeleaf3MessageResolver" />
+    <!-- TODO microservices deal with i18n -->
+    <!-- <bean id="blAdminMessageResolver" class="org.broadleafcommerce.presentation.thymeleaf3.BroadleafThymeleaf3MessageResolver" /> -->
     
     <bean id="blAdminDialects" class="org.springframework.beans.factory.config.SetFactoryBean">
         <property name="sourceSet">
@@ -65,7 +66,8 @@
     <bean id="blAdminWebTemplateEngine" class="org.thymeleaf.spring4.SpringTemplateEngine">
         <property name="messageResolvers">
             <set>
-                <ref bean="blAdminMessageResolver" />
+                <!-- TODO microservices deal with i18n -->
+                <!-- <ref bean="blAdminMessageResolver" /> -->
                 <bean class="org.thymeleaf.spring4.messageresolver.SpringMessageResolver" />
             </set>
         </property>

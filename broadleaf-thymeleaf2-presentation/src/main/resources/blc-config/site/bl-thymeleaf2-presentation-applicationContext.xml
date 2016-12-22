@@ -59,8 +59,8 @@
         <property name="order" value="300"/> 
     </bean>
     
-    
-    <bean id="blMessageResolver" class="org.broadleafcommerce.presentation.thymeleaf2.BroadleafThymeleafMessageResolver" />
+    <!-- TODO microservices deal with i18n -->
+    <!-- <bean id="blMessageResolver" class="org.broadleafcommerce.presentation.thymeleaf2.BroadleafThymeleafMessageResolver" /> -->
     
     <bean id="blThymeleafStandardTemplateModeHandlers" 
         class="org.broadleafcommerce.presentation.thymeleaf2.BroadleafThymeleafStandardTemplateModeHandlers" />
@@ -79,7 +79,8 @@
     <bean id="blWebTemplateEngine" class="org.thymeleaf.spring4.SpringTemplateEngine">
         <property name="messageResolvers">
             <set>
-                <ref bean="blMessageResolver" />
+                <!-- TODO microservices deal with i18n -->
+                <!-- <ref bean="blMessageResolver" /> -->
                 <bean class="org.thymeleaf.spring4.messageresolver.SpringMessageResolver" />
             </set>
         </property>
