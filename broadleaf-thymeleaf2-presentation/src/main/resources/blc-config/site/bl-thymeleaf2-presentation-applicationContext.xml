@@ -28,7 +28,7 @@
            http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.0.xsd">
 
 
-    <import resource="classpath:blc-config/bl-thymeleaf2-presentation-common-applicationContext.xml" />
+    <import resource="classpath:blc-config/bl-thymeleaf2-presentation-base-applicationContext.xml" />
     <context:component-scan base-package="org.broadleafcommerce.site.config" />
         
     <bean id="blWebDatabaseTemplateResolver" class="org.broadleafcommerce.presentation.resolver.BroadleafDatabaseTemplateResolver">
