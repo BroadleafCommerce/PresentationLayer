@@ -32,7 +32,7 @@
     <properties>
         <project.uri>${project.baseUri}/../</project.uri>
         <thymeleaf.version>2.1.5.RELEASE</thymeleaf.version>
-        <common.presentation.version>1.0.0-GA</common.presentation.version>
+        <common.presentation.version>1.0.2-SNAPSHOT</common.presentation.version>
     </properties>
     <dependencies>
         <dependency>

@@ -29,6 +29,7 @@ import org.broadleafcommerce.presentation.dialect.BroadleafVariableModifierProce
 import org.broadleafcommerce.presentation.resolver.BroadleafTemplateResolver;
 import org.broadleafcommerce.presentation.resolver.BroadleafTemplateResolverType;
 import org.broadleafcommerce.presentation.thymeleaf2.BroadleafThymeleafThemeAwareTemplateResolver;
+import org.broadleafcommerce.presentation.thymeleaf2.resolver.DelegatingTemplateResolver;
 import org.broadleafcommerce.presentation.thymeleaf2.dialect.DelegatingThymeleaf2AttributeModifierProcessor;
 import org.broadleafcommerce.presentation.thymeleaf2.dialect.DelegatingThymeleaf2ModelModifierProcessor;
 import org.broadleafcommerce.presentation.thymeleaf2.dialect.DelegatingThymeleaf2TagReplacementProcessor;
@@ -139,6 +140,8 @@ public class Thymeleaf2ConfigUtils {
             return createDatabaseTemplateResolver(resolver);
         } else if (BroadleafTemplateResolverType.THEME_AWARE.equals(resolver.getResolverType())) {
             return createServletTemplateResolver(resolver);
+        } else if (BroadleafTemplateResolverType.CUSTOM.equals(resolver.getResolverType())) {
+            return createDelegatingTemplateResolver(resolver);
         } else {
             LOG.warn("No known Thmeleaf 3 template resolver can be mapped to BroadleafThymeleafTemplateResolverType " + resolver.getResolverType());
             return null;
@@ -158,6 +161,14 @@ public class Thymeleaf2ConfigUtils {
         databaseResolver.setPrefix(resolver.getPrefix() + resolver.getTemplateFolder());
         databaseResolver.setResourceResolver(applicationContext.getBean("blDatabaseResourceResolver", DatabaseResourceResolver.class));
         return databaseResolver;
+    }
+
+    protected DelegatingTemplateResolver createDelegatingTemplateResolver(BroadleafTemplateResolver resolver) {
+        DelegatingTemplateResolver delegatingResolver = applicationContext.getAutowireCapableBeanFactory().createBean(DelegatingTemplateResolver.class);
+        commonTemplateResolver(resolver, delegatingResolver);
+        delegatingResolver.setTemplateResolver(resolver);
+        delegatingResolver.setPrefix(resolver.getPrefix());
+        return delegatingResolver;
     }
     
     protected BroadleafThymeleafThemeAwareTemplateResolver createServletTemplateResolver(BroadleafTemplateResolver resolver) {
