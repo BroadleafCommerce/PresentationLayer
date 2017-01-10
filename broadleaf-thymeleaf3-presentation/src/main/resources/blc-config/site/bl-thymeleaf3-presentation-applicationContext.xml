@@ -33,7 +33,9 @@
     
     <bean id="thymeleafSpringStandardDialect" class="org.thymeleaf.spring4.dialect.SpringStandardDialect" />
     
-    <bean id="blMessageResolver" class="org.broadleafcommerce.presentation.thymeleaf3.BroadleafThymeleaf3MessageResolver" />
+    <bean id="blMessageResolver" class="org.broadleafcommerce.presentation.thymeleaf3.BroadleafThymeleaf3MessageResolver">
+        <property name="order" value="0" />
+    </bean>
     
      <bean id="blWebDatabaseTemplateResolver" class="org.broadleafcommerce.presentation.resolver.BroadleafDatabaseTemplateResolver">
         <property name="characterEncoding" value="UTF-8" />
@@ -76,7 +78,9 @@
         <property name="messageResolvers">
             <set>
                 <ref bean="blMessageResolver" />
-                <bean class="org.thymeleaf.spring4.messageresolver.SpringMessageResolver" />
+                <bean class="org.thymeleaf.spring4.messageresolver.SpringMessageResolver">
+                    <property name="order" value="1" />
+                </bean>
             </set>
         </property>
         <property name="templateResolvers" ref="blWebTemplateResolvers" />
