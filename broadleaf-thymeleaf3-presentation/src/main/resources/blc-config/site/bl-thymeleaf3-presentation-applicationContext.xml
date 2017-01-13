@@ -74,7 +74,7 @@
         </property>
     </bean>
     
-    <bean id="blWebTemplateEngine" class="org.thymeleaf.spring4.SpringTemplateEngine">
+    <bean id="blWebTemplateEngine" class="org.broadleafcommerce.presentation.thymeleaf3.BroadleafThymeleaf3TemplateEngine">
         <property name="messageResolvers">
             <set>
                 <ref bean="blMessageResolver" />
