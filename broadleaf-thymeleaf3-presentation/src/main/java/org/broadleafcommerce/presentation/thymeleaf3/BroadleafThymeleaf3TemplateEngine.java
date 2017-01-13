@@ -20,11 +20,10 @@ package org.broadleafcommerce.presentation.thymeleaf3;
 import org.thymeleaf.spring4.SpringTemplateEngine;
 
 /**
- * <p>
  *   Overrides the standard {@link SpringTemplateEngine} to allow for custom MessageResolvers to be added with
  *   order values
- * </p>
- * Created by Chris N. on 1/13/17.
+ * Created on 1/13/17.
+ * @author Chris Nail (ChrisNail)
  */
 public class BroadleafThymeleaf3TemplateEngine extends SpringTemplateEngine {
 
