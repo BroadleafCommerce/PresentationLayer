@@ -61,7 +61,9 @@
     </bean>
     
     
-    <bean id="blMessageResolver" class="org.broadleafcommerce.presentation.thymeleaf2.BroadleafThymeleafMessageResolver" />
+    <bean id="blMessageResolver" class="org.broadleafcommerce.presentation.thymeleaf2.BroadleafThymeleafMessageResolver">
+        <property name="order" value="4" />
+    </bean>
     
     <bean id="blThymeleafStandardTemplateModeHandlers" 
         class="org.broadleafcommerce.presentation.thymeleaf2.BroadleafThymeleafStandardTemplateModeHandlers" />
@@ -81,7 +83,9 @@
         <property name="messageResolvers">
             <set>
                 <ref bean="blMessageResolver" />
-                <bean class="org.thymeleaf.spring4.messageresolver.SpringMessageResolver" />
+                <bean class="org.thymeleaf.spring4.messageresolver.SpringMessageResolver">
+                    <property name="order" value="5" />
+                </bean>
             </set>
         </property>
         <property name="templateResolvers" ref="blWebTemplateResolvers" />
