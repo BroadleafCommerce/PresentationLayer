@@ -34,7 +34,7 @@
     <bean id="thymeleafSpringStandardDialect" class="org.thymeleaf.spring4.dialect.SpringStandardDialect" />
     
     <bean id="blMessageResolver" class="org.broadleafcommerce.presentation.thymeleaf3.BroadleafThymeleaf3MessageResolver">
-        <property name="order" value="4" />
+        <property name="order" value="100" />
     </bean>
     
      <bean id="blWebDatabaseTemplateResolver" class="org.broadleafcommerce.presentation.resolver.BroadleafDatabaseTemplateResolver">
@@ -79,7 +79,7 @@
             <set>
                 <ref bean="blMessageResolver" />
                 <bean class="org.thymeleaf.spring4.messageresolver.SpringMessageResolver">
-                    <property name="order" value="5" />
+                    <property name="order" value="200" />
                 </bean>
             </set>
         </property>

@@ -51,7 +51,7 @@
     </bean>  
 
     <bean id="blAdminMessageResolver" class="org.broadleafcommerce.presentation.thymeleaf3.BroadleafThymeleaf3MessageResolver">
-        <property name="order" value="4" />
+        <property name="order" value="100" />
     </bean>
     
     <bean id="blAdminDialects" class="org.springframework.beans.factory.config.SetFactoryBean">
@@ -69,7 +69,7 @@
             <set>
                 <ref bean="blAdminMessageResolver" />
                 <bean class="org.thymeleaf.spring4.messageresolver.SpringMessageResolver">
-                    <property name="order" value="5" />
+                    <property name="order" value="200" />
                 </bean>
             </set>
         </property>
