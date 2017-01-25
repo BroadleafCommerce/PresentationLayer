@@ -33,8 +33,7 @@
     
     <bean id="thymeleafSpringStandardDialect" class="org.thymeleaf.spring4.dialect.SpringStandardDialect" />
     
-    <!-- TODO microservices deal with i18n -->
-    <!-- <bean id="blMessageResolver" class="org.broadleafcommerce.presentation.thymeleaf3.BroadleafThymeleaf3MessageResolver" /> -->
+     <bean id="blMessageResolver" class="org.broadleafcommerce.presentation.thymeleaf3.BroadleafThymeleaf3MessageResolver" />
     
      <bean id="blWebDatabaseTemplateResolver" class="org.broadleafcommerce.presentation.resolver.BroadleafDatabaseTemplateResolver">
         <property name="characterEncoding" value="UTF-8" />
@@ -76,8 +75,7 @@
     <bean id="blWebTemplateEngine" class="org.thymeleaf.spring4.SpringTemplateEngine">
         <property name="messageResolvers">
             <set>
-                <!--  TODO microservices deal with i18n -->
-                <!-- <ref bean="blMessageResolver" /> -->
+                 <ref bean="blMessageResolver" />
                 <bean class="org.thymeleaf.spring4.messageresolver.SpringMessageResolver" />
             </set>
         </property>
