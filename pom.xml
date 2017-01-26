@@ -157,6 +157,12 @@
         </dependency>
         <dependency>
             <groupId>org.broadleafcommerce</groupId>
+            <artifactId>broadleaf-common-web</artifactId>
+            <version>${blc.version}</version>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>org.broadleafcommerce</groupId>
             <artifactId>broadleaf-email</artifactId>
             <version>${blc.version}</version>
             <optional>true</optional>
