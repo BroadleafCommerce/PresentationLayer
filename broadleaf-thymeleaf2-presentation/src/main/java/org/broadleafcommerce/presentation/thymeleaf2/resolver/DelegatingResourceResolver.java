@@ -18,7 +18,6 @@
 package org.broadleafcommerce.presentation.thymeleaf2.resolver;
 
 import org.broadleafcommerce.presentation.resolver.BroadleafTemplateResolver;
-import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateProcessingParameters;
 import org.thymeleaf.resourceresolver.IResourceResolver;
 
@@ -31,12 +30,10 @@ import java.io.InputStream;
  * 
  * @author Jon Fleschler (jfleschler)
  */
-@Service("blDelegatingResourceResolver")
 public class DelegatingResourceResolver implements IResourceResolver {
     protected BroadleafTemplateResolver templateResolver;
 
     public DelegatingResourceResolver(BroadleafTemplateResolver templateResolver) {
-        super();
         this.templateResolver = templateResolver;
     }
 
