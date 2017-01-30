@@ -127,6 +127,12 @@
             <url>http://nexus.broadleafcommerce.org/nexus/content/repositories/presentation-releases/</url>
         </repository>
     </distributionManagement>
+    <scm>
+        <connection>scm:git:git@github.com:BroadleafCommerce/PresentationLayer.git</connection>
+        <developerConnection>scm:git:git@github.com:BroadleafCommerce/PresentationLayer.git</developerConnection>
+        <url>https://github.com/BroadleafCommerce/PresentationLayer</url>
+        <tag>HEAD</tag>
+    </scm>
     <profiles>
         <profile>
             <id>sources</id>

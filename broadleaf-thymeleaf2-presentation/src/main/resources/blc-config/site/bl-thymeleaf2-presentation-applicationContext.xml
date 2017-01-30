@@ -28,8 +28,9 @@
            http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
 
 
-    <import resource="classpath:blc-config/bl-thymeleaf2-presentation-common-applicationContext.xml" />
-    <context:component-scan base-package="org.broadleafcommerce.site.config" />
+    <import resource="classpath:blc-config/bl-thymeleaf2-presentation-base-applicationContext.xml" />
+    <context:component-scan base-package="org.broadleafcommerce.presentation.thymeleaf2.site.config" />
+    <context:component-scan base-package="org.broadleafcommerce.presentation.thymeleaf2.resolver" />
         
     <bean id="blWebDatabaseTemplateResolver" class="org.broadleafcommerce.presentation.resolver.BroadleafDatabaseTemplateResolver">
         <property name="characterEncoding" value="UTF-8" />
@@ -60,7 +61,9 @@
     </bean>
     
     
-    <bean id="blMessageResolver" class="org.broadleafcommerce.presentation.thymeleaf2.BroadleafThymeleafMessageResolver" />
+    <bean id="blMessageResolver" class="org.broadleafcommerce.presentation.thymeleaf2.BroadleafThymeleafMessageResolver">
+        <property name="order" value="100" />
+    </bean>
     
     <bean id="blThymeleafStandardTemplateModeHandlers" 
         class="org.broadleafcommerce.presentation.thymeleaf2.BroadleafThymeleafStandardTemplateModeHandlers" />
@@ -80,7 +83,9 @@
         <property name="messageResolvers">
             <set>
                 <ref bean="blMessageResolver" />
-                <bean class="org.thymeleaf.spring4.messageresolver.SpringMessageResolver" />
+                <bean class="org.thymeleaf.spring4.messageresolver.SpringMessageResolver">
+                    <property name="order" value="200" />
+                </bean>
             </set>
         </property>
         <property name="templateResolvers" ref="blWebTemplateResolvers" />

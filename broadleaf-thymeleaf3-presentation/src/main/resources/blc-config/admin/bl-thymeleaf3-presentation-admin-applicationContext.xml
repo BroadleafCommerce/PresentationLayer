@@ -50,7 +50,9 @@
         <property name="order" value="300"/> 
     </bean>  
 
-    <bean id="blAdminMessageResolver" class="org.broadleafcommerce.presentation.thymeleaf3.BroadleafThymeleaf3MessageResolver" />
+    <bean id="blAdminMessageResolver" class="org.broadleafcommerce.presentation.thymeleaf3.BroadleafThymeleaf3MessageResolver">
+        <property name="order" value="100" />
+    </bean>
     
     <bean id="blAdminDialects" class="org.springframework.beans.factory.config.SetFactoryBean">
         <property name="sourceSet">
@@ -62,11 +64,13 @@
         </property>
     </bean>
     
-    <bean id="blAdminWebTemplateEngine" class="org.thymeleaf.spring4.SpringTemplateEngine">
+    <bean id="blAdminWebTemplateEngine" class="org.broadleafcommerce.presentation.thymeleaf3.BroadleafThymeleaf3TemplateEngine">
         <property name="messageResolvers">
             <set>
                 <ref bean="blAdminMessageResolver" />
-                <bean class="org.thymeleaf.spring4.messageresolver.SpringMessageResolver" />
+                <bean class="org.thymeleaf.spring4.messageresolver.SpringMessageResolver">
+                    <property name="order" value="200" />
+                </bean>
             </set>
         </property>
         <property name="templateResolvers" ref="blAdminWebTemplateResolvers" />

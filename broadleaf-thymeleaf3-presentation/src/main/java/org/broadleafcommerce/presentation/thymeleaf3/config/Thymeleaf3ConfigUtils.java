@@ -38,6 +38,7 @@ import org.broadleafcommerce.presentation.thymeleaf3.dialect.DelegatingThymeleaf
 import org.broadleafcommerce.presentation.thymeleaf3.dialect.DelegatingThymeleaf3TagTextModifierProcessor;
 import org.broadleafcommerce.presentation.thymeleaf3.dialect.DelegatingThymeleaf3VariableModifierProcessor;
 import org.broadleafcommerce.presentation.thymeleaf3.resolver.BroadleafThymeleaf3DatabaseTemplateResolver;
+import org.broadleafcommerce.presentation.thymeleaf3.resolver.DelegatingThymeleaf3TemplateResolver;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 import org.thymeleaf.processor.IProcessor;
@@ -140,6 +141,8 @@ public class Thymeleaf3ConfigUtils {
             return createDatabaseTemplateResolver(resolver);
         } else if (BroadleafTemplateResolverType.THEME_AWARE.equals(resolver.getResolverType())) {
             return createServletTemplateResolver(resolver);
+        } else if (BroadleafTemplateResolverType.CUSTOM.equals(resolver.getResolverType())) {
+            return createDelegatingThymeleaf3TemplateResolver(resolver);
         } else {
             LOG.warn("No known Thmeleaf 3 template resolver can be mapped to BroadleafThymeleafTemplateResolverType " + resolver.getResolverType());
             return null;
@@ -161,7 +164,7 @@ public class Thymeleaf3ConfigUtils {
         databaseResolver.setResourceResolverExtensionManager(applicationContext.getBean("blDatabaseResourceResolverExtensionManager", DatabaseResourceResolverExtensionManager.class));
         return databaseResolver;
     }
-    
+
     protected BroadleafThymeleaf3ThemeAwareTemplateResolver createServletTemplateResolver(BroadleafTemplateResolver resolver) {
         BroadleafThymeleaf3ThemeAwareTemplateResolver servletResolver = applicationContext.getAutowireCapableBeanFactory().createBean(BroadleafThymeleaf3ThemeAwareTemplateResolver.class);
         commonTemplateResolver(resolver, servletResolver);
@@ -170,7 +173,16 @@ public class Thymeleaf3ConfigUtils {
         servletResolver.setTemplateFolder(resolver.getTemplateFolder());
         return servletResolver;
     }
-    
+
+    protected DelegatingThymeleaf3TemplateResolver createDelegatingThymeleaf3TemplateResolver(BroadleafTemplateResolver resolver) {
+        DelegatingThymeleaf3TemplateResolver delegatingResolver = applicationContext.getAutowireCapableBeanFactory().createBean(DelegatingThymeleaf3TemplateResolver.class);
+        commonTemplateResolver(resolver, delegatingResolver);
+        delegatingResolver.setTemplateResolver(resolver);
+        delegatingResolver.setCheckExistence(true);
+        delegatingResolver.setPrefix(resolver.getPrefix());
+        return delegatingResolver;
+    }
+
     /**
      * Utility method to convert all HTML5 template modes to HTML since the HTML
      * option in Thymeleaf 3 is HTML5 and the HTML5 option is deprecated 
