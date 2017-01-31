@@ -17,7 +17,7 @@
  */
 package org.broadleafcommerce.presentation.thymeleaf2.expression;
 
-import org.broadleafcommerce.common.web.expression.BroadleafVariableExpression;
+import org.broadleafcommerce.presentation.expression.BroadleafVariableExpression;
 import org.thymeleaf.context.IProcessingContext;
 import org.thymeleaf.spring4.expression.SpelVariableExpressionEvaluator;
 
