@@ -18,17 +18,22 @@
 package org.broadleafcommerce.presentation.thymeleaf2.site.config;
 
 import org.broadleafcommerce.common.config.FrameworkCommonPropertySource;
+import org.broadleafcommerce.presentation.cache.service.SimpleCacheKeyResolver;
+import org.broadleafcommerce.presentation.cache.service.TemplateCacheKeyResolverService;
 import org.broadleafcommerce.presentation.dialect.BroadleafProcessor;
 import org.broadleafcommerce.presentation.resolver.BroadleafTemplateResolver;
 import org.broadleafcommerce.presentation.thymeleaf2.config.Thymeleaf2ConfigUtils;
 import org.broadleafcommerce.presentation.thymeleaf2.dialect.BLCDialect;
+import org.broadleafcommerce.presentation.thymeleaf2.expression.BroadleafVariableExpressionEvaluator;
 import org.broadleafcommerce.presentation.thymeleaf2.processor.ArbitraryHtmlInsertionProcessor;
 import org.broadleafcommerce.presentation.thymeleaf2.processor.BroadleafCacheProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.thymeleaf.processor.IProcessor;
+import org.thymeleaf.spring4.expression.SpelVariableExpressionEvaluator;
 import org.thymeleaf.templateresolver.ITemplateResolver;
 
 import java.util.HashSet;
@@ -80,6 +85,18 @@ public class Thymeleaf2SiteConfig {
     @Bean
     public Set<IProcessor> blDialectProcessors() {
         return configUtil.getDialectProcessors(processors);
+    }
+    
+    @Bean
+    @ConditionalOnMissingBean(SpelVariableExpressionEvaluator.class)
+    public BroadleafVariableExpressionEvaluator blVariableExpressionEvaluator() {
+        return new BroadleafVariableExpressionEvaluator();
+    }
+    
+    @Bean
+    @ConditionalOnMissingBean(TemplateCacheKeyResolverService.class)
+    public SimpleCacheKeyResolver blTemplateCacheKeyResolver() {
+        return new SimpleCacheKeyResolver();
     }
 
     @Bean

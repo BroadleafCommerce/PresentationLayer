@@ -33,11 +33,11 @@ import javax.annotation.Resource;
 public class BroadleafVariableExpressionObjectFactory implements IExpressionObjectFactory {
 
     @Resource
-    protected List<BroadleafVariableExpression> expressions = new ArrayList<BroadleafVariableExpression>();
+    protected List<BroadleafVariableExpression> expressions = new ArrayList<>();
 
     @Override
     public Set<String> getAllExpressionObjectNames() {
-        Set<String> expressionObjectNames = new HashSet<String>();
+        Set<String> expressionObjectNames = new HashSet<>();
         for (BroadleafVariableExpression expression : expressions) {
             if (!(expression instanceof NullBroadleafVariableExpression)) {
                 expressionObjectNames.add(expression.getName());

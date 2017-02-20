@@ -37,11 +37,11 @@ import javax.annotation.Resource;
 public class BroadleafVariableExpressionEvaluator extends SpelVariableExpressionEvaluator {
     
     @Resource
-    protected List<BroadleafVariableExpression> expressions = new ArrayList<BroadleafVariableExpression>();
+    protected List<BroadleafVariableExpression> expressions = new ArrayList<>();
     
     @Override
     protected Map<String,Object> computeAdditionalExpressionObjects(final IProcessingContext processingContext) {
-        Map<String, Object> map = new HashMap<String, Object>();
+        Map<String, Object> map = new HashMap<>();
         
         for (BroadleafVariableExpression expression : expressions) {
             if (!(expression instanceof NullBroadleafVariableExpression)) {

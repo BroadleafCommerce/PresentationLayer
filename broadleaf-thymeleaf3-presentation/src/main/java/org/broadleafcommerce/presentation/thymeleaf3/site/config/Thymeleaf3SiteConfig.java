@@ -18,16 +18,21 @@
 package org.broadleafcommerce.presentation.thymeleaf3.site.config;
 
 import org.broadleafcommerce.common.config.FrameworkCommonPropertySource;
+import org.broadleafcommerce.presentation.cache.service.SimpleCacheKeyResolver;
+import org.broadleafcommerce.presentation.cache.service.TemplateCacheKeyResolverService;
 import org.broadleafcommerce.presentation.dialect.BroadleafProcessor;
 import org.broadleafcommerce.presentation.resolver.BroadleafTemplateResolver;
 import org.broadleafcommerce.presentation.thymeleaf3.config.Thymeleaf3ConfigUtils;
 import org.broadleafcommerce.presentation.thymeleaf3.dialect.BroadleafThymeleaf3Dialect;
+import org.broadleafcommerce.presentation.thymeleaf3.expression.BroadleafVariableExpressionObjectFactory;
 import org.broadleafcommerce.presentation.thymeleaf3.processor.ArbitraryHtmlInsertionProcessor;
 import org.broadleafcommerce.presentation.thymeleaf3.processor.BroadleafThymeleaf3CacheProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.thymeleaf.expression.IExpressionObjectFactory;
 import org.thymeleaf.processor.IProcessor;
 import org.thymeleaf.templateresolver.ITemplateResolver;
 
@@ -80,6 +85,18 @@ public class Thymeleaf3SiteConfig {
     @Bean
     public Set<IProcessor> blDialectProcessors() {
         return configUtil.getDialectProcessors(processors);
+    }
+    
+    @Bean
+    @ConditionalOnMissingBean(TemplateCacheKeyResolverService.class)
+    public SimpleCacheKeyResolver blTemplateCacheKeyResolver() {
+        return new SimpleCacheKeyResolver();
+    }
+    
+    @Bean
+    @ConditionalOnMissingBean(IExpressionObjectFactory.class)
+    public BroadleafVariableExpressionObjectFactory blVariableExpressionObjectFactory() {
+        return new BroadleafVariableExpressionObjectFactory();
     }
 
     @Bean

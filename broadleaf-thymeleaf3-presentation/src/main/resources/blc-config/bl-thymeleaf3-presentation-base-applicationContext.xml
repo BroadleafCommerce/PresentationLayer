@@ -41,8 +41,6 @@
     </bean>
     
     <bean id="thymeleafSpringStandardDialect" class="org.thymeleaf.spring4.dialect.SpringStandardDialect" />
-    <bean id="blVariableExpressionObjectFactory" class="org.broadleafcommerce.presentation.thymeleaf3.expression.BroadleafVariableExpressionObjectFactory" />
-    <bean id="blTemplateCacheKeyResolver" class="org.broadleafcommerce.presentation.cache.service.SimpleCacheKeyResolver" />
     
     <bean id="blEmailClasspathTemplateResolver" class="org.broadleafcommerce.presentation.resolver.BroadleafClasspathTemplateResolver">
         <property name="prefix" value="emailTemplates/" />
