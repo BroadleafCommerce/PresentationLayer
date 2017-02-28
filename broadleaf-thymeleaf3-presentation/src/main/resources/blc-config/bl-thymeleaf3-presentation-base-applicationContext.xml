@@ -30,11 +30,6 @@
     
     <context:component-scan base-package="org.broadleafcommerce.presentation.thymeleaf3.config" />
     
-    <bean class="org.broadleafcommerce.common.logging.ModuleLifecycleLoggingBean">
-        <property name="moduleName" value="Broadleaf Thymeleaf 3 Support" />
-        <property name="lifeCycleEvent" value="LOADING" />
-    </bean>
-    
     <bean id="blWebCommonClasspathTemplateResolver" class="org.broadleafcommerce.presentation.resolver.BroadleafClasspathTemplateResolver">
         <property name="prefix" value="common_style/templates/" />
         <property name="suffix" value=".html" />

@@ -1,0 +1,1 @@
+org.broadleafcommerce.common.module.BroadleafModuleRegistration=org.broadleafcommerce.presentation.thymeleaf3.config.Thymeleaf3ModuleRegistration

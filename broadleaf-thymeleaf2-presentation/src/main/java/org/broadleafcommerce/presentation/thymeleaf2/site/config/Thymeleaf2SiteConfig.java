@@ -18,11 +18,14 @@
 package org.broadleafcommerce.presentation.thymeleaf2.site.config;
 
 import org.broadleafcommerce.common.config.FrameworkCommonPropertySource;
+import org.broadleafcommerce.common.logging.LifeCycleEvent;
+import org.broadleafcommerce.common.logging.ModuleLifecycleLoggingBean;
 import org.broadleafcommerce.presentation.cache.service.SimpleCacheKeyResolver;
 import org.broadleafcommerce.presentation.cache.service.TemplateCacheKeyResolverService;
 import org.broadleafcommerce.presentation.dialect.BroadleafProcessor;
 import org.broadleafcommerce.presentation.resolver.BroadleafTemplateResolver;
 import org.broadleafcommerce.presentation.thymeleaf2.config.Thymeleaf2ConfigUtils;
+import org.broadleafcommerce.presentation.thymeleaf2.config.Thymeleaf2ModuleRegistration;
 import org.broadleafcommerce.presentation.thymeleaf2.dialect.BLCDialect;
 import org.broadleafcommerce.presentation.thymeleaf2.expression.BroadleafVariableExpressionEvaluator;
 import org.broadleafcommerce.presentation.thymeleaf2.processor.ArbitraryHtmlInsertionProcessor;
@@ -60,6 +63,11 @@ public class Thymeleaf2SiteConfig {
     @Bean
     public static FrameworkCommonPropertySource blThymeleafProperties() {
         return new FrameworkCommonPropertySource("config/bc/thymeleaf/");
+    }
+    
+    @Bean
+    public ModuleLifecycleLoggingBean blThymeleaf2Lifecycle() {
+        return new ModuleLifecycleLoggingBean(Thymeleaf2ModuleRegistration.MODULE_NAME, LifeCycleEvent.LOADING);
     }
     
     @Bean
