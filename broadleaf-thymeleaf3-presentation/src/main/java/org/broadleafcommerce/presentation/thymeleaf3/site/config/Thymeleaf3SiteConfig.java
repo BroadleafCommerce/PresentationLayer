@@ -17,7 +17,6 @@
  */
 package org.broadleafcommerce.presentation.thymeleaf3.site.config;
 
-import org.broadleafcommerce.common.config.FrameworkCommonPropertySource;
 import org.broadleafcommerce.common.logging.LifeCycleEvent;
 import org.broadleafcommerce.common.logging.ModuleLifecycleLoggingBean;
 import org.broadleafcommerce.presentation.cache.service.SimpleCacheKeyResolver;
@@ -59,11 +58,6 @@ public class Thymeleaf3SiteConfig {
     
     @Autowired
     protected List<BroadleafProcessor> processors;
-    
-    @Bean
-    public static FrameworkCommonPropertySource blThymeleafProperties() {
-        return new FrameworkCommonPropertySource("config/bc/thymeleaf/");
-    }
     
     @Bean
     public ModuleLifecycleLoggingBean blThymeleaf3Lifecycle() {
