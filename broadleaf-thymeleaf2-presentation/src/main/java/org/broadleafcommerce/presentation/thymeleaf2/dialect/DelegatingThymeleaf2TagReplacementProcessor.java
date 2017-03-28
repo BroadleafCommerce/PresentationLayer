@@ -69,8 +69,8 @@ public class DelegatingThymeleaf2TagReplacementProcessor extends AbstractElement
                 }
                 lastNode = currentNode;
             }
-            element.getParent().removeChild(element);
         }
+        element.getParent().removeChild(element);
         return ProcessorResult.OK;
     }
 
