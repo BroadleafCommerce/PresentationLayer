@@ -29,6 +29,8 @@ import org.thymeleaf.util.Validate;
 
 import java.lang.ref.SoftReference;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
@@ -85,7 +87,7 @@ public class BLCICache<K, V> implements ICache<K, V> {
             return value;
         }
 
-        ExtensionResultHolder<V> result = new ExtensionResultHolder<V>();
+        ExtensionResultHolder<V> result = new ExtensionResultHolder<>();
         ExtensionResultStatusType erst = extensionManager.getProxy().getCache(key, (ExtensionResultHolder<Object>) result, new BroadleafThymeleaf2CacheContext(this));
 
         if (erst.equals(ExtensionResultStatusType.HANDLED)) {
@@ -126,7 +128,7 @@ public class BLCICache<K, V> implements ICache<K, V> {
         this.traceExecution = (logger != null && logger.isTraceEnabled());
 
         this.dataContainer =
-                new CacheDataContainer<K,V>(this.name, initialCapacity, maxSize, this.traceExecution, this.logger);
+                new CacheDataContainer<>(this.name, initialCapacity, maxSize, this.traceExecution, this.logger);
 
         this.getCount = new AtomicLong(0);
         this.putCount = new AtomicLong(0);
@@ -157,7 +159,7 @@ public class BLCICache<K, V> implements ICache<K, V> {
 
         incrementReportEntity(this.putCount);
 
-        final CacheEntry<V> entry = new CacheEntry<V>(value, this.useSoftReferences);
+        final CacheEntry<V> entry = new CacheEntry<>(value, this.useSoftReferences);
 
         // newSize will be -1 if traceExecution is false
         final int newSize = this.dataContainer.put(key, entry);
@@ -203,6 +205,7 @@ public class BLCICache<K, V> implements ICache<K, V> {
     private final AtomicLong hitCount;
     private final AtomicLong missCount;
 
+    @Override
     public V get(final K key, final ICacheEntryValidityChecker<? super K, ? super V> validityChecker) {
 
         incrementReportEntity(this.getCount);
@@ -264,6 +267,7 @@ public class BLCICache<K, V> implements ICache<K, V> {
         return this.dataContainer.keySet();
     }
 
+    @Override
     public void clear() {
 
         this.dataContainer.clear();
@@ -276,6 +280,7 @@ public class BLCICache<K, V> implements ICache<K, V> {
 
     }
 
+    @Override
     public void clearKey(final K key) {
 
         final int newSize = this.dataContainer.remove(key);
@@ -358,7 +363,7 @@ public class BLCICache<K, V> implements ICache<K, V> {
             super();
 
             this.name = name;
-            this.container = new ConcurrentHashMap<K,CacheEntry<V>>(initialCapacity);
+            this.container = new ConcurrentHashMap<>(initialCapacity);
             this.maxSize = maxSize;
             this.sizeLimit = (maxSize >= 0);
             if (this.sizeLimit) {
@@ -379,7 +384,7 @@ public class BLCICache<K, V> implements ICache<K, V> {
         }
 
         public Set<K> keySet() {
-            return this.container.keySet();
+            return new HashSet<>(Collections.list(this.container.keys()));
         }
 
         public int put(final K key, final CacheEntry<V> value) {
@@ -502,7 +507,7 @@ public class BLCICache<K, V> implements ICache<K, V> {
 
         CacheEntry(final V cachedValue, final boolean useSoftReferences) {
             super();
-            this.cachedValueReference = new SoftReference<V>(cachedValue);
+            this.cachedValueReference = new SoftReference<>(cachedValue);
             this.cachedValueAnchor = (!useSoftReferences? cachedValue : null);
             this.creationTimeInMillis = System.currentTimeMillis();
         }
