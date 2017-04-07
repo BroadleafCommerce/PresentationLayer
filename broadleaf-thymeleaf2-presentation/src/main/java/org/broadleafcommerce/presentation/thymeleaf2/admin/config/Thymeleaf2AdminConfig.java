@@ -19,35 +19,65 @@ package org.broadleafcommerce.presentation.thymeleaf2.admin.config;
 
 import org.broadleafcommerce.presentation.dialect.BroadleafDialectPrefix;
 import org.broadleafcommerce.presentation.dialect.BroadleafProcessor;
-import org.broadleafcommerce.presentation.thymeleaf2.config.Thymeleaf2ConfigUtils;
+import org.broadleafcommerce.presentation.thymeleaf2.BroadleafThymeleafMessageResolver;
+import org.broadleafcommerce.presentation.thymeleaf2.BroadleafThymeleafViewResolver;
+import org.broadleafcommerce.presentation.thymeleaf2.config.Thymeleaf2CommonConfig;
 import org.broadleafcommerce.presentation.thymeleaf2.dialect.BLCAdminDialect;
-import org.broadleafcommerce.presentation.thymeleaf2.site.config.Thymeleaf2SiteConfig;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.thymeleaf.dialect.IDialect;
+import org.thymeleaf.messageresolver.IMessageResolver;
 import org.thymeleaf.processor.IProcessor;
+import org.thymeleaf.spring4.SpringTemplateEngine;
+import org.thymeleaf.spring4.messageresolver.SpringMessageResolver;
 import org.thymeleaf.templateresolver.ITemplateResolver;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
-import javax.annotation.Resource;
-
 @Configuration
-public class Thymeleaf2AdminConfig extends Thymeleaf2SiteConfig {
-
-    @Resource
-    protected ApplicationContext applicationContext;
+public class Thymeleaf2AdminConfig extends Thymeleaf2CommonConfig {
     
-    @Resource
-    protected Thymeleaf2ConfigUtils configUtil;
+    @Bean
+    public BroadleafThymeleafMessageResolver blAdminMessageResolver() {
+        BroadleafThymeleafMessageResolver resolver = new BroadleafThymeleafMessageResolver();
+        resolver.setOrder(100);
+        return resolver;
+    }
+    
+    @Bean
+    public SpringMessageResolver springMessageResolver() {
+        SpringMessageResolver springMessageResolver = new SpringMessageResolver();
+        springMessageResolver.setOrder(200);
+        return springMessageResolver;
+    }
+    
+    @Bean
+    public Set<IMessageResolver> blAdminMessageResolvers() {
+        Set<IMessageResolver> resolvers = new HashSet<>();
+        resolvers.add(blAdminMessageResolver());
+        resolvers.add(springMessageResolver());
+        return resolvers;
+    }
     
     @Bean
     public BLCAdminDialect blAdminDialect() {
         BLCAdminDialect dialect = new BLCAdminDialect();
         dialect.setProcessors(blAdminDialectProcessors());
         return dialect;
+    }
+    
+    @Bean 
+    public Set<IDialect> blAdminDialects() {
+        Set<IDialect> dialects = new HashSet<>();
+        dialects.add(blAdminDialect());
+        dialects.add(blDialect());
+        dialects.add(thymeleafSpringStandardDialect());
+        return dialects;
     }
     
     @Bean
@@ -76,5 +106,34 @@ public class Thymeleaf2AdminConfig extends Thymeleaf2SiteConfig {
             }
         }
         return configUtil.getDialectProcessors(adminProcessors);
+    }
+    
+    @Bean
+    public SpringTemplateEngine blAdminWebTemplateEngine() {
+        SpringTemplateEngine engine = new SpringTemplateEngine();
+        engine.setMessageResolvers(blAdminMessageResolvers());
+        engine.setTemplateResolvers(blAdminWebTemplateResolvers());
+        engine.setDialects(blAdminDialects());
+        return engine;
+    }
+    
+    @Bean
+    public BroadleafThymeleafViewResolver blAdminThymeleafViewResolver() {
+        BroadleafThymeleafViewResolver resolver = new BroadleafThymeleafViewResolver();
+        resolver.setTemplateEngine(blAdminWebTemplateEngine());
+        resolver.setOrder(1);
+        resolver.setCache(environment.getProperty("thymeleaf.view.resolver.cache", Boolean.class, false));
+        resolver.setCharacterEncoding("UTF-8");
+        resolver.setFullPageLayout("layout/fullPageLayout");
+        resolver.setLayoutMap(getLayoutMap());
+        return resolver;
+    }
+    
+    protected Map<String, String> getLayoutMap() {
+        Map<String, String> layoutMap = new HashMap<>();
+        layoutMap.put("login/", "layout/loginLayout");
+        layoutMap.put("views/", "NONE");
+        layoutMap.put("modules/modalContainer", "NONE");
+        return layoutMap;
     }
 }
