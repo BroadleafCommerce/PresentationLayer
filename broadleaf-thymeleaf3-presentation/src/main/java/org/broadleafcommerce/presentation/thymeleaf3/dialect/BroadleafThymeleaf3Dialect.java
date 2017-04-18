@@ -40,6 +40,10 @@ public class BroadleafThymeleaf3Dialect extends AbstractProcessorDialect impleme
     public BroadleafThymeleaf3Dialect() {
         super("Broadleaf Common Dialect", BroadleafDialectPrefix.BLC.toString(), SpringStandardDialect.PROCESSOR_PRECEDENCE);
     }
+    
+    public BroadleafThymeleaf3Dialect(final String name, final String prefix, final int processorPrecedence) {
+        super(name, prefix, processorPrecedence);
+    }
 
     public void setProcessors(Set<IProcessor> processors) {
         this.processors = processors;
