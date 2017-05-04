@@ -36,6 +36,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -73,10 +74,12 @@ public class Thymeleaf2AdminConfig extends Thymeleaf2CommonConfig {
     
     @Bean 
     public Set<IDialect> blAdminDialects() {
-        Set<IDialect> dialects = new HashSet<>();
+        // In order for BLC's expression evaluator to be used this has to be a linked hashset
+        // and the blDialect has to be last
+        Set<IDialect> dialects = new LinkedHashSet<>();
+        dialects.add(thymeleafSpringStandardDialect());
         dialects.add(blAdminDialect());
         dialects.add(blDialect());
-        dialects.add(thymeleafSpringStandardDialect());
         return dialects;
     }
     

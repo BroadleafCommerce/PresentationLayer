@@ -41,6 +41,7 @@ import org.thymeleaf.spring4.expression.SpelVariableExpressionEvaluator;
 import org.thymeleaf.templateresolver.ITemplateResolver;
 
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -117,7 +118,9 @@ public class Thymeleaf2CommonConfig {
     
     @Bean
     public Set<IDialect> blEmailDialects() {
-        Set<IDialect> emailDialects = new HashSet<>();
+        // In order for BLC's expression evaluator to be used this has to be a linked hashset
+        // and the blDialect has to be last
+        Set<IDialect> emailDialects = new LinkedHashSet<>();
         emailDialects.add(thymeleafSpringStandardDialect());
         emailDialects.add(blDialect());
         return emailDialects;

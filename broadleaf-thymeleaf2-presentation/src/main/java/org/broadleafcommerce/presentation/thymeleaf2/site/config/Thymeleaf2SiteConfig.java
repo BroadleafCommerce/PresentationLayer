@@ -34,6 +34,7 @@ import org.thymeleaf.spring4.SpringTemplateEngine;
 import org.thymeleaf.spring4.messageresolver.SpringMessageResolver;
 
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 @Configuration
@@ -78,9 +79,11 @@ public class Thymeleaf2SiteConfig extends Thymeleaf2CommonConfig {
     
     @Bean
     public Set<IDialect> blWebDialects() {
-        Set<IDialect> dialects = new HashSet<>();
-        dialects.add(blDialect());
+        // In order for BLC's expression evaluator to be used this has to be a linked hashset
+        // and the blDialect has to be last
+        Set<IDialect> dialects = new LinkedHashSet<>();
         dialects.add(thymeleafSpringStandardDialect());
+        dialects.add(blDialect());
         return dialects;
     }
     
