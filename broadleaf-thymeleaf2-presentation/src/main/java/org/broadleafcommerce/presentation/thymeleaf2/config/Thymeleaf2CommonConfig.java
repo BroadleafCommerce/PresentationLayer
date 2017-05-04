@@ -20,8 +20,6 @@ package org.broadleafcommerce.presentation.thymeleaf2.config;
 import org.broadleafcommerce.presentation.cache.service.SimpleCacheKeyResolver;
 import org.broadleafcommerce.presentation.cache.service.TemplateCacheKeyResolverService;
 import org.broadleafcommerce.presentation.dialect.BroadleafProcessor;
-import org.broadleafcommerce.presentation.resolver.BroadleafClasspathTemplateResolver;
-import org.broadleafcommerce.presentation.resolver.BroadleafTemplateMode;
 import org.broadleafcommerce.presentation.resolver.BroadleafTemplateResolver;
 import org.broadleafcommerce.presentation.thymeleaf2.dialect.BLCDialect;
 import org.broadleafcommerce.presentation.thymeleaf2.expression.BroadleafVariableExpressionEvaluator;
@@ -67,32 +65,6 @@ public class Thymeleaf2CommonConfig {
     
     protected final String isCacheableProperty = "cache.page.templates";
     protected final String cacheableTTLProperty = "cache.page.templates.ttl";
-    
-    @Bean
-    public BroadleafTemplateResolver blWebCommonClasspathTemplateResolver() {
-        BroadleafClasspathTemplateResolver resolver = new BroadleafClasspathTemplateResolver();
-        resolver.setPrefix("common_style/templates/");
-        resolver.setSuffix(".html");
-        resolver.setTemplateMode(BroadleafTemplateMode.HTML5);
-        resolver.setCharacterEncoding("UTF-8");
-        resolver.setCacheable(environment.getProperty(isCacheableProperty, Boolean.class, false));
-        resolver.setCacheTTLMs(environment.getProperty(cacheableTTLProperty, Long.class, 5000L));
-        resolver.setOrder(500);
-        return resolver;
-    }
-    
-    @Bean
-    public BroadleafTemplateResolver blEmailClasspathTemplateResolver() {
-        BroadleafClasspathTemplateResolver resolver = new BroadleafClasspathTemplateResolver();
-        resolver.setPrefix("emailTemplates/");
-        resolver.setSuffix(".html");
-        resolver.setTemplateMode(BroadleafTemplateMode.HTML5);
-        resolver.setCharacterEncoding("UTF-8");
-        resolver.setCacheable(environment.getProperty(isCacheableProperty, Boolean.class, false));
-        resolver.setCacheTTLMs(environment.getProperty(cacheableTTLProperty, Long.class, 5000L));
-        resolver.setEmailResolver(true);
-        return resolver;
-    }
     
     @Bean
     public Set<ITemplateResolver> blWebTemplateResolvers() {
