@@ -1,6 +1,6 @@
 /*-
  * #%L
- * broadleaf-thymeleaf2-presentation
+ * broadleaf-thymeleaf3-presentation
  * %%
  * Copyright (C) 2009 - 2017 Broadleaf Commerce
  * %%
@@ -15,16 +15,16 @@
  * between you and Broadleaf Commerce. You may not use this file except in compliance with the applicable license.
  * #L%
  */
-package org.broadleafcommerce.presentation.thymeleaf2.config;
+package org.broadleafcommerce.presentation.thymeleaf3.config;
 
 import org.broadleafcommerce.presentation.cache.service.SimpleCacheKeyResolver;
 import org.broadleafcommerce.presentation.cache.service.TemplateCacheKeyResolverService;
 import org.broadleafcommerce.presentation.dialect.BroadleafProcessor;
 import org.broadleafcommerce.presentation.resolver.BroadleafTemplateResolver;
-import org.broadleafcommerce.presentation.thymeleaf2.dialect.BLCDialect;
-import org.broadleafcommerce.presentation.thymeleaf2.expression.BroadleafVariableExpressionEvaluator;
-import org.broadleafcommerce.presentation.thymeleaf2.processor.ArbitraryHtmlInsertionProcessor;
-import org.broadleafcommerce.presentation.thymeleaf2.processor.BroadleafCacheProcessor;
+import org.broadleafcommerce.presentation.thymeleaf3.dialect.BroadleafThymeleaf3Dialect;
+import org.broadleafcommerce.presentation.thymeleaf3.expression.BroadleafVariableExpressionObjectFactory;
+import org.broadleafcommerce.presentation.thymeleaf3.processor.ArbitraryHtmlInsertionProcessor;
+import org.broadleafcommerce.presentation.thymeleaf3.processor.BroadleafThymeleaf3CacheProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
@@ -32,10 +32,11 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.core.env.Environment;
 import org.thymeleaf.dialect.IDialect;
+import org.thymeleaf.expression.IExpressionObjectFactory;
 import org.thymeleaf.processor.IProcessor;
 import org.thymeleaf.spring4.SpringTemplateEngine;
 import org.thymeleaf.spring4.dialect.SpringStandardDialect;
-import org.thymeleaf.spring4.expression.SpelVariableExpressionEvaluator;
+import org.thymeleaf.spring4.messageresolver.SpringMessageResolver;
 import org.thymeleaf.templateresolver.ITemplateResolver;
 
 import java.util.HashSet;
@@ -46,13 +47,10 @@ import java.util.Set;
 import javax.annotation.Resource;
 
 @Configuration
-public class Thymeleaf2CommonConfig {
+public class Thymeleaf3CommonConfig {
 
     @Autowired
     protected Environment environment;
-    
-    @Resource
-    protected Thymeleaf2ConfigUtils configUtil;
     
     @Autowired
     protected List<BroadleafProcessor> processors;
@@ -60,41 +58,11 @@ public class Thymeleaf2CommonConfig {
     @Autowired
     protected List<BroadleafTemplateResolver> templateResolvers;
     
+    @Resource
+    protected Thymeleaf3ConfigUtils configUtil;
+    
     protected final String isCacheableProperty = "cache.page.templates";
     protected final String cacheableTTLProperty = "cache.page.templates.ttl";
-    
-    @Bean
-    @Primary
-    public Set<ITemplateResolver> blWebTemplateResolvers() {
-        return configUtil.getWebResolvers(templateResolvers);
-    }
-    
-    @Bean
-    public Set<ITemplateResolver> blEmailTemplateResolvers() {
-        return configUtil.getEmailResolvers(templateResolvers);
-    }
-    
-    @Bean
-    @ConditionalOnMissingBean(SpelVariableExpressionEvaluator.class)
-    public BroadleafVariableExpressionEvaluator blVariableExpressionEvaluator() {
-        return new BroadleafVariableExpressionEvaluator();
-    }
-    
-    @Bean
-    @ConditionalOnMissingBean(TemplateCacheKeyResolverService.class)
-    public SimpleCacheKeyResolver blTemplateCacheKeyResolver() {
-        return new SimpleCacheKeyResolver();
-    }
-    
-    @Bean
-    public Set<IDialect> blEmailDialects() {
-        // In order for BLC's expression evaluator to be used this has to be a linked hashset
-        // and the blDialect has to be last
-        Set<IDialect> emailDialects = new LinkedHashSet<>();
-        emailDialects.add(thymeleafSpringStandardDialect());
-        emailDialects.add(blDialect());
-        return emailDialects;
-    }
     
     @Bean
     public SpringStandardDialect thymeleafSpringStandardDialect() {
@@ -102,23 +70,24 @@ public class Thymeleaf2CommonConfig {
     }
     
     @Bean
-    public IProcessor blArbitraryHtmlInjectionProcessor() {
-        return new ArbitraryHtmlInsertionProcessor();
+    public SpringMessageResolver springMessageResolver() {
+        SpringMessageResolver resolver = new SpringMessageResolver();
+        resolver.setOrder(200);
+        return resolver;
+    }
+    
+    
+    @Bean
+    public Set<IDialect> blEmailDialects() {
+        Set<IDialect> dialects = new LinkedHashSet<>();
+        dialects.add(thymeleafSpringStandardDialect());
+        dialects.add(blDialect());
+        return dialects;
     }
     
     @Bean
-    public IProcessor blCacheProcessor() {
-        return new BroadleafCacheProcessor();
-    }
-    
-    @Bean
-    public Set<IProcessor> blDialectProcessors() {
-        return configUtil.getDialectProcessors(processors);
-    }
-    
-    @Bean
-    public BLCDialect blDialect() {
-        BLCDialect dialect = new BLCDialect();
+    public BroadleafThymeleaf3Dialect blDialect() {
+        BroadleafThymeleaf3Dialect dialect = new BroadleafThymeleaf3Dialect();
         Set<IProcessor> iProcessors = new HashSet<>();
         iProcessors.addAll(blDialectProcessors());
         iProcessors.add(blArbitraryHtmlInjectionProcessor());
@@ -128,11 +97,49 @@ public class Thymeleaf2CommonConfig {
     }
     
     @Bean
+    public IProcessor blArbitraryHtmlInjectionProcessor() {
+        return new ArbitraryHtmlInsertionProcessor();
+    }
+    
+    @Bean
+    public IProcessor blCacheProcessor() {
+        return new BroadleafThymeleaf3CacheProcessor();
+    }
+    
+    @Bean
+    public Set<IProcessor> blDialectProcessors() {
+        return configUtil.getDialectProcessors(processors);
+    }
+    
+    @Bean
+    public Set<ITemplateResolver> blEmailTemplateResolvers() {
+        return configUtil.getEmailResolvers(templateResolvers);
+    }
+    
+    @Bean
+    @Primary
+    public Set<ITemplateResolver> blWebTemplateResolvers() {
+        return configUtil.getWebResolvers(templateResolvers);
+    }
+    
+    @Bean
     public SpringTemplateEngine blEmailTemplateEngine() {
         SpringTemplateEngine engine = new SpringTemplateEngine();
         engine.setTemplateResolvers(blEmailTemplateResolvers());
         engine.setDialects(blEmailDialects());
         return engine;
+    }
+    
+    @Bean
+    @ConditionalOnMissingBean(TemplateCacheKeyResolverService.class)
+    public SimpleCacheKeyResolver blTemplateCacheKeyResolver() {
+        return new SimpleCacheKeyResolver();
+    }
+    
+    @Bean
+    @ConditionalOnMissingBean(IExpressionObjectFactory.class)
+    public BroadleafVariableExpressionObjectFactory blVariableExpressionObjectFactory() {
+        return new BroadleafVariableExpressionObjectFactory();
     }
     
 }

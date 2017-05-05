@@ -19,35 +19,41 @@ package org.broadleafcommerce.presentation.thymeleaf3.admin.config;
 
 import org.broadleafcommerce.presentation.dialect.BroadleafDialectPrefix;
 import org.broadleafcommerce.presentation.dialect.BroadleafProcessor;
-import org.broadleafcommerce.presentation.thymeleaf3.config.Thymeleaf3ConfigUtils;
+import org.broadleafcommerce.presentation.thymeleaf3.BroadleafThymeleaf3MessageResolver;
+import org.broadleafcommerce.presentation.thymeleaf3.BroadleafThymeleaf3TemplateEngine;
+import org.broadleafcommerce.presentation.thymeleaf3.BroadleafThymeleafViewResolver;
+import org.broadleafcommerce.presentation.thymeleaf3.config.Thymeleaf3CommonConfig;
 import org.broadleafcommerce.presentation.thymeleaf3.dialect.BroadleafThymeleaf3AdminDialect;
-import org.broadleafcommerce.presentation.thymeleaf3.site.config.Thymeleaf3SiteConfig;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
+import org.thymeleaf.dialect.IDialect;
+import org.thymeleaf.messageresolver.IMessageResolver;
 import org.thymeleaf.processor.IProcessor;
 import org.thymeleaf.templateresolver.ITemplateResolver;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.LinkedHashSet;
+import java.util.Map;
 import java.util.Set;
 
-import javax.annotation.Resource;
-
 @Configuration
-public class Thymeleaf3AdminConfig extends Thymeleaf3SiteConfig {
+public class Thymeleaf3AdminConfig extends Thymeleaf3CommonConfig {
 
-    @Resource
-    protected ApplicationContext applicationContext;
-    
-    @Resource
-    protected Thymeleaf3ConfigUtils configUtil;
-    
     @Bean
     public BroadleafThymeleaf3AdminDialect blAdminDialect() {
         BroadleafThymeleaf3AdminDialect dialect = new BroadleafThymeleaf3AdminDialect();
         dialect.setProcessors(blAdminDialectProcessors());
         return dialect;
+    }
+    
+    @Bean 
+    public IMessageResolver blAdminMessageResolver() {
+        BroadleafThymeleaf3MessageResolver resolver = new BroadleafThymeleaf3MessageResolver();
+        resolver.setOrder(100);
+        return resolver;
     }
     
     @Bean
@@ -76,6 +82,44 @@ public class Thymeleaf3AdminConfig extends Thymeleaf3SiteConfig {
             }
         }
         return configUtil.getDialectProcessors(adminProcessors);
+    }
+    
+    @Bean
+    public Set<IDialect> blAdminDialects() {
+        Set<IDialect> dialects = new LinkedHashSet<>();
+        dialects.add(thymeleafSpringStandardDialect());
+        dialects.add(blAdminDialect());
+        dialects.add(blDialect());
+        return dialects;
+    }
+    
+    @Bean
+    @Primary
+    public BroadleafThymeleaf3TemplateEngine blAdminWebTemplateEngine() {
+        BroadleafThymeleaf3TemplateEngine engine = new BroadleafThymeleaf3TemplateEngine();
+        Set<IMessageResolver> messages = new LinkedHashSet<>();
+        messages.add(blAdminMessageResolver());
+        messages.add(springMessageResolver());
+        engine.setMessageResolvers(messages);
+        engine.setTemplateResolvers(blAdminWebTemplateResolvers());
+        engine.setDialects(blAdminDialects());
+        return engine;
+    }
+    
+    @Bean(name = {"blAdminThymeleafViewResolver", "thymeleafViewResolver"})
+    public BroadleafThymeleafViewResolver blAdminThymeleafViewResolver() {
+        BroadleafThymeleafViewResolver view = new BroadleafThymeleafViewResolver();
+        view.setTemplateEngine(blAdminWebTemplateEngine());
+        view.setOrder(1);
+        view.setCache(environment.getProperty("thymeleaf.view.resolver.cache", Boolean.class, false));
+        view.setCharacterEncoding("UTF-8");
+        view.setFullPageLayout("layout/fullPageLayout");
+        Map<String, String> layoutMap = new HashMap<>();
+        layoutMap.put("login/", "layout/loginLayout");
+        layoutMap.put("views/", "NONE");
+        layoutMap.put("modules/modalContainer", "NONE");
+        view.setLayoutMap(layoutMap);
+        return view;
     }
 
 }
