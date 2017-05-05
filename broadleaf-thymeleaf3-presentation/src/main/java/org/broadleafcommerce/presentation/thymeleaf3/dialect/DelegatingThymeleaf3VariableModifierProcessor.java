@@ -60,7 +60,7 @@ public class DelegatingThymeleaf3VariableModifierProcessor extends AbstractEleme
         
         if (MapUtils.isNotEmpty(newModelVariables)) {
             for (Map.Entry<String, Object> entry : newModelVariables.entrySet()) {
-                addToModel(structureHandler, entry.getKey(), entry.getValue());
+                addToModel(structureHandler, context, entry.getKey(), entry.getValue());
             }
         }
         
@@ -68,14 +68,20 @@ public class DelegatingThymeleaf3VariableModifierProcessor extends AbstractEleme
         structureHandler.removeTags();
     }
 
-    private void addToModel(IElementTagStructureHandler structureHandler, String key, Object value) {
-        if (processor.useGlobalScope()) {
-            if (processor.getCollectionModelVariableNamesToAddTo() != null && processor.getCollectionModelVariableNamesToAddTo().contains(key)) {
+    private void addToModel(IElementTagStructureHandler structureHandler, ITemplateContext context, String key, Object value) {
+        if (processor.getCollectionModelVariableNamesToAddTo() != null && processor.getCollectionModelVariableNamesToAddTo().contains(key)) {
+            if (processor.useGlobalScope()) {
                 addItemToExistingSet(key, value);
+            } else {
+                addToLocalExistingSet(context, structureHandler, key, value);
             }
-            addToGlobalModel(key, value);
+        } else {
+            if (processor.useGlobalScope()) {
+                addToGlobalModel(key, value);
+            } else {
+                addToLocalModel(structureHandler, key, value);
+            }
         }
-        addToLocalModel(structureHandler, key, value);
     }
     
     /**
@@ -87,6 +93,20 @@ public class DelegatingThymeleaf3VariableModifierProcessor extends AbstractEleme
      */
     private void addToLocalModel(IElementTagStructureHandler structureHandler, String key, Object value) {
         structureHandler.setLocalVariable(key, value);
+    }
+    
+    @SuppressWarnings("unchecked")
+    private <T> void addToLocalExistingSet(ITemplateContext context, IElementTagStructureHandler structureHandler, String key, Object value) {
+        Set<T> items = new HashSet<>();
+        if (context.containsVariable(key)) {
+            items = (Set<T>) context.getVariable(key);
+        }
+        if (Collection.class.isAssignableFrom(value.getClass())) {
+            items.addAll((Collection<T>) value);
+        } else {
+            items.add((T) value);
+        }
+        structureHandler.setLocalVariable(key, items);
     }
     
     /**
@@ -135,3 +155,4 @@ public class DelegatingThymeleaf3VariableModifierProcessor extends AbstractEleme
         }
     }
 }
+
