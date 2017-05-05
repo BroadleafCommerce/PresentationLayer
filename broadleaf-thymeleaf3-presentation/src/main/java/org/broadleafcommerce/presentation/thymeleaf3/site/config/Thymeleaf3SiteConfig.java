@@ -34,6 +34,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.thymeleaf.expression.IExpressionObjectFactory;
 import org.thymeleaf.processor.IProcessor;
 import org.thymeleaf.templateresolver.ITemplateResolver;
@@ -65,6 +66,7 @@ public class Thymeleaf3SiteConfig {
     }
     
     @Bean
+    @Primary
     public Set<ITemplateResolver> blWebTemplateResolvers() {
         return configUtil.getWebResolvers(templateResolvers);
     }

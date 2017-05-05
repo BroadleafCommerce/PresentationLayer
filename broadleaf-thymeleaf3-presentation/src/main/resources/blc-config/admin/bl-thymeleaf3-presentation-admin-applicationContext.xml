@@ -64,7 +64,7 @@
         </property>
     </bean>
     
-    <bean id="blAdminWebTemplateEngine" class="org.broadleafcommerce.presentation.thymeleaf3.BroadleafThymeleaf3TemplateEngine">
+    <bean id="blAdminWebTemplateEngine" primary="true" class="org.broadleafcommerce.presentation.thymeleaf3.BroadleafThymeleaf3TemplateEngine">
         <property name="messageResolvers">
             <set>
                 <ref bean="blAdminMessageResolver" />
@@ -78,7 +78,9 @@
     </bean>
     
     <!-- Set up the view resolver to be used by Spring -->
-    <bean id="blAdminThymeleafViewResolver" class="org.broadleafcommerce.presentation.thymeleaf3.BroadleafThymeleafViewResolver">
+    <bean id="blAdminThymeleafViewResolver"
+          name="thymeleafViewResolver" 
+          class="org.broadleafcommerce.presentation.thymeleaf3.BroadleafThymeleafViewResolver">
         <property name="templateEngine" ref="blAdminWebTemplateEngine" />
         <property name="order" value="1" />
         <property name="cache" value="${thymeleaf.view.resolver.cache}" />

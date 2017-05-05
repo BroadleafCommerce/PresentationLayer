@@ -30,7 +30,9 @@
     
     <context:component-scan base-package="org.broadleafcommerce.presentation.thymeleaf3.config" />
     
-    <bean id="blWebCommonClasspathTemplateResolver" class="org.broadleafcommerce.presentation.resolver.BroadleafClasspathTemplateResolver">
+    <bean id="blWebCommonClasspathTemplateResolver"
+          name="defaultTemplateResolver" 
+          class="org.broadleafcommerce.presentation.resolver.BroadleafClasspathTemplateResolver">
         <property name="prefix" value="common_style/templates/" />
         <property name="suffix" value=".html" />
         <property name="templateMode" value="HTML" />        
