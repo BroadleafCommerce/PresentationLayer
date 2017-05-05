@@ -19,6 +19,11 @@ package org.broadleafcommerce.presentation.thymeleaf2.site.config;
 
 import org.broadleafcommerce.common.logging.LifeCycleEvent;
 import org.broadleafcommerce.common.logging.ModuleLifecycleLoggingBean;
+import org.broadleafcommerce.presentation.resolver.BroadleafClasspathTemplateResolver;
+import org.broadleafcommerce.presentation.resolver.BroadleafDatabaseTemplateResolver;
+import org.broadleafcommerce.presentation.resolver.BroadleafTemplateMode;
+import org.broadleafcommerce.presentation.resolver.BroadleafTemplateResolver;
+import org.broadleafcommerce.presentation.resolver.BroadleafThemeAwareTemplateResolver;
 import org.broadleafcommerce.presentation.thymeleaf2.BroadleafThymeleafMessageResolver;
 import org.broadleafcommerce.presentation.thymeleaf2.BroadleafThymeleafStandardTemplateModeHandlers;
 import org.broadleafcommerce.presentation.thymeleaf2.BroadleafThymeleafViewResolver;
@@ -26,8 +31,10 @@ import org.broadleafcommerce.presentation.thymeleaf2.cache.BLCICacheManager;
 import org.broadleafcommerce.presentation.thymeleaf2.cache.BroadleafThymeleaf2CacheInvalidationContext;
 import org.broadleafcommerce.presentation.thymeleaf2.config.Thymeleaf2CommonConfig;
 import org.broadleafcommerce.presentation.thymeleaf2.config.Thymeleaf2ModuleRegistration;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.Environment;
 import org.thymeleaf.dialect.IDialect;
 import org.thymeleaf.messageresolver.IMessageResolver;
 import org.thymeleaf.spring4.SpringTemplateEngine;
@@ -113,5 +120,53 @@ public class Thymeleaf2SiteConfig extends Thymeleaf2CommonConfig {
         resolver.setCache(environment.getProperty("thymeleaf.view.resolver.cache", Boolean.class, false));
         resolver.setCharacterEncoding("UTF-8");
         return resolver;
+    }
+    
+    @Configuration
+    protected static class Thymeleaf2SiteTemplateResolverConfig {
+        
+        @Autowired
+        protected Environment environment;
+        
+        protected final String isCacheableProperty = "cache.page.templates";
+        protected final String cacheableTTLProperty = "cache.page.templates.ttl";
+        protected final String themeFolderProperty = "theme.templates.folder";
+        
+        @Bean
+        public BroadleafTemplateResolver blWebTemplateResolver() {
+            BroadleafThemeAwareTemplateResolver resolver = new BroadleafThemeAwareTemplateResolver();
+            resolver.setPrefix("/WEB-INF/");
+            resolver.setTemplateFolder(environment.getProperty(themeFolderProperty, String.class, ""));
+            resolver.setSuffix(".html");
+            resolver.setTemplateMode(BroadleafTemplateMode.HTML5);
+            resolver.setCharacterEncoding("UTF-8");
+            resolver.setCacheable(environment.getProperty(isCacheableProperty, Boolean.class, false));
+            resolver.setCacheTTLMs(environment.getProperty(cacheableTTLProperty, Long.class, 0L));
+            resolver.setOrder(200);
+            return resolver;
+        }
+        
+        @Bean
+        public BroadleafTemplateResolver blWebDatabaseTemplateResolver() {
+            BroadleafDatabaseTemplateResolver resolver = new BroadleafDatabaseTemplateResolver();
+            resolver.setCacheable(environment.getProperty(isCacheableProperty, Boolean.class, false));
+            resolver.setCacheTTLMs(environment.getProperty(cacheableTTLProperty, Long.class, 0L));
+            resolver.setCharacterEncoding("UTF-8");
+            resolver.setOrder(100);
+            return resolver;
+        }
+        
+        @Bean
+        public BroadleafTemplateResolver blWebClasspathTemplateResolver() {
+            BroadleafClasspathTemplateResolver resolver = new BroadleafClasspathTemplateResolver();
+            resolver.setPrefix("webTemplates/");
+            resolver.setSuffix(".html");
+            resolver.setTemplateMode(BroadleafTemplateMode.HTML5);
+            resolver.setCharacterEncoding("UTF-8");
+            resolver.setCacheable(environment.getProperty(isCacheableProperty, Boolean.class, false));
+            resolver.setCacheTTLMs(environment.getProperty(cacheableTTLProperty, Long.class, 0L));
+            resolver.setOrder(300);
+            return resolver;
+        }
     }
 }

@@ -20,6 +20,8 @@ package org.broadleafcommerce.presentation.thymeleaf2.config;
 import org.broadleafcommerce.presentation.cache.service.SimpleCacheKeyResolver;
 import org.broadleafcommerce.presentation.cache.service.TemplateCacheKeyResolverService;
 import org.broadleafcommerce.presentation.dialect.BroadleafProcessor;
+import org.broadleafcommerce.presentation.resolver.BroadleafClasspathTemplateResolver;
+import org.broadleafcommerce.presentation.resolver.BroadleafTemplateMode;
 import org.broadleafcommerce.presentation.resolver.BroadleafTemplateResolver;
 import org.broadleafcommerce.presentation.thymeleaf2.dialect.BLCDialect;
 import org.broadleafcommerce.presentation.thymeleaf2.expression.BroadleafVariableExpressionEvaluator;
@@ -133,6 +135,42 @@ public class Thymeleaf2CommonConfig {
         engine.setTemplateResolvers(blEmailTemplateResolvers());
         engine.setDialects(blEmailDialects());
         return engine;
+    }
+    
+    @Configuration
+    protected static class Thymeleaf2CommonTemplateResolverConfig {
+        
+        @Autowired
+        protected Environment environment;
+        
+        protected final String isCacheableProperty = "cache.page.templates";
+        protected final String cacheableTTLProperty = "cache.page.templates.ttl";
+        
+        @Bean(name = {"blWebCommonClasspathTemplateResolver", "defaultTemplateResolver"})
+        public BroadleafTemplateResolver blWebCommonClasspathTemplateResolver() {
+            BroadleafClasspathTemplateResolver resolver = new BroadleafClasspathTemplateResolver();
+            resolver.setPrefix("/common-style/templates/");
+            resolver.setSuffix(".html");
+            resolver.setTemplateMode(BroadleafTemplateMode.HTML5);
+            resolver.setCharacterEncoding("UTF-8");
+            resolver.setCacheable(environment.getProperty(isCacheableProperty, Boolean.class, false));
+            resolver.setCacheTTLMs(environment.getProperty(cacheableTTLProperty, Long.class, 0L));
+            resolver.setOrder(500);
+            return resolver;
+        }
+        
+        @Bean
+        public BroadleafTemplateResolver blEmailClasspathTemplateResolver() {
+            BroadleafClasspathTemplateResolver resolver = new BroadleafClasspathTemplateResolver();
+            resolver.setPrefix("emailTemplates/");
+            resolver.setSuffix(".html");
+            resolver.setTemplateMode(BroadleafTemplateMode.HTML5);
+            resolver.setCacheable(environment.getProperty(isCacheableProperty, Boolean.class, false));
+            resolver.setCacheTTLMs(environment.getProperty(cacheableTTLProperty, Long.class, 0L));
+            resolver.setCharacterEncoding("UTF-8");
+            resolver.setEmailResolver(true);
+            return resolver;
+        }
     }
     
 }
