@@ -19,6 +19,10 @@ package org.broadleafcommerce.presentation.thymeleaf3.site.config;
 
 import org.broadleafcommerce.common.logging.LifeCycleEvent;
 import org.broadleafcommerce.common.logging.ModuleLifecycleLoggingBean;
+import org.broadleafcommerce.presentation.resolver.BroadleafClasspathTemplateResolver;
+import org.broadleafcommerce.presentation.resolver.BroadleafDatabaseTemplateResolver;
+import org.broadleafcommerce.presentation.resolver.BroadleafTemplateResolver;
+import org.broadleafcommerce.presentation.resolver.BroadleafThemeAwareTemplateResolver;
 import org.broadleafcommerce.presentation.thymeleaf3.BroadleafThymeleaf3MessageResolver;
 import org.broadleafcommerce.presentation.thymeleaf3.BroadleafThymeleaf3TemplateEngine;
 import org.broadleafcommerce.presentation.thymeleaf3.BroadleafThymeleafViewResolver;
@@ -26,9 +30,11 @@ import org.broadleafcommerce.presentation.thymeleaf3.cache.BroadleafThymeleaf3Ca
 import org.broadleafcommerce.presentation.thymeleaf3.cache.BroadleafThymeleaf3CacheManager;
 import org.broadleafcommerce.presentation.thymeleaf3.config.Thymeleaf3CommonConfig;
 import org.broadleafcommerce.presentation.thymeleaf3.config.Thymeleaf3ModuleRegistration;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
+import org.springframework.core.env.Environment;
 import org.thymeleaf.dialect.IDialect;
 import org.thymeleaf.messageresolver.IMessageResolver;
 
@@ -93,4 +99,51 @@ public class Thymeleaf3SiteConfig extends Thymeleaf3CommonConfig {
         context.setTemplateEngine(blWebTemplateEngine());
         return context;
     }
+    
+    @Configuration
+    protected static class Thymeleaf3SiteTemplateResolverConfig {
+        
+        @Autowired
+        protected Environment environment;
+        
+        protected final String isCacheableProperty = "cache.page.templates";
+        protected final String cacheableTTLProperty = "cache.page.templates.ttl";
+        protected final String themeFolderProperty = "theme.templates.folder";
+        
+        @Bean
+        public BroadleafTemplateResolver blWebTemplateResolver() {
+            BroadleafThemeAwareTemplateResolver resolver = new BroadleafThemeAwareTemplateResolver();
+            resolver.setPrefix("/WEB-INF/");
+            resolver.setTemplateFolder(environment.getProperty(themeFolderProperty, String.class, ""));
+            resolver.setSuffix(".html");
+            resolver.setCharacterEncoding("UTF-8");
+            resolver.setCacheable(environment.getProperty(isCacheableProperty, Boolean.class, false));
+            resolver.setCacheTTLMs(environment.getProperty(cacheableTTLProperty, Long.class, 0L));
+            resolver.setOrder(200);
+            return resolver;
+        }
+        
+        @Bean
+        public BroadleafTemplateResolver blWebDatabaseTemplateResolver() {
+            BroadleafDatabaseTemplateResolver resolver = new BroadleafDatabaseTemplateResolver();
+            resolver.setCacheable(environment.getProperty(isCacheableProperty, Boolean.class, false));
+            resolver.setCacheTTLMs(environment.getProperty(cacheableTTLProperty, Long.class, 0L));
+            resolver.setCharacterEncoding("UTF-8");
+            resolver.setOrder(100);
+            return resolver;
+        }
+        
+        @Bean
+        public BroadleafTemplateResolver blWebClasspathTemplateResolver() {
+            BroadleafClasspathTemplateResolver resolver = new BroadleafClasspathTemplateResolver();
+            resolver.setPrefix("webTemplates/");
+            resolver.setSuffix(".html");
+            resolver.setCharacterEncoding("UTF-8");
+            resolver.setCacheable(environment.getProperty(isCacheableProperty, Boolean.class, false));
+            resolver.setCacheTTLMs(environment.getProperty(cacheableTTLProperty, Long.class, 0L));
+            resolver.setOrder(300);
+            return resolver;
+        }
+    }
+    
 }

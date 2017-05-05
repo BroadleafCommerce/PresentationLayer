@@ -20,6 +20,8 @@ package org.broadleafcommerce.presentation.thymeleaf3.config;
 import org.broadleafcommerce.presentation.cache.service.SimpleCacheKeyResolver;
 import org.broadleafcommerce.presentation.cache.service.TemplateCacheKeyResolverService;
 import org.broadleafcommerce.presentation.dialect.BroadleafProcessor;
+import org.broadleafcommerce.presentation.resolver.BroadleafClasspathTemplateResolver;
+import org.broadleafcommerce.presentation.resolver.BroadleafTemplateMode;
 import org.broadleafcommerce.presentation.resolver.BroadleafTemplateResolver;
 import org.broadleafcommerce.presentation.thymeleaf3.dialect.BroadleafThymeleaf3Dialect;
 import org.broadleafcommerce.presentation.thymeleaf3.expression.BroadleafVariableExpressionObjectFactory;
@@ -61,9 +63,6 @@ public class Thymeleaf3CommonConfig {
     @Resource
     protected Thymeleaf3ConfigUtils configUtil;
     
-    protected final String isCacheableProperty = "cache.page.templates";
-    protected final String cacheableTTLProperty = "cache.page.templates.ttl";
-    
     @Bean
     public SpringStandardDialect thymeleafSpringStandardDialect() {
         return new SpringStandardDialect();
@@ -75,7 +74,6 @@ public class Thymeleaf3CommonConfig {
         resolver.setOrder(200);
         return resolver;
     }
-    
     
     @Bean
     public Set<IDialect> blEmailDialects() {
@@ -140,6 +138,41 @@ public class Thymeleaf3CommonConfig {
     @ConditionalOnMissingBean(IExpressionObjectFactory.class)
     public BroadleafVariableExpressionObjectFactory blVariableExpressionObjectFactory() {
         return new BroadleafVariableExpressionObjectFactory();
+    }
+    
+    @Configuration
+    protected static class Thymeleaf3CommonTemplateResolverConfig {
+        
+        @Autowired
+        protected Environment environment;
+        
+        protected final String isCacheableProperty = "cache.page.templates";
+        protected final String cacheableTTLProperty = "cache.page.templates.ttl";
+        
+        @Bean(name = {"blWebCommonClasspathTemplateResolver", "defaultTemplateResolver"})
+        public BroadleafTemplateResolver blWebCommonClasspathTemplateResolver() {
+            BroadleafClasspathTemplateResolver resolver = new BroadleafClasspathTemplateResolver();
+            resolver.setPrefix("/common-style/templates/");
+            resolver.setSuffix(".html");
+            resolver.setTemplateMode(BroadleafTemplateMode.HTML);
+            resolver.setCharacterEncoding("UTF-8");
+            resolver.setCacheable(environment.getProperty(isCacheableProperty, Boolean.class, false));
+            resolver.setCacheTTLMs(environment.getProperty(cacheableTTLProperty, Long.class, 0L));
+            resolver.setOrder(500);
+            return resolver;
+        }
+        
+        @Bean
+        public BroadleafTemplateResolver blEmailClasspathTemplateResolver() {
+            BroadleafClasspathTemplateResolver resolver = new BroadleafClasspathTemplateResolver();
+            resolver.setPrefix("emailTemplates/");
+            resolver.setSuffix(".html");
+            resolver.setCacheable(environment.getProperty(isCacheableProperty, Boolean.class, false));
+            resolver.setCacheTTLMs(environment.getProperty(cacheableTTLProperty, Long.class, 0L));
+            resolver.setCharacterEncoding("UTF-8");
+            resolver.setEmailResolver(true);
+            return resolver;
+        }
     }
     
 }
