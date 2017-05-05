@@ -120,7 +120,7 @@ public class Thymeleaf2AdminConfig extends Thymeleaf2CommonConfig {
         return engine;
     }
     
-    @Bean
+    @Bean(name = {"blAdminThymeleafViewResolver", "thymeleafViewResolver"})
     public BroadleafThymeleafViewResolver blAdminThymeleafViewResolver() {
         BroadleafThymeleafViewResolver resolver = new BroadleafThymeleafViewResolver();
         resolver.setTemplateEngine(blAdminWebTemplateEngine());

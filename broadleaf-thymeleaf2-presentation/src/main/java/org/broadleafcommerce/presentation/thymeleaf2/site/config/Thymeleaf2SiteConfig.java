@@ -105,7 +105,7 @@ public class Thymeleaf2SiteConfig extends Thymeleaf2CommonConfig {
         return context;
     }
     
-    @Bean
+    @Bean(name = {"blThymeleafViewResolver", "thymeleafViewResolver"})
     public BroadleafThymeleafViewResolver blThymeleafViewResolver() {
         BroadleafThymeleafViewResolver resolver = new BroadleafThymeleafViewResolver();
         resolver.setTemplateEngine(blWebTemplateEngine());

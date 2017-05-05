@@ -30,6 +30,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.core.env.Environment;
 import org.thymeleaf.dialect.IDialect;
 import org.thymeleaf.processor.IProcessor;
@@ -67,6 +68,7 @@ public class Thymeleaf2CommonConfig {
     protected final String cacheableTTLProperty = "cache.page.templates.ttl";
     
     @Bean
+    @Primary
     public Set<ITemplateResolver> blWebTemplateResolvers() {
         return configUtil.getWebResolvers(templateResolvers);
     }
