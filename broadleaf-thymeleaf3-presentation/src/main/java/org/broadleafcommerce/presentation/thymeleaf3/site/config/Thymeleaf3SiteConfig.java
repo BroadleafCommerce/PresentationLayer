@@ -17,6 +17,8 @@
  */
 package org.broadleafcommerce.presentation.thymeleaf3.site.config;
 
+import org.broadleafcommerce.presentation.cache.service.SimpleCacheKeyResolver;
+import org.broadleafcommerce.presentation.cache.service.TemplateCacheKeyResolverService;
 import org.broadleafcommerce.presentation.dialect.BroadleafProcessor;
 import org.broadleafcommerce.presentation.resolver.BroadleafTemplateResolver;
 import org.broadleafcommerce.presentation.thymeleaf3.config.Thymeleaf3ConfigUtils;
@@ -64,6 +66,11 @@ public class Thymeleaf3SiteConfig {
     @Bean
     public IProcessor blArbitraryHtmlInjectionProcessor() {
         return new ArbitraryHtmlInsertionProcessor();
+    }
+    
+    @Bean
+    public TemplateCacheKeyResolverService blTemplateCacheKeyResolver() {
+        return new SimpleCacheKeyResolver();
     }
     
     @Bean
