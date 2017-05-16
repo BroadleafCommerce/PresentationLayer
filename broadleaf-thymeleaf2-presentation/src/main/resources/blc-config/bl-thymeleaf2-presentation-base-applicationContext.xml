@@ -40,6 +40,7 @@
     </bean>  
 
     <bean id="thymeleafSpringStandardDialect" class="org.thymeleaf.spring4.dialect.SpringStandardDialect" />
+    <bean id="blVariableExpressionEvaluator" class="org.broadleafcommerce.presentation.thymeleaf2.expression.BroadleafVariableExpressionEvaluator" />
     
     <bean id="blEmailClasspathTemplateResolver" class="org.broadleafcommerce.presentation.resolver.BroadleafClasspathTemplateResolver">
         <property name="prefix" value="emailTemplates/" />
