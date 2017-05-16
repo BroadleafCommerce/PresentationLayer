@@ -80,11 +80,6 @@ public class Thymeleaf2SiteConfig {
     }
     
     @Bean
-    public TemplateCacheKeyResolverService blTemplateCacheKeyResolver() {
-        return new SimpleCacheKeyResolver();
-    }
-    
-    @Bean
     public IProcessor blCacheProcessor() {
         return new BroadleafCacheProcessor();
     }
