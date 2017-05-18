@@ -149,7 +149,7 @@ public class Thymeleaf2CommonConfig {
         @Bean(name = {"blWebCommonClasspathTemplateResolver", "defaultTemplateResolver"})
         public BroadleafTemplateResolver blWebCommonClasspathTemplateResolver() {
             BroadleafClasspathTemplateResolver resolver = new BroadleafClasspathTemplateResolver();
-            resolver.setPrefix("/common-style/templates/");
+            resolver.setPrefix("/common_style/templates/");
             resolver.setSuffix(".html");
             resolver.setTemplateMode(BroadleafTemplateMode.HTML5);
             resolver.setCharacterEncoding("UTF-8");
