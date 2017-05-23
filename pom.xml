@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.broadleafcommerce</groupId>
         <artifactId>broadleaf-module-parent</artifactId>
-        <version>1.0.10-GA</version>
+        <version>1.0.14-GA</version>
     </parent>
 
     <groupId>org.broadleafcommerce</groupId>
@@ -21,7 +21,6 @@
         <project.uri>${project.baseUri}</project.uri>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <blc.version>5.1.0-GA</blc.version>
-        <attachSources>false</attachSources>
     </properties>
     
     <repositories>
@@ -94,15 +93,6 @@
                     </execution>
                 </executions>
             </plugin>
-            <plugin>
-                <groupId>org.codehaus.gmavenplus</groupId>
-                <artifactId>gmavenplus-plugin</artifactId>
-            </plugin>
-            <!-- Jacoco Code Coverage Plugin -->
-            <plugin>
-                <groupId>org.jacoco</groupId>
-                <artifactId>jacoco-maven-plugin</artifactId>
-            </plugin>
         
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
@@ -131,27 +121,6 @@
         <url>https://github.com/BroadleafCommerce/PresentationLayer</url>
         <tag>HEAD</tag>
     </scm>
-    <profiles>
-        <profile>
-            <id>sources</id>
-            <activation>
-                <property>
-                    <name>attachSources</name>
-                    <value>true</value>
-                </property>
-            </activation>
-            <distributionManagement>
-                <snapshotRepository>
-                    <id>snapshots</id>
-                    <url>http://nexus.broadleafcommerce.org/nexus/content/repositories/presentation-source-snapshots/</url>
-                </snapshotRepository>
-                <repository>
-                    <id>releases</id>
-                    <url>http://nexus.broadleafcommerce.org/nexus/content/repositories/presentation-source-releases/</url>
-                </repository>
-            </distributionManagement>
-        </profile>
-    </profiles>
     
     <dependencyManagement>
         <dependencies>
