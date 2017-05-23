@@ -122,18 +122,25 @@
         <tag>HEAD</tag>
     </scm>
     
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>org.broadleafcommerce</groupId>
-                <artifactId>broadleaf-common</artifactId>
-                <version>${blc.version}</version>
-                <type>jar</type>
-                <scope>compile</scope>
-                <optional>true</optional>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
+    <dependencies>
+        <!-- Required -->
+        <dependency>
+            <groupId>org.broadleafcommerce</groupId>
+            <artifactId>broadleaf-common</artifactId>
+            <version>${blc.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.broadleafcommerce</groupId>
+            <artifactId>broadleaf-common-presentation</artifactId>
+            <version>${broadleaf-common-presentation.version}</version>
+        </dependency>
+        
+        <!-- Required but provided -->
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+        </dependency>
+    </dependencies>
 
     <modules>
         <module>broadleaf-thymeleaf2-presentation</module>
