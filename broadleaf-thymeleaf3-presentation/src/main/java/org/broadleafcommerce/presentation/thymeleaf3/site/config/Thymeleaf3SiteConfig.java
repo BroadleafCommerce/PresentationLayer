@@ -144,6 +144,19 @@ public class Thymeleaf3SiteConfig extends Thymeleaf3CommonConfig {
             resolver.setOrder(300);
             return resolver;
         }
+        
+        @Bean
+        public BroadleafTemplateResolver springDefaultTemplateResolver() {
+            BroadleafThemeAwareTemplateResolver resolver = new BroadleafThemeAwareTemplateResolver();
+            resolver.setPrefix("classpath:/");
+            resolver.setTemplateFolder(environment.getProperty(themeFolderProperty, String.class, ""));
+            resolver.setSuffix(".html");
+            resolver.setCharacterEncoding("UTF-8");
+            resolver.setCacheable(environment.getProperty(isCacheableProperty, Boolean.class, false));
+            resolver.setCacheTTLMs(environment.getProperty(cacheableTTLProperty, Long.class, 0L));
+            resolver.setOrder(400);
+            return resolver;
+        }
     }
     
 }
