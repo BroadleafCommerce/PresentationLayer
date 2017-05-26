@@ -131,7 +131,7 @@ public class Thymeleaf2AdminConfig extends Thymeleaf2CommonConfig {
         BroadleafThymeleafViewResolver resolver = new BroadleafThymeleafViewResolver();
         resolver.setTemplateEngine(blAdminWebTemplateEngine());
         resolver.setOrder(1);
-        resolver.setCache(environment.getProperty("thymeleaf.view.resolver.cache", Boolean.class, false));
+        resolver.setCache(environment.getProperty("thymeleaf.view.resolver.cache", Boolean.class, true));
         resolver.setCharacterEncoding("UTF-8");
         resolver.setFullPageLayout("layout/fullPageLayout");
         resolver.setLayoutMap(getLayoutMap());
@@ -154,7 +154,6 @@ public class Thymeleaf2AdminConfig extends Thymeleaf2CommonConfig {
         
         protected final String isCacheableProperty = "cache.page.templates";
         protected final String cacheableTTLProperty = "cache.page.templates.ttl";
-        protected final String themeFolderProperty = "theme.templates.folder";
         
         @Bean
         public BroadleafTemplateResolver blAdminWebTemplateResolver() {

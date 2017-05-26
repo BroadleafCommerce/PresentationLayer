@@ -117,7 +117,7 @@ public class Thymeleaf2SiteConfig extends Thymeleaf2CommonConfig {
         BroadleafThymeleafViewResolver resolver = new BroadleafThymeleafViewResolver();
         resolver.setTemplateEngine(blWebTemplateEngine());
         resolver.setOrder(1);
-        resolver.setCache(environment.getProperty("thymeleaf.view.resolver.cache", Boolean.class, false));
+        resolver.setCache(environment.getProperty("thymeleaf.view.resolver.cache", Boolean.class, true));
         resolver.setCharacterEncoding("UTF-8");
         return resolver;
     }
@@ -136,7 +136,7 @@ public class Thymeleaf2SiteConfig extends Thymeleaf2CommonConfig {
         public BroadleafTemplateResolver blWebTemplateResolver() {
             BroadleafThemeAwareTemplateResolver resolver = new BroadleafThemeAwareTemplateResolver();
             resolver.setPrefix("/WEB-INF/");
-            resolver.setTemplateFolder(environment.getProperty(themeFolderProperty, String.class, ""));
+            resolver.setTemplateFolder(environment.getProperty(themeFolderProperty, String.class, "templates/"));
             resolver.setSuffix(".html");
             resolver.setTemplateMode(BroadleafTemplateMode.HTML5);
             resolver.setCharacterEncoding("UTF-8");
@@ -173,7 +173,7 @@ public class Thymeleaf2SiteConfig extends Thymeleaf2CommonConfig {
         public BroadleafTemplateResolver springDefaultTemplateResolver() {
             BroadleafThemeAwareTemplateResolver resolver = new BroadleafThemeAwareTemplateResolver();
             resolver.setPrefix("classpath:/");
-            resolver.setTemplateFolder(environment.getProperty(themeFolderProperty, String.class, ""));
+            resolver.setTemplateFolder(environment.getProperty(themeFolderProperty, String.class, "templates/"));
             resolver.setSuffix(".html");
             resolver.setTemplateMode(BroadleafTemplateMode.HTML5);
             resolver.setCharacterEncoding("UTF-8");
