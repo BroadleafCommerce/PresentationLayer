@@ -19,26 +19,25 @@ package org.broadleafcommerce.presentation.thymeleaf2.site.config;
 
 import org.broadleafcommerce.common.logging.LifeCycleEvent;
 import org.broadleafcommerce.common.logging.ModuleLifecycleLoggingBean;
-import org.broadleafcommerce.presentation.resolver.BroadleafClasspathTemplateResolver;
-import org.broadleafcommerce.presentation.resolver.BroadleafDatabaseTemplateResolver;
-import org.broadleafcommerce.presentation.resolver.BroadleafTemplateMode;
-import org.broadleafcommerce.presentation.resolver.BroadleafTemplateResolver;
-import org.broadleafcommerce.presentation.resolver.BroadleafThemeAwareTemplateResolver;
 import org.broadleafcommerce.presentation.thymeleaf2.BroadleafThymeleafMessageResolver;
 import org.broadleafcommerce.presentation.thymeleaf2.BroadleafThymeleafStandardTemplateModeHandlers;
 import org.broadleafcommerce.presentation.thymeleaf2.BroadleafThymeleafViewResolver;
 import org.broadleafcommerce.presentation.thymeleaf2.cache.BLCICacheManager;
 import org.broadleafcommerce.presentation.thymeleaf2.cache.BroadleafThymeleaf2CacheInvalidationContext;
+import org.broadleafcommerce.presentation.thymeleaf2.config.AbstractThymeleaf2DialectConfig;
+import org.broadleafcommerce.presentation.thymeleaf2.config.AbstractThymeleaf2EngineConfig;
 import org.broadleafcommerce.presentation.thymeleaf2.config.Thymeleaf2CommonConfig;
 import org.broadleafcommerce.presentation.thymeleaf2.config.Thymeleaf2ModuleRegistration;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.core.env.Environment;
+import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.cache.ICacheManager;
 import org.thymeleaf.dialect.IDialect;
 import org.thymeleaf.messageresolver.IMessageResolver;
 import org.thymeleaf.spring4.SpringTemplateEngine;
-import org.thymeleaf.spring4.messageresolver.SpringMessageResolver;
+import org.thymeleaf.templateresolver.ITemplateResolver;
 
 import java.util.HashSet;
 import java.util.LinkedHashSet;
@@ -52,18 +51,102 @@ public class Thymeleaf2SiteConfig extends Thymeleaf2CommonConfig {
         return new ModuleLifecycleLoggingBean(Thymeleaf2ModuleRegistration.MODULE_NAME, LifeCycleEvent.LOADING);
     }
 
+    @Configuration
+    static class Thymeleaf2SiteDialectConfig extends AbstractThymeleaf2DialectConfig {
+        
+        @Bean
+        public Set<IDialect> blWebDialects() {
+            // In order for BLC's expression evaluator to be used this has to be a linked hashset
+            // and the blDialect has to be last
+            Set<IDialect> dialects = new LinkedHashSet<>();
+            dialects.add(thymeleafSpringStandardDialect());
+            dialects.add(blDialect());
+            return dialects;
+        }
+    }
+    
+    @Configuration
+    static class Thymeleaf2SiteEngineConfig extends AbstractThymeleaf2EngineConfig {
+        
+        protected Set<IMessageResolver> messageResolvers;
+        
+        protected ICacheManager cacheManager;
+
+        public Thymeleaf2SiteEngineConfig(Set<IMessageResolver> messageResolvers,
+                                          ICacheManager cacheManager) {
+            this.messageResolvers = messageResolvers;
+            this.cacheManager = cacheManager;
+        }
+        
+        @Bean
+        @Primary
+        public SpringTemplateEngine blWebTemplateEngine() {
+            SpringTemplateEngine engine = new SpringTemplateEngine();
+            engine.setMessageResolvers(messageResolvers);
+            Set<ITemplateResolver> allResolvers = new LinkedHashSet<>();
+            allResolvers.addAll(iTemplateResolvers);
+            allResolvers.addAll(blWebTemplateResolvers());
+            engine.setTemplateResolvers(allResolvers);
+            engine.setCacheManager(cacheManager);
+            engine.setTemplateModeHandlers(blThymeleafStandardTemplateModeHandlers().getStandardTemplateModeHandlers());
+            engine.setDialects(getDialects());
+            return engine;
+        }
+        
+        @Bean
+        public BroadleafThymeleafStandardTemplateModeHandlers blThymeleafStandardTemplateModeHandlers() {
+            return new BroadleafThymeleafStandardTemplateModeHandlers();
+        }
+        
+        @Configuration
+        protected static class Thymeleaf2TemplateResolverConfig extends Thymeleaf2SiteTemplateConfig {}
+    }
+    
+    @Configuration
+    static class Thymeleaf2SiteViewConfig {
+        
+        protected SpringTemplateEngine templateEngine;
+        
+        protected Environment environment;
+        
+        public Thymeleaf2SiteViewConfig(SpringTemplateEngine templateEngine, Environment environment) {
+            this.templateEngine = templateEngine;
+            this.environment = environment;
+        }
+        
+        @Bean(name = {"blThymeleafViewResolver", "thymeleafViewResolver"})
+        public BroadleafThymeleafViewResolver blThymeleafViewResolver() {
+            BroadleafThymeleafViewResolver resolver = new BroadleafThymeleafViewResolver();
+            resolver.setTemplateEngine(templateEngine);
+            resolver.setOrder(1);
+            resolver.setCache(environment.getProperty("thymeleaf.view.resolver.cache", Boolean.class, true));
+            resolver.setCharacterEncoding("UTF-8");
+            return resolver;
+        }
+    }
+    
+    @Configuration
+    static class Thymeleaf2CacheInvalidationConfig {
+        
+        protected TemplateEngine templateEngine;
+        
+        public Thymeleaf2CacheInvalidationConfig(TemplateEngine templateEngine) {
+            this.templateEngine = templateEngine;
+        }
+        
+        @Bean
+        public BroadleafThymeleaf2CacheInvalidationContext blTemplateCacheInvalidationContext() {
+            BroadleafThymeleaf2CacheInvalidationContext context = new BroadleafThymeleaf2CacheInvalidationContext();
+            context.setTemplateEngine(templateEngine);
+            return context;
+        }
+    }
+    
     @Bean
     public BroadleafThymeleafMessageResolver blMessageResolver() {
         BroadleafThymeleafMessageResolver resolver = new BroadleafThymeleafMessageResolver();
         resolver.setOrder(100);
         return resolver;
-    }
-    
-    @Bean
-    public SpringMessageResolver springMessageResolver() {
-        SpringMessageResolver springMessageResolver = new SpringMessageResolver();
-        springMessageResolver.setOrder(200);
-        return springMessageResolver;
     }
     
     @Bean
@@ -75,112 +158,8 @@ public class Thymeleaf2SiteConfig extends Thymeleaf2CommonConfig {
     }
     
     @Bean
-    public BroadleafThymeleafStandardTemplateModeHandlers blThymeleafStandardTemplateModeHandlers() {
-        return new BroadleafThymeleafStandardTemplateModeHandlers();
-    }
-    
-    @Bean
     public BLCICacheManager blICacheManager() {
         return new BLCICacheManager();
     }
     
-    @Bean
-    public Set<IDialect> blWebDialects() {
-        // In order for BLC's expression evaluator to be used this has to be a linked hashset
-        // and the blDialect has to be last
-        Set<IDialect> dialects = new LinkedHashSet<>();
-        dialects.add(thymeleafSpringStandardDialect());
-        dialects.add(blDialect());
-        return dialects;
-    }
-    
-    @Bean
-    public SpringTemplateEngine blWebTemplateEngine() {
-        SpringTemplateEngine engine = new SpringTemplateEngine();
-        engine.setMessageResolvers(blWebMessageResolvers());
-        engine.setTemplateResolvers(blWebTemplateResolvers());
-        engine.setCacheManager(blICacheManager());
-        engine.setTemplateModeHandlers(blThymeleafStandardTemplateModeHandlers().getStandardTemplateModeHandlers());
-        engine.setDialects(blWebDialects());
-        return engine;
-    }
-    
-    @Bean
-    public BroadleafThymeleaf2CacheInvalidationContext blTemplateCacheInvalidationContext() {
-        BroadleafThymeleaf2CacheInvalidationContext context = new BroadleafThymeleaf2CacheInvalidationContext();
-        context.setTemplateEngine(blWebTemplateEngine());
-        return context;
-    }
-    
-    @Bean(name = {"blThymeleafViewResolver", "thymeleafViewResolver"})
-    public BroadleafThymeleafViewResolver blThymeleafViewResolver() {
-        BroadleafThymeleafViewResolver resolver = new BroadleafThymeleafViewResolver();
-        resolver.setTemplateEngine(blWebTemplateEngine());
-        resolver.setOrder(1);
-        resolver.setCache(environment.getProperty("thymeleaf.view.resolver.cache", Boolean.class, true));
-        resolver.setCharacterEncoding("UTF-8");
-        return resolver;
-    }
-    
-    @Configuration
-    protected static class Thymeleaf2SiteTemplateResolverConfig {
-        
-        @Autowired
-        protected Environment environment;
-        
-        protected final String isCacheableProperty = "cache.page.templates";
-        protected final String cacheableTTLProperty = "cache.page.templates.ttl";
-        protected final String themeFolderProperty = "theme.templates.folder";
-        
-        @Bean
-        public BroadleafTemplateResolver blWebTemplateResolver() {
-            BroadleafThemeAwareTemplateResolver resolver = new BroadleafThemeAwareTemplateResolver();
-            resolver.setPrefix("/WEB-INF/");
-            resolver.setTemplateFolder(environment.getProperty(themeFolderProperty, String.class, "templates/"));
-            resolver.setSuffix(".html");
-            resolver.setTemplateMode(BroadleafTemplateMode.HTML5);
-            resolver.setCharacterEncoding("UTF-8");
-            resolver.setCacheable(environment.getProperty(isCacheableProperty, Boolean.class, false));
-            resolver.setCacheTTLMs(environment.getProperty(cacheableTTLProperty, Long.class, 0L));
-            resolver.setOrder(200);
-            return resolver;
-        }
-        
-        @Bean
-        public BroadleafTemplateResolver blWebDatabaseTemplateResolver() {
-            BroadleafDatabaseTemplateResolver resolver = new BroadleafDatabaseTemplateResolver();
-            resolver.setCacheable(environment.getProperty(isCacheableProperty, Boolean.class, false));
-            resolver.setCacheTTLMs(environment.getProperty(cacheableTTLProperty, Long.class, 0L));
-            resolver.setCharacterEncoding("UTF-8");
-            resolver.setOrder(100);
-            return resolver;
-        }
-        
-        @Bean
-        public BroadleafTemplateResolver blWebClasspathTemplateResolver() {
-            BroadleafClasspathTemplateResolver resolver = new BroadleafClasspathTemplateResolver();
-            resolver.setPrefix("webTemplates/");
-            resolver.setSuffix(".html");
-            resolver.setTemplateMode(BroadleafTemplateMode.HTML5);
-            resolver.setCharacterEncoding("UTF-8");
-            resolver.setCacheable(environment.getProperty(isCacheableProperty, Boolean.class, false));
-            resolver.setCacheTTLMs(environment.getProperty(cacheableTTLProperty, Long.class, 0L));
-            resolver.setOrder(300);
-            return resolver;
-        }
-        
-        @Bean
-        public BroadleafTemplateResolver springDefaultTemplateResolver() {
-            BroadleafThemeAwareTemplateResolver resolver = new BroadleafThemeAwareTemplateResolver();
-            resolver.setPrefix("classpath:/");
-            resolver.setTemplateFolder(environment.getProperty(themeFolderProperty, String.class, "templates/"));
-            resolver.setSuffix(".html");
-            resolver.setTemplateMode(BroadleafTemplateMode.HTML5);
-            resolver.setCharacterEncoding("UTF-8");
-            resolver.setCacheable(environment.getProperty(isCacheableProperty, Boolean.class, false));
-            resolver.setCacheTTLMs(environment.getProperty(cacheableTTLProperty, Long.class, 0L));
-            resolver.setOrder(400);
-            return resolver;
-        }
-    }
 }
