@@ -22,14 +22,23 @@ import org.broadleafcommerce.presentation.thymeleaf3.dialect.BroadleafThymeleaf3
 import org.broadleafcommerce.presentation.thymeleaf3.processor.ArbitraryHtmlInsertionProcessor;
 import org.broadleafcommerce.presentation.thymeleaf3.processor.BroadleafThymeleaf3CacheProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnJava;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.thymeleaf.dialect.IDialect;
+import org.thymeleaf.extras.java8time.dialect.Java8TimeDialect;
+import org.thymeleaf.extras.springsecurity4.dialect.SpringSecurityDialect;
 import org.thymeleaf.processor.IProcessor;
 import org.thymeleaf.spring4.dialect.SpringStandardDialect;
 
+import com.github.mxab.thymeleaf.extras.dataattribute.dialect.DataAttributeDialect;
+
 import java.util.LinkedHashSet;
 import java.util.Set;
+
+import nz.net.ultraq.thymeleaf.LayoutDialect;
 
 public abstract class AbstractThymeleaf3DialectConfig {
 
@@ -69,7 +78,56 @@ public abstract class AbstractThymeleaf3DialectConfig {
     public Set<IProcessor> blDialectProcessors() {
         return configUtil.getDialectProcessors(blcProcessors);
     }
-    
+
+    @Configuration
+    @ConditionalOnClass(name = "nz.net.ultraq.thymeleaf.LayoutDialect")
+    protected static class ThymeleafWebLayoutConfiguration {
+
+        @Bean
+        @ConditionalOnMissingBean
+        public LayoutDialect layoutDialect() {
+            return new LayoutDialect();
+        }
+
+    }
+
+    @Configuration
+    @ConditionalOnClass(DataAttributeDialect.class)
+    protected static class DataAttributeDialectConfiguration {
+
+        @Bean
+        @ConditionalOnMissingBean
+        public DataAttributeDialect dataAttributeDialect() {
+            return new DataAttributeDialect();
+        }
+
+    }
+
+    @Configuration
+    @ConditionalOnClass({ SpringSecurityDialect.class })
+    protected static class ThymeleafSecurityDialectConfiguration {
+
+        @Bean
+        @ConditionalOnMissingBean
+        public SpringSecurityDialect securityDialect() {
+            return new SpringSecurityDialect();
+        }
+
+    }
+
+    @Configuration
+    @ConditionalOnJava(ConditionalOnJava.JavaVersion.EIGHT)
+    @ConditionalOnClass(Java8TimeDialect.class)
+    protected static class ThymeleafJava8TimeDialect {
+
+        @Bean
+        @ConditionalOnMissingBean
+        public Java8TimeDialect java8TimeDialect() {
+            return new Java8TimeDialect();
+        }
+
+    }
+
     @Configuration
     static class AbstractThymeleaf3ProcessorConfig {
         @Bean
