@@ -1,4 +1,4 @@
-# Using Thymeleaf 3 with Broadleaf 5.1
+# Using Thymeleaf 3 with Broadleaf 5.1+
 
 ### What changed
 - All Thymeleaf specific code has been refactored into a Presentation module so now everything in Broadleaf uses classes that reside in `broadleaf-common-presentation`
@@ -14,7 +14,7 @@
 <dependency>
     <groupId>org.broadleafcommerce</groupId>
     <artifactId>broadleaf-thymeleaf3-presentation</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.1.0-GA</version>
 </dependency>
 ```
 
@@ -37,7 +37,7 @@
   - Targeting Broadleaf common layer
     - There is a Usage.md file in `broadleaf-common-presentation` that explains how create processors that use the Broadleaf common layer for templating. The advantage of targeting this API is now the processors are Thymeleaf version agnostic, therefore there's a good chance that when a new version of Thymeleaf is released, Broadleaf can make a `broadleaf-thymeleaf4-presentation` submodule and the processors will still work if the aforementioned dependency is updated to use that new submodule.
   - Targeting Thymeleaf 3 API
-    - With this approach you would change the extended class to a Thymeleaf 3 class, implement the needed functionality for the processor and then add that bean to either the `blDialectProcessors` bean or the `blAdminDialectProcessors` bean.
+    - With this approach you would change the extended class to a Thymeleaf 3 class, implement the needed functionality for the processor and then add that bean to either the `blDialectProcessors` bean or the `blAdminDialectProcessors` bean. Alternatively the processor can be component scanned or made as a bean in xml and it will automatically be added to both lists depending on the context in which the beans were created (i.e. if in site then just `blDialectProcessors`, if in core then both, and if in admin then both. The exception is if the processor is a `BroadleafProcessor`. In that case the prefix specified, `blc` or `blcadmin`, will determine which they get added to and therefore can just be created in core).
 
 
 ##### Migrating template resolvers
@@ -55,7 +55,7 @@
   - If there was any modifications made then the only change needed is the bean needs to be add to the List bean `blEmailTemplateResolvers`
 - Normal template resolvers
   - By default there was a servlet template resolver set up but that was done in `broadleaf-framework-web` so if there wasn't a template resolver added in any client application context's then there's no change.
-  - If there was any modifications made then the only change needed is to add that template resolver to the correct list of template resolvers which, by default, is `blWebTemplateResolvers` for site templates and `blAdminWebTemplateResolvers` for admin
+  - If there was any modifications made then the only change needed is to add that template resolver to the correct list of template resolvers which, by default, is `blWebTemplateResolvers` for site templates and `blAdminWebTemplateResolvers` for admin. As of version 1.1.0-GA of presentation layer it is also supported so that the template resolver just needs to be created as a bean and it'll be added to the `blEmailTemplateResolvers`, `blWebTemplateResolvers`, and `blAdminWebTemplateResolvers`. There likely won't be any side affects of including the resolver in all three template engines.
 
 ##### Migrating template engines
 - Email template engines
