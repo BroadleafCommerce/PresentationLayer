@@ -1,4 +1,4 @@
-# Using Thymeleaf 2 with Broadleaf 5.1
+# Using Thymeleaf 2 with Broadleaf 5.1+
 
 ### What changed
 - All Thymeleaf specific code has been refactored into a Presentation module so now everything in Broadleaf uses classes that reside in `broadleaf-common-presentation`
@@ -14,7 +14,7 @@
 <dependency>
     <groupId>org.broadleafcommerce</groupId>
     <artifactId>broadleaf-thymeleaf2-presentation</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.1.0-GA</version>
 </dependency>
 ```
 
@@ -22,7 +22,7 @@
 - These should all work just as they did before. The custom variable expressions will continue to extend the same class as they did before and the bean definition (whether it was done via component scanning or manual creation via xml) will be the exact same. The only difference is we no longer add variable expressions the bean `blVariableExpressions`. Simply creating the bean is enough.
 
 ##### Migrating processors
-- Technically we did change how processors are written in Broadleaf, but support was still left to work which how client's added custom processors before the refactoring of Thymeleaf. Therefore, as long as the beans are being created and being add to either the List bean `blDialectProcessors` or `blAdminDialectProcessors` then everything will work as it did before.
+- Technically we did change how processors are written in Broadleaf, but support was still left to work which how client's added custom processors before the refactoring of Thymeleaf. Therefore any processors that were added to the `blWebDialect`, `blEmailDialect`, or the `blAdminWebDialect` can simply be created as a bean through XML or component scanning instead of having to be added explicitly to the list of processors.
   - If it is a goal to upgrade to Thymeleaf 3 in the future then it is an option to use the common code in `broadleaf-common-presentation` in order for the processors to not care what version of Thymeleaf is being used or the processors could be upgraded to use the Thymeleaf 3 api directly
 
 ##### Migrating template resolvers
@@ -37,10 +37,10 @@
         <property name="cacheTTLMs" value="${cache.page.templates.ttl}" />
     </bean>
     ```
-  - If there was any modifications made then the only change needed is the bean needs to be add to the List bean `blEmailTemplateResolvers`
+  - If there was any modifications made then the only change needed is the bean needs to be add to the List bean `blEmailTemplateResolvers` or simply create the bean and the template resolver will be added for all template engine.
 - Normal template resolvers
   - By default there was a servlet template resolver set up but that was done in `broadleaf-framework-web` so if there wasn't a template resolver added in any client application context's then there's no change.
-  - If there was any modifications made then the only change needed is to add that template resolver to the correct list of template resolvers which, by default, is `blWebTemplateResolvers` for site templates and `blAdminWebTemplateResolvers` for admin
+  - If there was any modifications made then the only change needed is to add that template resolver to the correct list of template resolvers which, by default, is `blWebTemplateResolvers` for site templates and `blAdminWebTemplateResolvers` for admin. As of version 1.1.0-GA of presentation layer it is also supported so that the template resolver just needs to be created as a bean and it'll be added to the `blEmailTemplateResolvers`, `blWebTemplateResolvers`, and `blAdminWebTemplateResolvers`. There likely won't be any side affects of including the resolver in all three template engines.
 
 ##### Migrating template engines
 - Email template engines

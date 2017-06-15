@@ -19,97 +19,131 @@ package org.broadleafcommerce.presentation.thymeleaf3.site.config;
 
 import org.broadleafcommerce.common.logging.LifeCycleEvent;
 import org.broadleafcommerce.common.logging.ModuleLifecycleLoggingBean;
-import org.broadleafcommerce.presentation.cache.service.SimpleCacheKeyResolver;
-import org.broadleafcommerce.presentation.cache.service.TemplateCacheKeyResolverService;
-import org.broadleafcommerce.presentation.dialect.BroadleafProcessor;
-import org.broadleafcommerce.presentation.resolver.BroadleafTemplateResolver;
-import org.broadleafcommerce.presentation.thymeleaf3.config.Thymeleaf3ConfigUtils;
+import org.broadleafcommerce.presentation.thymeleaf3.BroadleafThymeleaf3MessageResolver;
+import org.broadleafcommerce.presentation.thymeleaf3.BroadleafThymeleaf3TemplateEngine;
+import org.broadleafcommerce.presentation.thymeleaf3.BroadleafThymeleafViewResolver;
+import org.broadleafcommerce.presentation.thymeleaf3.cache.BroadleafThymeleaf3CacheInvalidationContext;
+import org.broadleafcommerce.presentation.thymeleaf3.cache.BroadleafThymeleaf3CacheManager;
+import org.broadleafcommerce.presentation.thymeleaf3.config.AbstractThymeleaf3DialectConfig;
+import org.broadleafcommerce.presentation.thymeleaf3.config.AbstractThymeleaf3EngineConfig;
+import org.broadleafcommerce.presentation.thymeleaf3.config.Thymeleaf3CommonConfig;
 import org.broadleafcommerce.presentation.thymeleaf3.config.Thymeleaf3ModuleRegistration;
-import org.broadleafcommerce.presentation.thymeleaf3.dialect.BroadleafThymeleaf3Dialect;
-import org.broadleafcommerce.presentation.thymeleaf3.expression.BroadleafVariableExpressionObjectFactory;
-import org.broadleafcommerce.presentation.thymeleaf3.processor.ArbitraryHtmlInsertionProcessor;
-import org.broadleafcommerce.presentation.thymeleaf3.processor.BroadleafThymeleaf3CacheProcessor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.thymeleaf.expression.IExpressionObjectFactory;
-import org.thymeleaf.processor.IProcessor;
+import org.springframework.context.annotation.Primary;
+import org.springframework.core.env.Environment;
+import org.thymeleaf.ITemplateEngine;
+import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.cache.ICacheManager;
+import org.thymeleaf.dialect.IDialect;
+import org.thymeleaf.messageresolver.IMessageResolver;
 import org.thymeleaf.templateresolver.ITemplateResolver;
 
-import java.util.HashSet;
-import java.util.List;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
-import javax.annotation.Resource;
-
 @Configuration
-public class Thymeleaf3SiteConfig {
-    
-    @Resource
-    protected ApplicationContext applicationContext;
-    
-    @Resource
-    protected Thymeleaf3ConfigUtils configUtil;
-    
-    @Autowired
-    protected List<BroadleafTemplateResolver> templateResolvers;
-    
-    @Autowired
-    protected List<BroadleafProcessor> processors;
+public class Thymeleaf3SiteConfig extends Thymeleaf3CommonConfig {
     
     @Bean
     public ModuleLifecycleLoggingBean blThymeleaf3Lifecycle() {
         return new ModuleLifecycleLoggingBean(Thymeleaf3ModuleRegistration.MODULE_NAME, LifeCycleEvent.LOADING);
     }
     
-    @Bean
-    public Set<ITemplateResolver> blWebTemplateResolvers() {
-        return configUtil.getWebResolvers(templateResolvers);
+    @Configuration
+    static class Thymeleaf3SiteDialectConfig extends AbstractThymeleaf3DialectConfig {
+        
+        @Bean
+        public Set<IDialect> blWebDialects() {
+            Set<IDialect> dialects = new LinkedHashSet<>();
+            dialects.add(thymeleafSpringStandardDialect());
+            dialects.add(blDialect());
+            return dialects;
+        }
     }
     
-    @Bean
-    public Set<ITemplateResolver> blEmailTemplateResolvers() {
-        return configUtil.getEmailResolvers(templateResolvers);
-    }
-    
-    @Bean
-    public IProcessor blArbitraryHtmlInjectionProcessor() {
-        return new ArbitraryHtmlInsertionProcessor();
-    }
-    
-    @Bean
-    public IProcessor blCacheProcessor() {
-        return new BroadleafThymeleaf3CacheProcessor();
-    }
-    
-    @Bean
-    public Set<IProcessor> blDialectProcessors() {
-        return configUtil.getDialectProcessors(processors);
-    }
-    
-    @Bean
-    @ConditionalOnMissingBean(TemplateCacheKeyResolverService.class)
-    public SimpleCacheKeyResolver blTemplateCacheKeyResolver() {
-        return new SimpleCacheKeyResolver();
-    }
-    
-    @Bean
-    @ConditionalOnMissingBean(IExpressionObjectFactory.class)
-    public BroadleafVariableExpressionObjectFactory blVariableExpressionObjectFactory() {
-        return new BroadleafVariableExpressionObjectFactory();
-    }
+    @Configuration
+    static class Thymeleaf3SiteEngineConfig extends AbstractThymeleaf3EngineConfig {
+        
+        protected Set<IMessageResolver> messageResolvers;
+        
+        protected ICacheManager cacheManager;
 
+        public Thymeleaf3SiteEngineConfig(Set<IMessageResolver> messageResolvers,
+                                          ICacheManager cacheManager) {
+            this.messageResolvers = messageResolvers;
+            this.cacheManager = cacheManager;
+        }
+        
+        @Bean
+        @Primary
+        public BroadleafThymeleaf3TemplateEngine blWebTemplateEngine() {
+            BroadleafThymeleaf3TemplateEngine engine = new BroadleafThymeleaf3TemplateEngine();
+            engine.setMessageResolvers(messageResolvers);
+            Set<ITemplateResolver> allResolvers = new LinkedHashSet<>();
+            allResolvers.addAll(iTemplateResolvers);
+            allResolvers.addAll(blWebTemplateResolvers());
+            engine.setTemplateResolvers(allResolvers);
+            engine.setCacheManager(cacheManager);
+            engine.setDialects(dialects);
+            return engine;
+        }
+        
+        @Configuration
+        protected static class Thymeleaf3TemplateResolverConfig extends Thymeleaf3SiteTemplateConfig {}
+    }
+    
+    @Configuration
+    static class Thymeleaf3SiteViewConfig {
+        
+        protected ITemplateEngine templateEngine;
+        
+        protected Environment environment;
+        
+        public Thymeleaf3SiteViewConfig(ITemplateEngine templateEngine, Environment environment) {
+            this.templateEngine = templateEngine;
+            this.environment = environment;
+        }
+        
+        @Bean(name = {"blThymeleafViewResolver", "thymeleafViewResolver"})
+        public BroadleafThymeleafViewResolver blThymeleafViewResolver() {
+            BroadleafThymeleafViewResolver view = new BroadleafThymeleafViewResolver();
+            view.setTemplateEngine(templateEngine);
+            view.setOrder(1);
+            view.setCache(environment.getProperty("thymeleaf.view.resolver.cache", Boolean.class, true));
+            view.setCharacterEncoding("UTF-8");
+            return view;
+        }
+    }
+    
+    @Configuration
+    static class Thymeleaf3CacheInvalidationConfig {
+        
+        protected TemplateEngine templateEngine;
+        
+        public Thymeleaf3CacheInvalidationConfig(TemplateEngine templateEngine) {
+            this.templateEngine = templateEngine;
+        }
+        
+        @Bean
+        public BroadleafThymeleaf3CacheInvalidationContext blTemplateCacheInvalidationContext() {
+            BroadleafThymeleaf3CacheInvalidationContext context = new BroadleafThymeleaf3CacheInvalidationContext();
+            context.setTemplateEngine(templateEngine);
+            return context;
+        }
+        
+    }
+    
     @Bean
-    public BroadleafThymeleaf3Dialect blDialect() {
-        BroadleafThymeleaf3Dialect dialect = new BroadleafThymeleaf3Dialect();
-        Set<IProcessor> iProcessors = new HashSet<>();
-        iProcessors.addAll(blDialectProcessors());
-        iProcessors.add(blArbitraryHtmlInjectionProcessor());
-        iProcessors.add(blCacheProcessor());
-        dialect.setProcessors(iProcessors);
-        return dialect;
+    public IMessageResolver blMessageResolver() {
+        BroadleafThymeleaf3MessageResolver resolver = new BroadleafThymeleaf3MessageResolver();
+        resolver.setOrder(100);
+        return resolver;
+    }
+    
+    @Bean
+    public BroadleafThymeleaf3CacheManager blICacheManager() {
+        return new BroadleafThymeleaf3CacheManager();
     }
     
 }
