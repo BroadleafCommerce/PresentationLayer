@@ -1,5 +1,5 @@
 - [[Home | .]]
-- [[Migration | Thymeleaf 2 Migration]]
-- [[MigrationTL3 | Thymeleaf 3 Migration]]
+- [[Using Thymeleaf 2 | Migration ]]
+- [[Using Thymeleaf 3 | MigrationTL3 ]]
 - [[Usage | How to use this module]]
 - ^[javadoc:]
