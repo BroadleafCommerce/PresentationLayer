@@ -84,6 +84,9 @@ public abstract class AbstractThymeleaf2EngineConfig {
         IDialect blcDialect = null;
         for (IDialect d : unorderedDialects) {
             if (d instanceof BLCDialect) {
+                if (blcDialect != null) {
+                    correct.add(blcDialect);
+                }
                 blcDialect = d;
             } else {
                 correct.add(d);
