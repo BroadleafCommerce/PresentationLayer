@@ -64,15 +64,8 @@ public class BroadleafThymeleaf3ICache<K, V> implements ICache<K, V> {
         if (BroadleafRequestContext.getBroadleafRequestContext().getSandBox() != null) {
             return;
         }
-        String cacheKey;
-        if (key instanceof TemplateCacheKey) {
-            cacheKey = ((TemplateCacheKey) key).getTemplate();
-        } else if (key instanceof String) {
-            cacheKey = (String) key;
-        } else {
-            throw new RuntimeException("Key has to be either of type String or TemplateCacheKey. Key was of type " + key.getClass().getName());
-        }
-        ExtensionResultStatusType erst = extensionManager.getProxy().putCache(cacheKey, value, new BroadleafThymeleaf3CacheContext(this));
+
+        ExtensionResultStatusType erst = extensionManager.getProxy().putCache(key, value, new BroadleafThymeleaf3CacheContext(this));
 
         if (erst.equals(ExtensionResultStatusType.NOT_HANDLED)) {
             defaultPut(key, value);
@@ -95,16 +88,8 @@ public class BroadleafThymeleaf3ICache<K, V> implements ICache<K, V> {
             return value;
         }
 
-        String cacheKey;
-        if (key instanceof TemplateCacheKey) {
-            cacheKey = ((TemplateCacheKey) key).getTemplate();
-        } else if (key instanceof String) {
-            cacheKey = (String) key;
-        } else {
-            throw new RuntimeException("Key has to be either of type String or TemplateCacheKey. Key was of type " + key.getClass().getName());
-        }
         ExtensionResultHolder<V> result = new ExtensionResultHolder<>();
-        ExtensionResultStatusType erst = extensionManager.getProxy().getCache(cacheKey, (ExtensionResultHolder<Object>) result, new BroadleafThymeleaf3CacheContext(this));
+        ExtensionResultStatusType erst = extensionManager.getProxy().getCache(key, (ExtensionResultHolder<Object>) result, new BroadleafThymeleaf3CacheContext(this));
 
         if (erst.equals(ExtensionResultStatusType.HANDLED)) {
             value = result.getResult();
