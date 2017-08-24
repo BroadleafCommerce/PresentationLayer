@@ -19,26 +19,29 @@ package org.broadleafcommerce.presentation.thymeleaf2;
 
 import org.broadleafcommerce.common.site.domain.Theme;
 import org.broadleafcommerce.common.web.BroadleafRequestContext;
+import org.broadleafcommerce.common.web.resource.BroadleafContextUtil;
 import org.thymeleaf.TemplateProcessingParameters;
 import org.thymeleaf.spring4.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.util.Validate;
+
+import javax.annotation.Resource;
 
 /**
  * Overrides the Thymeleaf ContextTemplateResolver and appends the org.broadleafcommerce.presentation.thymeleaf2.Theme path to the url
  * if it exists.
  */
-public class BroadleafThymeleafThemeAwareTemplateResolver extends SpringResourceTemplateResolver {    
+public class BroadleafThymeleafThemeAwareTemplateResolver extends SpringResourceTemplateResolver {
+
+    @Resource(name = "blBroadleafContextUtil")
+    protected BroadleafContextUtil blcContextUtil;
     
     protected String templateFolder = "";
 
     @Override
     protected String computeResourceName(final TemplateProcessingParameters templateProcessingParameters) {
-        String themePath = null;
-    
-        Theme theme = BroadleafRequestContext.getBroadleafRequestContext().getTheme();
-        if (theme != null && theme.getPath() != null) {
-            themePath = theme.getPath();
-        }             
+        blcContextUtil.establishThinRequestContext();
+
+        String themePath = getThemePath();
 
         checkInitialized();
 
@@ -58,9 +61,9 @@ public class BroadleafThymeleafThemeAwareTemplateResolver extends SpringResource
         } else {
             resourceName.append('/');
         }
-        if (themePath != null) {        
+        if (themePath != null) {
             resourceName.append(themePath).append('/');
-        } 
+        }
         if (templateName != null) {
             resourceName.append(templateFolder);
         }
@@ -72,7 +75,13 @@ public class BroadleafThymeleafThemeAwareTemplateResolver extends SpringResource
 
         return resourceName.toString();
     }
-    
+
+    protected String getThemePath() {
+        Theme theme = BroadleafRequestContext.getBroadleafRequestContext().getTheme();
+
+        return (theme == null) ? null : theme.getPath();
+    }
+
     public String getTemplateFolder() {
         return templateFolder;
     }

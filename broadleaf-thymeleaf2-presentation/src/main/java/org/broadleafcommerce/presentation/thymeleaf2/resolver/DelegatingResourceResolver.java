@@ -17,11 +17,14 @@
  */
 package org.broadleafcommerce.presentation.thymeleaf2.resolver;
 
+import org.broadleafcommerce.common.web.resource.BroadleafContextUtil;
 import org.broadleafcommerce.presentation.resolver.BroadleafTemplateResolver;
 import org.thymeleaf.TemplateProcessingParameters;
 import org.thymeleaf.resourceresolver.IResourceResolver;
 
 import java.io.InputStream;
+
+import javax.annotation.Resource;
 
 
 /**
@@ -31,6 +34,10 @@ import java.io.InputStream;
  * @author Jon Fleschler (jfleschler)
  */
 public class DelegatingResourceResolver implements IResourceResolver {
+
+    @Resource(name = "blBroadleafContextUtil")
+    protected BroadleafContextUtil blcContextUtil;
+
     protected BroadleafTemplateResolver templateResolver;
 
     public DelegatingResourceResolver(BroadleafTemplateResolver templateResolver) {
@@ -44,6 +51,7 @@ public class DelegatingResourceResolver implements IResourceResolver {
 
     @Override
     public InputStream getResourceAsStream(TemplateProcessingParameters params, String resourceName) {
+        blcContextUtil.establishThinRequestContext();
         return templateResolver.resolveResource(params.getTemplateName(), resourceName);
     }
 }
