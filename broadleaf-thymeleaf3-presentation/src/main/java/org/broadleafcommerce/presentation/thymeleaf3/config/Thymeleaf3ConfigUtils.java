@@ -19,6 +19,7 @@ package org.broadleafcommerce.presentation.thymeleaf3.config;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.broadleafcommerce.common.web.resource.BroadleafContextUtil;
 import org.broadleafcommerce.core.web.resolver.DatabaseResourceResolverExtensionManager;
 import org.broadleafcommerce.presentation.dialect.BroadleafAttributeModifierProcessor;
 import org.broadleafcommerce.presentation.dialect.BroadleafModelModifierProcessor;
@@ -162,6 +163,7 @@ public class Thymeleaf3ConfigUtils {
         commonTemplateResolver(resolver, databaseResolver);
         databaseResolver.setPrefix(resolver.getPrefix() + resolver.getTemplateFolder());
         databaseResolver.setResourceResolverExtensionManager(applicationContext.getBean("blDatabaseResourceResolverExtensionManager", DatabaseResourceResolverExtensionManager.class));
+        databaseResolver.setBroadleafContextUtil(applicationContext.getBean("blBroadleafContextUtil", BroadleafContextUtil.class));
         return databaseResolver;
     }
 

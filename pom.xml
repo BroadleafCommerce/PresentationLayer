@@ -20,7 +20,7 @@
     <properties>
         <project.uri>${project.baseUri}</project.uri>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <blc.version>5.2.0-GA</blc.version>
+        <blc.version>5.2.1-SNAPSHOT</blc.version>
         <broadleaf-common-presentation.version>1.0.2-GA</broadleaf-common-presentation.version>
     </properties>
 

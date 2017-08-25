@@ -20,6 +20,7 @@ package org.broadleafcommerce.presentation.thymeleaf3.resolver;
 import org.apache.commons.io.FilenameUtils;
 import org.broadleafcommerce.common.extension.ExtensionResultHolder;
 import org.broadleafcommerce.common.extension.ExtensionResultStatusType;
+import org.broadleafcommerce.common.web.resource.BroadleafContextUtil;
 import org.broadleafcommerce.core.web.resolver.DatabaseResourceResolverExtensionHandler;
 import org.broadleafcommerce.core.web.resolver.DatabaseResourceResolverExtensionManager;
 import org.thymeleaf.templateresource.ITemplateResource;
@@ -38,12 +39,15 @@ import java.io.Reader;
  * @author Andre Azzolini (apazzolini)
  */
 public class BroadleafThymeleaf3DatabaseResourceResolver implements ITemplateResource {
-    
+
+    protected BroadleafContextUtil blcContextUtil;
     protected DatabaseResourceResolverExtensionManager extensionManager;
     protected String path;
     
-    public BroadleafThymeleaf3DatabaseResourceResolver(DatabaseResourceResolverExtensionManager extensionManager, String path) {
+    public BroadleafThymeleaf3DatabaseResourceResolver(DatabaseResourceResolverExtensionManager extensionManager,
+            BroadleafContextUtil blcContextUtil, String path) {
         this.extensionManager = extensionManager;
+        this.blcContextUtil = blcContextUtil;
         this.path = path;
     }
 
@@ -84,6 +88,8 @@ public class BroadleafThymeleaf3DatabaseResourceResolver implements ITemplateRes
     }
     
     protected InputStream resolveResource() {
+        blcContextUtil.establishThinRequestContext();
+
         ExtensionResultHolder erh = new ExtensionResultHolder();
         ExtensionResultStatusType result = extensionManager.getProxy().resolveResource(erh, path);
         if (result ==  ExtensionResultStatusType.HANDLED) {

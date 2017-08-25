@@ -19,6 +19,7 @@ package org.broadleafcommerce.presentation.thymeleaf2.resolver;
 
 import org.broadleafcommerce.common.extension.ExtensionResultHolder;
 import org.broadleafcommerce.common.extension.ExtensionResultStatusType;
+import org.broadleafcommerce.common.web.resource.BroadleafContextUtil;
 import org.broadleafcommerce.core.web.resolver.DatabaseResourceResolverExtensionHandler;
 import org.broadleafcommerce.core.web.resolver.DatabaseResourceResolverExtensionManager;
 import org.springframework.stereotype.Service;
@@ -38,6 +39,9 @@ import javax.annotation.Resource;
  */
 @Service("blDatabaseResourceResolver")
 public class DatabaseResourceResolver implements IResourceResolver {
+
+    @Resource(name = "blBroadleafContextUtil")
+    protected BroadleafContextUtil blcContextUtil;
     
     @Override
     public String getName() {
@@ -49,6 +53,8 @@ public class DatabaseResourceResolver implements IResourceResolver {
 
     @Override
     public InputStream getResourceAsStream(TemplateProcessingParameters params, String resourceName) {
+        blcContextUtil.establishThinRequestContext();
+
         ExtensionResultHolder erh = new ExtensionResultHolder();
         ExtensionResultStatusType result = extensionManager.getProxy().resolveResource(erh, resourceName);
         if (result ==  ExtensionResultStatusType.HANDLED) {

@@ -20,6 +20,7 @@ package org.broadleafcommerce.presentation.thymeleaf3;
 import org.apache.commons.lang3.StringUtils;
 import org.broadleafcommerce.common.site.domain.Theme;
 import org.broadleafcommerce.common.web.BroadleafRequestContext;
+import org.broadleafcommerce.common.web.resource.BroadleafContextUtil;
 import org.thymeleaf.IEngineConfiguration;
 import org.thymeleaf.spring4.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.templateresource.ITemplateResource;
@@ -27,12 +28,17 @@ import org.thymeleaf.util.Validate;
 
 import java.util.Map;
 
+import javax.annotation.Resource;
+
 /**
  * Overrides the Thymeleaf ContextTemplateResolver and appends the org.broadleafcommerce.presentation.thymeleaf3.Theme path to the url
  * if it exists.
  */
-public class BroadleafThymeleaf3ThemeAwareTemplateResolver extends SpringResourceTemplateResolver {    
-    
+public class BroadleafThymeleaf3ThemeAwareTemplateResolver extends SpringResourceTemplateResolver {
+
+    @Resource(name = "blBroadleafContextUtil")
+    protected BroadleafContextUtil blcContextUtil;
+
     protected String templateFolder = "";
     
     public BroadleafThymeleaf3ThemeAwareTemplateResolver() {
@@ -41,19 +47,14 @@ public class BroadleafThymeleaf3ThemeAwareTemplateResolver extends SpringResourc
     }
 
     @Override
-    protected ITemplateResource computeTemplateResource(
-            final IEngineConfiguration configuration, final String ownerTemplate, final String template, final String resourceName, final String characterEncoding, final Map<String, Object> templateResolutionAttributes) {
-        
-        
-        String themePath = null;
-    
-        Theme theme = BroadleafRequestContext.getBroadleafRequestContext().getTheme();
-        if (theme != null && theme.getPath() != null) {
-            themePath = theme.getPath();
-        }             
+    protected ITemplateResource computeTemplateResource(final IEngineConfiguration configuration, final String ownerTemplate,
+            final String template, final String resourceName, final String characterEncoding, final Map<String, Object> templateResolutionAttributes) {
+        blcContextUtil.establishThinRequestContext();
+
+        String themePath = getThemePath();
 
         Validate.notNull(template, "Template name cannot be null");
-        
+
         String prefix = this.getPrefix();
         String themeAwareResourceName = resourceName;
         String actualPath = templateFolder == null ? "" : templateFolder;
@@ -71,7 +72,13 @@ public class BroadleafThymeleaf3ThemeAwareTemplateResolver extends SpringResourc
 
         return super.computeTemplateResource(configuration, ownerTemplate, template, themeAwareResourceName, characterEncoding, templateResolutionAttributes);
     }
-    
+
+    protected String getThemePath() {
+        Theme theme = BroadleafRequestContext.getBroadleafRequestContext().getTheme();
+
+        return (theme == null) ? null : theme.getPath();
+    }
+
     public String getTemplateFolder() {
         return templateFolder;
     }
