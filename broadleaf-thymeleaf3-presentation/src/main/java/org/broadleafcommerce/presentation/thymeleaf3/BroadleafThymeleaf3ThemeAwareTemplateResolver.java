@@ -50,10 +50,7 @@ public class BroadleafThymeleaf3ThemeAwareTemplateResolver extends SpringResourc
     protected ITemplateResource computeTemplateResource(final IEngineConfiguration configuration, final String ownerTemplate,
             final String template, final String resourceName, final String characterEncoding, final Map<String, Object> templateResolutionAttributes) {
 
-        BroadleafRequestContext broadleafRequestContext = BroadleafRequestContext.getBroadleafRequestContext();
-        if (!broadleafRequestContext.getAdmin() && broadleafRequestContext.getTheme() == null) {
-            blcContextUtil.establishThinRequestContext();
-        }
+        blcContextUtil.establishThinRequestContextWithoutSandBox();
 
         String themePath = getThemePath();
 
