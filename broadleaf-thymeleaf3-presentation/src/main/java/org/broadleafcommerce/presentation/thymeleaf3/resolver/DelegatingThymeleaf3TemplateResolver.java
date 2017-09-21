@@ -51,7 +51,7 @@ public class DelegatingThymeleaf3TemplateResolver extends SpringResourceTemplate
     protected ITemplateResource computeTemplateResource(final IEngineConfiguration configuration, final String ownerTemplate,
                                                         final String template, final String resourceName, final String characterEncoding,
                                                         final Map<String, Object> templateResolutionAttributes) {
-        blcContextUtil.establishThinRequestContext();
+        blcContextUtil.establishThinRequestContextWithoutSandBox();
         InputStream resolvedResource = templateResolver.resolveResource(template, resourceName);
         return new BroadleafThymeleaf3ITemplateResource(resourceName, resolvedResource);
     }
