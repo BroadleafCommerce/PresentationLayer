@@ -28,6 +28,7 @@ import org.broadleafcommerce.presentation.thymeleaf3.config.AbstractThymeleaf3Di
 import org.broadleafcommerce.presentation.thymeleaf3.config.AbstractThymeleaf3EngineConfig;
 import org.broadleafcommerce.presentation.thymeleaf3.config.Thymeleaf3CommonConfig;
 import org.broadleafcommerce.presentation.thymeleaf3.config.Thymeleaf3ModuleRegistration;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
@@ -142,6 +143,7 @@ public class Thymeleaf3SiteConfig extends Thymeleaf3CommonConfig {
     }
     
     @Bean
+    @ConditionalOnMissingBean(ICacheManager.class)
     public BroadleafThymeleaf3CacheManager blICacheManager() {
         return new BroadleafThymeleaf3CacheManager();
     }
