@@ -2,4 +2,5 @@
 - [[Using Thymeleaf 2 | Migration ]]
 - [[Using Thymeleaf 3 | MigrationTL3 ]]
 - [[How to use this module | Usage]]
+- [[Release Notes]]
 - ^[javadoc:]
