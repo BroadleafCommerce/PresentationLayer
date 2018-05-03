@@ -22,7 +22,7 @@ import org.broadleafcommerce.common.site.domain.Theme;
 import org.broadleafcommerce.common.web.BroadleafRequestContext;
 import org.broadleafcommerce.common.web.resource.BroadleafContextUtil;
 import org.thymeleaf.IEngineConfiguration;
-import org.thymeleaf.spring4.templateresolver.SpringResourceTemplateResolver;
+import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.templateresource.ITemplateResource;
 import org.thymeleaf.util.Validate;
 

@@ -25,6 +25,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnJava;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.system.JavaVersion;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.thymeleaf.dialect.IDialect;
@@ -131,7 +132,7 @@ public abstract class AbstractThymeleaf2DialectConfig {
     }
 
     @Configuration
-    @ConditionalOnJava(ConditionalOnJava.JavaVersion.EIGHT)
+    @ConditionalOnJava(JavaVersion.EIGHT)
     @ConditionalOnClass(Java8TimeDialect.class)
     protected static class ThymeleafJava8TimeDialect {
 

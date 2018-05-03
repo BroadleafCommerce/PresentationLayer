@@ -18,11 +18,11 @@
 package org.broadleafcommerce.presentation.thymeleaf3.model;
 
 import org.broadleafcommerce.presentation.model.BroadleafAssignation;
+import org.broadleafcommerce.presentation.model.BroadleafBindStatus;
 import org.broadleafcommerce.presentation.model.BroadleafTemplateContext;
 import org.broadleafcommerce.presentation.model.BroadleafTemplateElement;
 import org.broadleafcommerce.presentation.model.BroadleafTemplateModel;
 import org.broadleafcommerce.presentation.model.BroadleafTemplateNonVoidElement;
-import org.springframework.web.servlet.support.BindStatus;
 import org.thymeleaf.context.ITemplateContext;
 import org.thymeleaf.context.WebEngineContext;
 import org.thymeleaf.model.AttributeValueQuotes;
@@ -32,7 +32,7 @@ import org.thymeleaf.model.IStandaloneElementTag;
 import org.thymeleaf.model.IText;
 import org.thymeleaf.processor.element.IElementModelStructureHandler;
 import org.thymeleaf.processor.element.IElementTagStructureHandler;
-import org.thymeleaf.spring4.util.FieldUtils;
+import org.thymeleaf.spring5.util.FieldUtils;
 import org.thymeleaf.standard.expression.Assignation;
 import org.thymeleaf.standard.expression.AssignationUtils;
 import org.thymeleaf.standard.expression.StandardExpressions;
@@ -153,8 +153,8 @@ public class BroadleafThymeleaf3Context implements BroadleafTemplateContext {
     }
 
     @Override
-    public BindStatus getBindStatus(String attributeValue) {
-        return FieldUtils.getBindStatus(context, attributeValue);
+    public BroadleafBindStatus getBindStatus(String attributeValue) {
+        return new BroadleafThymeleaf3BindStatus(FieldUtils.getBindStatus(context, attributeValue));
     }
 
     @Override

@@ -22,7 +22,7 @@ import org.apache.commons.logging.LogFactory;
 import org.broadleafcommerce.common.web.resource.BroadleafContextUtil;
 import org.broadleafcommerce.presentation.resolver.BroadleafTemplateResolver;
 import org.thymeleaf.IEngineConfiguration;
-import org.thymeleaf.spring4.templateresolver.SpringResourceTemplateResolver;
+import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.templateresource.ITemplateResource;
 
 import java.io.InputStream;

@@ -34,6 +34,7 @@ import org.thymeleaf.ITemplateEngine;
 import org.thymeleaf.dialect.IDialect;
 import org.thymeleaf.messageresolver.IMessageResolver;
 import org.thymeleaf.processor.IProcessor;
+import org.thymeleaf.spring5.ISpringTemplateEngine;
 import org.thymeleaf.templateresolver.ITemplateResolver;
 
 import java.util.ArrayList;
@@ -128,11 +129,11 @@ public class Thymeleaf3AdminConfig extends Thymeleaf3CommonConfig {
     @Configuration
     static class Thymeleaf3AdminViewConfig {
         
-        protected ITemplateEngine templateEngine;
+        protected ISpringTemplateEngine templateEngine;
         
         protected Environment environment;
         
-        public Thymeleaf3AdminViewConfig(ITemplateEngine templateEngine, Environment environment) {
+        public Thymeleaf3AdminViewConfig(ISpringTemplateEngine templateEngine, Environment environment) {
             this.templateEngine = templateEngine;
             this.environment = environment;
         }
