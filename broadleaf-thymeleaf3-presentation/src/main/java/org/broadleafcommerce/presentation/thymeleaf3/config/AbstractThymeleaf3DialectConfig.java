@@ -10,7 +10,7 @@
  * the Broadleaf End User License Agreement (EULA), Version 1.1
  * (the "Commercial License" located at http://license.broadleafcommerce.org/commercial_license-1.1.txt)
  * shall apply.
- * 
+ *
  * Alternatively, the Commercial License may be replaced with a mutually agreed upon license (the "Custom License")
  * between you and Broadleaf Commerce. You may not use this file except in compliance with the applicable license.
  * #L%
@@ -45,18 +45,18 @@ public abstract class AbstractThymeleaf3DialectConfig {
 
     @Autowired(required = false)
     protected Set<IProcessor> iProcessors = new LinkedHashSet<>();
-    
+
     @Autowired(required = false)
     protected Set<BroadleafProcessor> blcProcessors = new LinkedHashSet<>();
-    
+
     @Autowired
     protected Thymeleaf3ConfigUtils configUtil;
-    
+
     @Bean
     public SpringStandardDialect thymeleafSpringStandardDialect() {
         return new SpringStandardDialect();
     }
-    
+
     @Bean
     public Set<IDialect> blEmailDialects() {
         Set<IDialect> dialects = new LinkedHashSet<>();
@@ -64,7 +64,7 @@ public abstract class AbstractThymeleaf3DialectConfig {
         dialects.add(blDialect());
         return dialects;
     }
-    
+
     @Bean
     public BroadleafThymeleaf3Dialect blDialect() {
         BroadleafThymeleaf3Dialect dialect = new BroadleafThymeleaf3Dialect();
@@ -74,7 +74,7 @@ public abstract class AbstractThymeleaf3DialectConfig {
         dialect.setProcessors(allProcessors);
         return dialect;
     }
-    
+
     @Bean
     public Set<IProcessor> blDialectProcessors() {
         return configUtil.getDialectProcessors(blcProcessors);
@@ -135,12 +135,12 @@ public abstract class AbstractThymeleaf3DialectConfig {
         public IProcessor blArbitraryHtmlInjectionProcessor() {
             return new ArbitraryHtmlInsertionProcessor();
         }
-        
+
         @Bean
         public IProcessor blCacheProcessor() {
             return new BroadleafThymeleaf3CacheProcessor();
         }
-        
+
     }
-    
+
 }

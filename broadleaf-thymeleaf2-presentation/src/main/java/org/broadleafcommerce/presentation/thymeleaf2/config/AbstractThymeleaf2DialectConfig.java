@@ -10,7 +10,7 @@
  * the Broadleaf End User License Agreement (EULA), Version 1.1
  * (the "Commercial License" located at http://license.broadleafcommerce.org/commercial_license-1.1.txt)
  * shall apply.
- * 
+ *
  * Alternatively, the Commercial License may be replaced with a mutually agreed upon license (the "Custom License")
  * between you and Broadleaf Commerce. You may not use this file except in compliance with the applicable license.
  * #L%
@@ -46,13 +46,13 @@ public abstract class AbstractThymeleaf2DialectConfig {
 
     @Autowired(required = false)
     protected Set<IProcessor> iProcessors = new LinkedHashSet<>();
-    
+
     @Autowired(required = false)
     protected Set<BroadleafProcessor> blcProcessors = new LinkedHashSet<>();
-    
+
     @Autowired
     protected Thymeleaf2ConfigUtils configUtil;
-    
+
     @Bean
     public Set<IDialect> blEmailDialects() {
         // In order for BLC's expression evaluator to be used this has to be a linked hashset
@@ -62,17 +62,17 @@ public abstract class AbstractThymeleaf2DialectConfig {
         emailDialects.add(blDialect());
         return emailDialects;
     }
-    
+
     @Bean
     public SpringStandardDialect thymeleafSpringStandardDialect() {
         return new SpringStandardDialect();
     }
-    
+
     @Bean
     public Set<IProcessor> blDialectProcessors() {
         return configUtil.getDialectProcessors(blcProcessors);
     }
-    
+
     @Bean
     public BLCDialect blDialect() {
         BLCDialect dialect = new BLCDialect();
@@ -82,7 +82,7 @@ public abstract class AbstractThymeleaf2DialectConfig {
         dialect.setProcessors(allProcessors);
         return dialect;
     }
-    
+
     @Configuration
     @ConditionalOnClass(ConditionalCommentsDialect.class)
     static class ThymeleafConditionalCommentsDialectConfiguration {
@@ -94,7 +94,7 @@ public abstract class AbstractThymeleaf2DialectConfig {
         }
 
     }
-    
+
     @Configuration
     @ConditionalOnClass(name = "nz.net.ultraq.thymeleaf.LayoutDialect")
     protected static class ThymeleafWebLayoutConfiguration {
@@ -143,19 +143,19 @@ public abstract class AbstractThymeleaf2DialectConfig {
         }
 
     }
-    
+
     @Configuration
     static class AbstractThymeleaf2ProcessorConfig {
         @Bean
         public IProcessor blArbitraryHtmlInjectionProcessor() {
             return new ArbitraryHtmlInsertionProcessor();
         }
-        
+
         @Bean
         public IProcessor blCacheProcessor() {
             return new BroadleafCacheProcessor();
         }
-        
+
     }
-    
+
 }
