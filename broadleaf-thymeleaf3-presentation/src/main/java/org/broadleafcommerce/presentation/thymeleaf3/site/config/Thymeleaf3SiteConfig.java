@@ -38,6 +38,7 @@ import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.cache.ICacheManager;
 import org.thymeleaf.dialect.IDialect;
 import org.thymeleaf.messageresolver.IMessageResolver;
+import org.thymeleaf.spring5.ISpringTemplateEngine;
 import org.thymeleaf.templateresolver.ITemplateResolver;
 
 import java.util.LinkedHashSet;
@@ -97,11 +98,11 @@ public class Thymeleaf3SiteConfig extends Thymeleaf3CommonConfig {
     @Configuration
     static class Thymeleaf3SiteViewConfig {
         
-        protected ITemplateEngine templateEngine;
+        protected ISpringTemplateEngine templateEngine;
         
         protected Environment environment;
         
-        public Thymeleaf3SiteViewConfig(ITemplateEngine templateEngine, Environment environment) {
+        public Thymeleaf3SiteViewConfig(ISpringTemplateEngine templateEngine, Environment environment) {
             this.templateEngine = templateEngine;
             this.environment = environment;
         }
@@ -120,9 +121,9 @@ public class Thymeleaf3SiteConfig extends Thymeleaf3CommonConfig {
     @Configuration
     static class Thymeleaf3CacheInvalidationConfig {
         
-        protected TemplateEngine templateEngine;
+        protected ISpringTemplateEngine templateEngine;
         
-        public Thymeleaf3CacheInvalidationConfig(TemplateEngine templateEngine) {
+        public Thymeleaf3CacheInvalidationConfig(ISpringTemplateEngine templateEngine) {
             this.templateEngine = templateEngine;
         }
         

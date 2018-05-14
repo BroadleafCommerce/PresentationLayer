@@ -37,8 +37,8 @@ import org.springframework.web.servlet.support.RequestContextUtils;
 import org.springframework.web.servlet.view.RedirectView;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
-import org.thymeleaf.spring4.view.AbstractThymeleafView;
-import org.thymeleaf.spring4.view.ThymeleafViewResolver;
+import org.thymeleaf.spring5.view.AbstractThymeleafView;
+import org.thymeleaf.spring5.view.ThymeleafViewResolver;
 
 import java.util.HashMap;
 import java.util.Locale;

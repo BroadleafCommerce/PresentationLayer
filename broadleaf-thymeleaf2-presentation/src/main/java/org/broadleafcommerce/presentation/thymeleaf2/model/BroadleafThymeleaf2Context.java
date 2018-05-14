@@ -18,6 +18,7 @@
 package org.broadleafcommerce.presentation.thymeleaf2.model;
 
 import org.broadleafcommerce.presentation.model.BroadleafAssignation;
+import org.broadleafcommerce.presentation.model.BroadleafBindStatus;
 import org.broadleafcommerce.presentation.model.BroadleafTemplateContext;
 import org.broadleafcommerce.presentation.model.BroadleafTemplateElement;
 import org.broadleafcommerce.presentation.model.BroadleafTemplateModel;
@@ -130,8 +131,8 @@ public class BroadleafThymeleaf2Context implements BroadleafTemplateContext {
     }
 
     @Override
-    public BindStatus getBindStatus(String attributeValue) {
-        return FieldUtils.getBindStatus(arguments.getConfiguration(), arguments, attributeValue);
+    public BroadleafBindStatus getBindStatus(String attributeValue) {
+        return new BroadleafThymeleaf2BindStatus(FieldUtils.getBindStatus(arguments.getConfiguration(), arguments, attributeValue));
     }
 
     @Override

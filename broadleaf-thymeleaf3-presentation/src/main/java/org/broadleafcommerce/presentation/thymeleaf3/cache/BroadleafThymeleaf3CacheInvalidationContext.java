@@ -19,21 +19,23 @@ package org.broadleafcommerce.presentation.thymeleaf3.cache;
 
 import org.broadleafcommerce.presentation.cache.BroadleafTemplateCacheInvalidationContext;
 import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.spring5.ISpringTemplateEngine;
 
 public class BroadleafThymeleaf3CacheInvalidationContext implements BroadleafTemplateCacheInvalidationContext {
 
-    protected TemplateEngine templateEngine;
+    protected ISpringTemplateEngine templateEngine;
     
     @Override
     public void clearTemplateCacheFor(String path) {
-        templateEngine.clearTemplateCacheFor(path);
+        //templateEngine.clearTemplateCacheFor(path);
+        throw new UnsupportedOperationException("Not Supported");
     }
 
-    public TemplateEngine getTemplateEngine() {
+    public ISpringTemplateEngine getTemplateEngine() {
         return templateEngine;
     }
     
-    public void setTemplateEngine(TemplateEngine templateEngine) {
+    public void setTemplateEngine(ISpringTemplateEngine templateEngine) {
         this.templateEngine = templateEngine;
     }
 
