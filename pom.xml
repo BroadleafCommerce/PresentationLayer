@@ -143,7 +143,6 @@
     </dependencies>
 
     <modules>
-        <module>broadleaf-thymeleaf2-presentation</module>
         <module>broadleaf-thymeleaf3-presentation</module>
     </modules>
 </project>
