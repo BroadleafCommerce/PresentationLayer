@@ -34,7 +34,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.core.env.Environment;
 import org.thymeleaf.ITemplateEngine;
-import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.cache.ICacheManager;
 import org.thymeleaf.dialect.IDialect;
 import org.thymeleaf.messageresolver.IMessageResolver;
@@ -121,9 +120,9 @@ public class Thymeleaf3SiteConfig extends Thymeleaf3CommonConfig {
     @Configuration
     static class Thymeleaf3CacheInvalidationConfig {
         
-        protected ISpringTemplateEngine templateEngine;
+        protected ITemplateEngine templateEngine;
         
-        public Thymeleaf3CacheInvalidationConfig(ISpringTemplateEngine templateEngine) {
+        public Thymeleaf3CacheInvalidationConfig(ITemplateEngine templateEngine) {
             this.templateEngine = templateEngine;
         }
         
