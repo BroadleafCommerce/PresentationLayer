@@ -121,7 +121,7 @@
         <url>https://github.com/BroadleafCommerce/PresentationLayer</url>
         <tag>HEAD</tag>
     </scm>
-    
+
     <dependencies>
         <!-- Required -->
         <dependency>
@@ -134,7 +134,7 @@
             <artifactId>broadleaf-common-presentation</artifactId>
             <version>${broadleaf-common-presentation.version}</version>
         </dependency>
-        
+
         <!-- Required but provided -->
         <dependency>
             <groupId>javax.servlet</groupId>
@@ -147,4 +147,3 @@
         <module>broadleaf-thymeleaf3-presentation</module>
     </modules>
 </project>
-
