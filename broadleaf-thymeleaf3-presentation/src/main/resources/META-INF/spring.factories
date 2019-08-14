@@ -1,0 +1,2 @@
+org.broadleafcommerce.common.module.BroadleafModuleRegistration=org.broadleafcommerce.presentation.thymeleaf3.config.Thymeleaf3ModuleRegistration
+org.broadleafcommerce.common.config.FrameworkCommonClasspathPropertySource=org.broadleafcommerce.presentation.thymeleaf3.config.Thymeleaf3Properties

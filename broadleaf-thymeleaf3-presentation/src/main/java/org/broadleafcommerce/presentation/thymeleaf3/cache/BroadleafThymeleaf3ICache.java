@@ -30,6 +30,8 @@ import org.thymeleaf.util.Validate;
 
 import java.lang.ref.SoftReference;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
@@ -62,15 +64,8 @@ public class BroadleafThymeleaf3ICache<K, V> implements ICache<K, V> {
         if (BroadleafRequestContext.getBroadleafRequestContext().getSandBox() != null) {
             return;
         }
-        String cacheKey;
-        if (key instanceof TemplateCacheKey) {
-            cacheKey = ((TemplateCacheKey) key).getTemplate();
-        } else if (key instanceof String) {
-            cacheKey = (String) key;
-        } else {
-            throw new RuntimeException("Key has to be either of type String or TemplateCacheKey. Key was of type " + key.getClass().getName());
-        }
-        ExtensionResultStatusType erst = extensionManager.getProxy().putCache(cacheKey, value, new BroadleafThymeleaf3CacheContext(this));
+
+        ExtensionResultStatusType erst = extensionManager.getProxy().putCache(key, value, new BroadleafThymeleaf3CacheContext(this));
 
         if (erst.equals(ExtensionResultStatusType.NOT_HANDLED)) {
             defaultPut(key, value);
@@ -93,16 +88,8 @@ public class BroadleafThymeleaf3ICache<K, V> implements ICache<K, V> {
             return value;
         }
 
-        String cacheKey;
-        if (key instanceof TemplateCacheKey) {
-            cacheKey = ((TemplateCacheKey) key).getTemplate();
-        } else if (key instanceof String) {
-            cacheKey = (String) key;
-        } else {
-            throw new RuntimeException("Key has to be either of type String or TemplateCacheKey. Key was of type " + key.getClass().getName());
-        }
-        ExtensionResultHolder<V> result = new ExtensionResultHolder<V>();
-        ExtensionResultStatusType erst = extensionManager.getProxy().getCache(cacheKey, (ExtensionResultHolder<Object>) result, new BroadleafThymeleaf3CacheContext(this));
+        ExtensionResultHolder<V> result = new ExtensionResultHolder<>();
+        ExtensionResultStatusType erst = extensionManager.getProxy().getCache(key, (ExtensionResultHolder<Object>) result, new BroadleafThymeleaf3CacheContext(this));
 
         if (erst.equals(ExtensionResultStatusType.HANDLED)) {
             value = result.getResult();
@@ -142,7 +129,7 @@ public class BroadleafThymeleaf3ICache<K, V> implements ICache<K, V> {
         this.traceExecution = (logger != null && logger.isTraceEnabled());
 
         this.dataContainer =
-                new CacheDataContainer<K,V>(this.name, initialCapacity, maxSize, this.traceExecution, this.logger);
+                new CacheDataContainer<>(this.name, initialCapacity, maxSize, this.traceExecution, this.logger);
 
         this.getCount = new AtomicLong(0);
         this.putCount = new AtomicLong(0);
@@ -180,7 +167,7 @@ public class BroadleafThymeleaf3ICache<K, V> implements ICache<K, V> {
         }
         incrementReportEntity(this.putCount);
 
-        final CacheEntry<V> entry = new CacheEntry<V>(value, this.useSoftReferences);
+        final CacheEntry<V> entry = new CacheEntry<>(value, this.useSoftReferences);
 
         // newSize will be -1 if traceExecution is false
         final int newSize = this.dataContainer.put((K) templateCacheKey, entry);
@@ -234,6 +221,7 @@ public class BroadleafThymeleaf3ICache<K, V> implements ICache<K, V> {
     private final AtomicLong hitCount;
     private final AtomicLong missCount;
 
+    @Override
     public V get(final K key, final ICacheEntryValidityChecker<? super K, ? super V> validityChecker) {
 
         incrementReportEntity(this.getCount);
@@ -291,10 +279,12 @@ public class BroadleafThymeleaf3ICache<K, V> implements ICache<K, V> {
      * @return the complete set of cache keys. Might include keys for already-invalid (non-cleaned) entries.
      * @since 2.1.4
      */
+    @Override
     public Set<K> keySet() {
         return this.dataContainer.keySet();
     }
 
+    @Override
     public void clear() {
 
         this.dataContainer.clear();
@@ -307,6 +297,7 @@ public class BroadleafThymeleaf3ICache<K, V> implements ICache<K, V> {
 
     }
 
+    @Override
     public void clearKey(final K key) {
 
         final int newSize = this.dataContainer.remove(key);
@@ -389,7 +380,7 @@ public class BroadleafThymeleaf3ICache<K, V> implements ICache<K, V> {
             super();
 
             this.name = name;
-            this.container = new ConcurrentHashMap<K,CacheEntry<V>>(initialCapacity);
+            this.container = new ConcurrentHashMap<>(initialCapacity);
             this.maxSize = maxSize;
             this.sizeLimit = (maxSize >= 0);
             if (this.sizeLimit) {
@@ -410,7 +401,7 @@ public class BroadleafThymeleaf3ICache<K, V> implements ICache<K, V> {
         }
 
         public Set<K> keySet() {
-            return this.container.keySet();
+            return new HashSet<>(Collections.list(this.container.keys()));
         }
 
         public int put(final K key, final CacheEntry<V> value) {
@@ -533,7 +524,7 @@ public class BroadleafThymeleaf3ICache<K, V> implements ICache<K, V> {
 
         CacheEntry(final V cachedValue, final boolean useSoftReferences) {
             super();
-            this.cachedValueReference = new SoftReference<V>(cachedValue);
+            this.cachedValueReference = new SoftReference<>(cachedValue);
             this.cachedValueAnchor = (!useSoftReferences? cachedValue : null);
             this.creationTimeInMillis = System.currentTimeMillis();
         }

@@ -1,4 +1,4 @@
-# Usage Docs
+# How to use this module
 
 ### Definitions
  - Variable Expressions

@@ -23,7 +23,7 @@ import org.thymeleaf.dialect.AbstractProcessorDialect;
 import org.thymeleaf.dialect.IExpressionObjectDialect;
 import org.thymeleaf.expression.IExpressionObjectFactory;
 import org.thymeleaf.processor.IProcessor;
-import org.thymeleaf.spring4.dialect.SpringStandardDialect;
+import org.thymeleaf.spring5.dialect.SpringStandardDialect;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -39,6 +39,10 @@ public class BroadleafThymeleaf3Dialect extends AbstractProcessorDialect impleme
 
     public BroadleafThymeleaf3Dialect() {
         super("Broadleaf Common Dialect", BroadleafDialectPrefix.BLC.toString(), SpringStandardDialect.PROCESSOR_PRECEDENCE);
+    }
+    
+    public BroadleafThymeleaf3Dialect(final String name, final String prefix, final int processorPrecedence) {
+        super(name, prefix, processorPrecedence);
     }
 
     public void setProcessors(Set<IProcessor> processors) {
