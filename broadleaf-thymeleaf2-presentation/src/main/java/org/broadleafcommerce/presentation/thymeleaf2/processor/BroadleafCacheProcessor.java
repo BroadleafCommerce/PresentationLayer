@@ -38,14 +38,15 @@ import org.thymeleaf.standard.expression.Expression;
 import org.thymeleaf.standard.expression.StandardExpressions;
 import org.thymeleaf.standard.processor.attr.StandardFragmentAttrProcessor;
 
+import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
 import javax.annotation.Resource;
+import javax.cache.Cache;
+import javax.cache.Caching;
 
-import net.sf.ehcache.Cache;
-import net.sf.ehcache.CacheManager;
 
 /**
 * <p>
@@ -203,12 +204,14 @@ public class BroadleafCacheProcessor extends AbstractAttrProcessor {
             if (StringUtils.isNotEmpty(cacheKey)) {
                 element.setNodeProperty("cacheKey", cacheKey);
 
-                net.sf.ehcache.Element cacheElement = getCache().get(cacheKey);
-                if (cacheElement != null && !checkExpired(element, cacheElement)) {
+                Object cacheElement = getCache().get(cacheKey);
+                //todo think if this is needed
+//                if (cacheElement != null && !checkExpired(element, cacheElement)) {
+                if (cacheElement != null ) {
                     if (LOG.isTraceEnabled()) {
                         LOG.trace("Template Cache Hit with cacheKey " + cacheKey + " found in cache.");
                     }
-                    element.setNodeProperty("blCacheResponse", cacheElement.getObjectValue());
+                    element.setNodeProperty("blCacheResponse", cacheElement);
                     return true;
                 } else {
                     if (LOG.isTraceEnabled()) {
@@ -234,7 +237,8 @@ public class BroadleafCacheProcessor extends AbstractAttrProcessor {
      * @param cacheElement
      * @return
      */
-    protected boolean checkExpired(Element element, net.sf.ehcache.Element cacheElement) {
+    //todo think if this is needed
+    /*protected boolean checkExpired(Element element, Object cacheElement) {
         if (cacheElement.isExpired()) {
             return true;
         } else {
@@ -249,7 +253,7 @@ public class BroadleafCacheProcessor extends AbstractAttrProcessor {
         }
         return false;
     }
-
+*/
     protected String getFragmentSignatureUnprefixedAttributeName(final Arguments arguments, final Element element, final String attributeName, final String attributeValue) {
         return StandardFragmentAttrProcessor.ATTR_NAME;
     }
@@ -261,7 +265,7 @@ public class BroadleafCacheProcessor extends AbstractAttrProcessor {
 
     public Cache getCache() {
         if (cache == null) {
-            cache = CacheManager.getInstance().getCache("blTemplateElements");
+            cache = Caching.getCachingProvider().getCacheManager(URI.create("ehcache:fakeuri"), getClass().getClassLoader()).getCache("blTemplateElements");
         }
         return cache;
     }

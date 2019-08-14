@@ -17,7 +17,10 @@
  */
 package org.broadleafcommerce.presentation.thymeleaf2.site.config;
 
-import org.broadleafcommerce.common.config.FrameworkCommonPropertySource;
+import org.broadleafcommerce.common.config.BroadleafCommonPropertySource;
+import org.broadleafcommerce.common.config.FrameworkCommonClasspathPropertySource;
+//todo find out if this class is still needed
+//import org.broadleafcommerce.common.config.FrameworkCommonPropertySource;
 import org.broadleafcommerce.presentation.dialect.BroadleafProcessor;
 import org.broadleafcommerce.presentation.resolver.BroadleafTemplateResolver;
 import org.broadleafcommerce.presentation.thymeleaf2.config.Thymeleaf2ConfigUtils;
@@ -51,10 +54,16 @@ public class Thymeleaf2SiteConfig {
     
     @Autowired
     protected List<BroadleafProcessor> processors;
-    
+
+    //todo not sure if this is correct
     @Bean
-    public static FrameworkCommonPropertySource blThymeleafProperties() {
-        return new FrameworkCommonPropertySource("config/bc/thymeleaf/");
+    public static FrameworkCommonClasspathPropertySource blThymeleafProperties() {
+        return new BroadleafCommonPropertySource(){
+            @Override
+            public String getClasspathFolder() {
+                return "config/bc/thymeleaf/";
+            }
+        };
     }
     
     @Bean

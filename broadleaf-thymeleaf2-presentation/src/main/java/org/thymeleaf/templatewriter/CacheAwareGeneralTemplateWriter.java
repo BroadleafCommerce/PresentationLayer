@@ -18,9 +18,6 @@
 
 package org.thymeleaf.templatewriter;
 
-import net.sf.ehcache.Cache;
-import net.sf.ehcache.CacheManager;
-import net.sf.ehcache.Element;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
@@ -31,6 +28,10 @@ import org.thymeleaf.dom.Node;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.io.Writer;
+import java.net.URI;
+
+import javax.cache.Cache;
+import javax.cache.Caching;
 
 /**
  * Wrapper for Thymeleaf's {@link AbstractGeneralTemplateWriter} that provides content caching
@@ -84,8 +85,7 @@ public class CacheAwareGeneralTemplateWriter extends AbstractGeneralTemplateWrit
 
                 valueToWrite = w2.toString();
 
-                Element element = new Element(cacheKey, valueToWrite);
-                getCache().put(element);
+                getCache().put(cacheKey, valueToWrite);
             }
             
             writer.write(valueToWrite);
@@ -110,7 +110,7 @@ public class CacheAwareGeneralTemplateWriter extends AbstractGeneralTemplateWrit
 
     public Cache getCache() {
         if (cache == null) {
-            cache = CacheManager.getInstance().getCache("blTemplateElements");
+            cache = Caching.getCachingProvider().getCacheManager(URI.create("ehcache:fakeuri"), getClass().getClassLoader()).getCache("blTemplateElements");
         }
         return cache;
     }

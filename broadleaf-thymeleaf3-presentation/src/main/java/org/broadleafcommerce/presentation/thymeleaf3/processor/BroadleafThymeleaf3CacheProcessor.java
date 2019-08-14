@@ -40,13 +40,12 @@ import org.thymeleaf.templatemode.TemplateMode;
 
 import java.io.IOException;
 import java.io.StringWriter;
+import java.net.URI;
 import java.util.Map;
 
 import javax.annotation.Resource;
-
-import net.sf.ehcache.Cache;
-import net.sf.ehcache.CacheManager;
-import net.sf.ehcache.Element;
+import javax.cache.Cache;
+import javax.cache.Caching;
 
 public class BroadleafThymeleaf3CacheProcessor extends AbstractAttributeModelProcessor {
 
@@ -76,9 +75,9 @@ public class BroadleafThymeleaf3CacheProcessor extends AbstractAttributeModelPro
         BroadleafTemplateContext context = new BroadleafThymeleaf3Context(iContext, structureHandler);
         if (shouldCache(attributeValue, context)) {
             String cacheKey = cacheKeyResolver.resolveCacheKey(tagName, tagAttributes, documentName, lineNumber, context);
-            Element cacheElement = checkCacheForElement(tagAttributes, cacheKey);
+            Object cacheElement = checkCacheForElement(tagAttributes, cacheKey);
             if (cacheElement != null) {
-                replaceTagWithCache(cacheElement.getObjectValue().toString(), model, iContext);
+                replaceTagWithCache(cacheElement.toString(), model, iContext);
             } else {
                 tagAttributes.remove("blc:cache");
                 addToCache(cacheKey, model, iContext, tagAttributes);
@@ -127,11 +126,13 @@ public class BroadleafThymeleaf3CacheProcessor extends AbstractAttributeModelPro
      * @param element
      * @return
      */
-    protected Element checkCacheForElement(Map<String, String> tagAttributes, String cacheKey) {
+    protected Object checkCacheForElement(Map<String, String> tagAttributes, String cacheKey) {
         
         if (!StringUtils.isEmpty(cacheKey)) {
-            Element cacheElement = getCache().get(cacheKey);
-            if (cacheElement != null && !checkExpired(tagAttributes, cacheElement)) {
+            Object cacheElement = getCache().get(cacheKey);
+            //todo find out if this is still needed
+//            if (cacheElement != null && !checkExpired(tagAttributes, cacheElement)) {
+            if (cacheElement != null) {
                 if (LOG.isTraceEnabled()) {
                     LOG.trace("Template Cache Hit with cacheKey " + cacheKey + " found in cache.");
                 }
@@ -156,7 +157,8 @@ public class BroadleafThymeleaf3CacheProcessor extends AbstractAttributeModelPro
      * @param cacheElement
      * @return
      */
-    protected boolean checkExpired(Map<String, String> tagAttributes, Element cacheElement) {
+    //todo find out if this is still needed
+    /*protected boolean checkExpired(Map<String, String> tagAttributes, Element cacheElement) {
         if (cacheElement.isExpired()) {
             return true;
         } else {
@@ -170,7 +172,7 @@ public class BroadleafThymeleaf3CacheProcessor extends AbstractAttributeModelPro
             }
         }
         return false;
-    }
+    }*/
     
     protected void replaceTagWithCache(String cachedObject, IModel model, ITemplateContext context) {
         model = context.getConfiguration().getTemplateManager().parseString(context.getTemplateData(), cachedObject, model.get(0).getLine(), model.get(0).getCol(), getTemplateMode(), false);
@@ -202,13 +204,12 @@ public class BroadleafThymeleaf3CacheProcessor extends AbstractAttributeModelPro
 
         final StringWriter templateWriter = new StringWriter();
         context.getConfiguration().getTemplateManager().process(cacheModel, context, templateWriter);
-        Element element = new Element(cacheKey, templateWriter.toString());
-        getCache().put(element);
+        getCache().put(cacheKey, templateWriter.toString());
     }
 
     public Cache getCache() {
         if (cache == null) {
-            cache = CacheManager.getInstance().getCache("blTemplateElements");
+            cache = Caching.getCachingProvider().getCacheManager(URI.create("ehcache:fakeuri"), getClass().getClassLoader()).getCache("blTemplateElements");
         }
         return cache;
     }
