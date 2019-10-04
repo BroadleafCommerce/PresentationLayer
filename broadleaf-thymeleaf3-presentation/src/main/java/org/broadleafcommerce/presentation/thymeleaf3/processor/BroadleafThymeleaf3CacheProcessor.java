@@ -181,7 +181,9 @@ public class BroadleafThymeleaf3CacheProcessor extends AbstractAttributeModelPro
 
         final StringWriter templateWriter = new StringWriter();
         context.getConfiguration().getTemplateManager().process(cacheModel, context, templateWriter);
-        getCache().put(cacheKey, templateWriter.toString());
+        if (StringUtils.isNotBlank(cacheKey) && templateWriter != null && StringUtils.isNotBlank(templateWriter.toString())) {
+            getCache().put(cacheKey, templateWriter.toString());
+        }
     }
 
     public Cache getCache() {
