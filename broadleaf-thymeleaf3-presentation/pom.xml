@@ -31,7 +31,7 @@
     </developers>
     <properties>
         <project.uri>${project.baseUri}/../</project.uri>
-        <thymeleaf.version>3.0.8.RELEASE</thymeleaf.version>
+        <thymeleaf.version>3.0.11.RELEASE</thymeleaf.version>
     </properties>
     <dependencies>
         <dependency>
@@ -72,14 +72,14 @@
         </dependency>
         <dependency>
             <groupId>org.thymeleaf.extras</groupId>
-            <artifactId>thymeleaf-extras-springsecurity4</artifactId>
-            <version>3.0.2.RELEASE</version>
+            <artifactId>thymeleaf-extras-springsecurity5</artifactId>
+            <version>3.0.4.RELEASE</version>
             <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>org.thymeleaf.extras</groupId>
             <artifactId>thymeleaf-extras-java8time</artifactId>
-            <version>3.0.1.RELEASE</version>
+            <version>3.0.2.RELEASE</version>
             <optional>true</optional>
         </dependency>
     </dependencies>
