@@ -64,7 +64,7 @@ public class BroadleafThymeleaf3CacheProcessor extends AbstractAttributeModelPro
     protected JCacheUtil jcacheUtil;
 
     public BroadleafThymeleaf3CacheProcessor() {
-        super(TemplateMode.HTML, BroadleafDialectPrefix.BLC.toString(), null, false, ATTR_NAME, true, Integer.MIN_VALUE, false);
+        super(TemplateMode.HTML, BroadleafDialectPrefix.BLC.toString(), null, false, ATTR_NAME, true, Integer.MIN_VALUE, true);
     }
     
     @Override
