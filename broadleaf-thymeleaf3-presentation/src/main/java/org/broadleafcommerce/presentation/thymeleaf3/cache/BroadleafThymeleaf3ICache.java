@@ -489,8 +489,9 @@ public class BroadleafThymeleaf3ICache<K, V> implements ICache<K, V> {
                 for (K k : keyToDelete) {
                     if (this.traceExecution) {
                         result = removeWithTracing(k);
+                    }else {
+                        result = removeWithoutTracing(k);
                     }
-                    result = removeWithoutTracing(k);
                 }
             }
             return result;
