@@ -29,10 +29,7 @@ import org.thymeleaf.cache.TemplateCacheKey;
 import org.thymeleaf.util.Validate;
 
 import java.lang.ref.SoftReference;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -281,7 +278,18 @@ public class BroadleafThymeleaf3ICache<K, V> implements ICache<K, V> {
      */
     @Override
     public Set<K> keySet() {
-        return this.dataContainer.keySet();
+        Set<K> ks = this.dataContainer.keySet();
+        Set<K> result = new HashSet<>();
+        for (K k : ks) {
+            if(k instanceof TemplateCacheKey){
+                if(((TemplateCacheKey)k).getOwnerTemplate()!=null){
+                    TemplateCacheKey t = (TemplateCacheKey)k;
+                    result.add((K) new TemplateCacheKey(null, t.getTemplate(), t.getTemplateSelectors(), t.getLineOffset(), t.getColOffset(), t.getTemplateMode(), t.getTemplateResolutionAttributes()));
+                }
+            }
+            result.add(k);
+        }
+        return result;
     }
 
     @Override
@@ -461,10 +469,32 @@ public class BroadleafThymeleaf3ICache<K, V> implements ICache<K, V> {
         }
 
         public int remove(final K key) {
-            if (this.traceExecution) {
-                return removeWithTracing(key);
+            int result = -1;
+            synchronized (container) {
+                List<K> keyToDelete = new ArrayList<>();
+                if (!container.contains(key)) {
+                    Enumeration<K> keys = container.keys();
+                    while (keys.hasMoreElements()){
+                        K next = keys.nextElement();
+                        if(next instanceof TemplateCacheKey && key instanceof TemplateCacheKey){
+                            if(((TemplateCacheKey)next).getTemplate().equals(((TemplateCacheKey)key).getTemplate())){
+                                keyToDelete.add(next);
+                            }
+                        }
+                    }
+                }else{
+                    keyToDelete.add(key);
+                }
+
+                for (K k : keyToDelete) {
+                    if (this.traceExecution) {
+                        result = removeWithTracing(k);
+                    }else {
+                        result = removeWithoutTracing(k);
+                    }
+                }
             }
-            return removeWithoutTracing(key);
+            return result;
         }
 
         private int removeWithoutTracing(final K key) {
