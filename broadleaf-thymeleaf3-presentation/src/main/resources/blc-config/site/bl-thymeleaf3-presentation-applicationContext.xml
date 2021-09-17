@@ -30,5 +30,6 @@
     
     <import resource="classpath:blc-config/bl-thymeleaf3-presentation-base-applicationContext.xml" />
     <context:component-scan base-package="org.broadleafcommerce.presentation.thymeleaf3.site.config" />
-    
+    <context:component-scan base-package="org.broadleafcommerce.presentation.thymeleaf3.extension" />
+
 </beans>
