@@ -22,6 +22,8 @@ import org.broadleafcommerce.common.email.service.message.MessageCreator;
 import org.broadleafcommerce.common.web.BroadleafRequestContext;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
+import org.springframework.lang.NonNull;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
@@ -30,20 +32,19 @@ import org.thymeleaf.spring5.expression.ThymeleafEvaluationContext;
 import java.util.Iterator;
 import java.util.Map;
 
-import javax.annotation.Nonnull;
 
-public class BroadleafThymeleaf3MessageCreator extends MessageCreator {
+public class BroadleafThymeleaf3MessageCreator extends MessageCreator implements ApplicationContextAware {
 
-    private TemplateEngine templateEngine;
-    
-    private ApplicationContext applicationContext;
+    protected TemplateEngine templateEngine;
+
+    protected ApplicationContext applicationContext;
     
     public BroadleafThymeleaf3MessageCreator(TemplateEngine templateEngine, JavaMailSender mailSender) {
         super(mailSender);
         this.templateEngine = templateEngine;        
     }
 
-    public void setApplicationContext(@Nonnull final ApplicationContext applicationContext) throws BeansException {
+    public void setApplicationContext(@NonNull final ApplicationContext applicationContext) throws BeansException {
         this.applicationContext = applicationContext;
     }
     
