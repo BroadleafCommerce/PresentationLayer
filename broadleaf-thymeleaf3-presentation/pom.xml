@@ -31,7 +31,7 @@
     </developers>
     <properties>
         <project.uri>${project.baseUri}/../</project.uri>
-        <thymeleaf.version>3.0.13.RELEASE</thymeleaf.version>
+        <thymeleaf.version>3.0.15.RELEASE</thymeleaf.version>
     </properties>
     <dependencies>
         <dependency>
@@ -79,7 +79,7 @@
         <dependency>
             <groupId>org.thymeleaf.extras</groupId>
             <artifactId>thymeleaf-extras-java8time</artifactId>
-            <version>3.0.2.RELEASE</version>
+            <version>3.0.4.RELEASE</version>
             <optional>true</optional>
         </dependency>
     </dependencies>
