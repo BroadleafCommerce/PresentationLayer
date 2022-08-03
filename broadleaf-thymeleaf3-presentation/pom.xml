@@ -9,7 +9,7 @@
     </parent>
 
     <artifactId>broadleaf-thymeleaf3-presentation</artifactId>
-
+    <name>BroadleafCommerce Thymeleaf3 Presentation</name>
     <description>BroadleafCommerce Enterprise Module</description>
     <url>http://www.broadleafcommerce.org</url>
     <licenses>
