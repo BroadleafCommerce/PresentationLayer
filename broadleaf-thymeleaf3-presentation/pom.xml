@@ -8,8 +8,8 @@
         <version>2.0.3-SNAPSHOT</version>
     </parent>
 
-    <artifactId>broadleaf-thymeleaf3-presentation</artifactId>
-
+    <name>BroadleafCommerce Thymeleaf3 Presentation</name>
+    <artifactId>broadleaf-thymeleaf3-presentation</artifactId>    
     <description>BroadleafCommerce Enterprise Module</description>
     <url>http://www.broadleafcommerce.org</url>
     <licenses>
