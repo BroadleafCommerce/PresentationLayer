@@ -88,14 +88,18 @@ public class BroadleafThymeleaf3DatabaseResourceResolver implements ITemplateRes
     }
     
     protected InputStream resolveResource() {
-        blcContextUtil.establishThinRequestContext();
+        try {
+            blcContextUtil.establishThinRequestContext();
 
-        ExtensionResultHolder erh = new ExtensionResultHolder();
-        ExtensionResultStatusType result = extensionManager.getProxy().resolveResource(erh, path);
-        if (result ==  ExtensionResultStatusType.HANDLED) {
-            return (InputStream) erh.getContextMap().get(DatabaseResourceResolverExtensionHandler.IS_KEY);
+            ExtensionResultHolder erh = new ExtensionResultHolder();
+            ExtensionResultStatusType result = extensionManager.getProxy().resolveResource(erh, path);
+            if (result == ExtensionResultStatusType.HANDLED) {
+                return (InputStream) erh.getContextMap().get(DatabaseResourceResolverExtensionHandler.IS_KEY);
+            }
+            return null;
+        } finally {
+            blcContextUtil.clearThinRequestContext();
         }
-        return null;
     }
 
 }
