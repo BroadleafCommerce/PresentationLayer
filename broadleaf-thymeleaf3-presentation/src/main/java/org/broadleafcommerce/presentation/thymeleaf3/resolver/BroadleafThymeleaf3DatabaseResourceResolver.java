@@ -20,6 +20,7 @@ package org.broadleafcommerce.presentation.thymeleaf3.resolver;
 import org.apache.commons.io.FilenameUtils;
 import org.broadleafcommerce.common.extension.ExtensionResultHolder;
 import org.broadleafcommerce.common.extension.ExtensionResultStatusType;
+import org.broadleafcommerce.common.web.BroadleafRequestContext;
 import org.broadleafcommerce.common.web.resource.BroadleafContextUtil;
 import org.broadleafcommerce.core.web.resolver.DatabaseResourceResolverExtensionHandler;
 import org.broadleafcommerce.core.web.resolver.DatabaseResourceResolverExtensionManager;
@@ -33,7 +34,7 @@ import java.io.Reader;
 
 
 /**
- * An implementation of {@link IResourceResolver} that provides an extension point for retrieving
+ * An implementation of {@link ITemplateResource} that provides an extension point for retrieving
  * templates from the database.
  * 
  * @author Andre Azzolini (apazzolini)
@@ -89,7 +90,7 @@ public class BroadleafThymeleaf3DatabaseResourceResolver implements ITemplateRes
     
     protected InputStream resolveResource() {
         try {
-            blcContextUtil.establishThinRequestContext();
+            this.blcContextUtil.establishThinRequestContext();
 
             ExtensionResultHolder erh = new ExtensionResultHolder();
             ExtensionResultStatusType result = extensionManager.getProxy().resolveResource(erh, path);
@@ -98,7 +99,8 @@ public class BroadleafThymeleaf3DatabaseResourceResolver implements ITemplateRes
             }
             return null;
         } finally {
-            blcContextUtil.clearThinRequestContext();
+            BroadleafRequestContext brc = BroadleafRequestContext.getBroadleafRequestContext();
+            brc.setTheme(null);
         }
     }
 
