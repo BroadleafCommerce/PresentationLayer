@@ -39,6 +39,7 @@ import org.broadleafcommerce.presentation.thymeleaf3.dialect.DelegatingThymeleaf
 import org.broadleafcommerce.presentation.thymeleaf3.dialect.DelegatingThymeleaf3TagTextModifierProcessor;
 import org.broadleafcommerce.presentation.thymeleaf3.dialect.DelegatingThymeleaf3VariableModifierProcessor;
 import org.broadleafcommerce.presentation.thymeleaf3.resolver.BroadleafThymeleaf3DatabaseTemplateResolver;
+import org.broadleafcommerce.presentation.thymeleaf3.resolver.BroadleafThymeleaf3StringTemplateResolver;
 import org.broadleafcommerce.presentation.thymeleaf3.resolver.DelegatingThymeleaf3TemplateResolver;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
@@ -144,6 +145,8 @@ public class Thymeleaf3ConfigUtils {
             return createServletTemplateResolver(resolver);
         } else if (BroadleafTemplateResolverType.CUSTOM.equals(resolver.getResolverType())) {
             return createDelegatingThymeleaf3TemplateResolver(resolver);
+        }  else if (BroadleafTemplateResolverType.STRING.equals(resolver.getResolverType())) {
+            return createStringTemplateResolver(resolver);
         } else {
             LOG.warn("No known Thmeleaf 3 template resolver can be mapped to BroadleafThymeleafTemplateResolverType " + resolver.getResolverType());
             return null;
@@ -183,6 +186,13 @@ public class Thymeleaf3ConfigUtils {
         delegatingResolver.setCheckExistence(true);
         delegatingResolver.setPrefix(resolver.getPrefix());
         return delegatingResolver;
+    }
+
+    protected BroadleafThymeleaf3StringTemplateResolver createStringTemplateResolver(BroadleafTemplateResolver resolver) {
+        BroadleafThymeleaf3StringTemplateResolver stringResolver = new BroadleafThymeleaf3StringTemplateResolver();
+        commonTemplateResolver(resolver, stringResolver);
+        stringResolver.setPrefix(resolver.getPrefix() + resolver.getTemplateFolder());
+        return stringResolver;
     }
 
     /**
