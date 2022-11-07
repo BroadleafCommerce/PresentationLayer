@@ -1,6 +1,6 @@
 /*-
  * #%L
- * BroadleafCommerce Thymeleaf3 Presentation
+ * broadleaf-thymeleaf3-presentation
  * %%
  * Copyright (C) 2009 - 2022 Broadleaf Commerce
  * %%
@@ -17,49 +17,45 @@
  */
 package org.broadleafcommerce.presentation.thymeleaf3.resolver;
 
-import org.thymeleaf.templateresource.ITemplateResource;
-
 import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import org.apache.commons.io.FilenameUtils;
+import org.thymeleaf.templateresource.ITemplateResource;
 
-/**
- * @author Jon Fleschler (jfleschler)
- */
-public class BroadleafThymeleaf3ITemplateResource implements ITemplateResource {
+public class BroadleafThymeleaf3StringResourceResolver implements ITemplateResource {
+    protected String path;
 
-    protected String resourceName;
-    protected InputStream inputStream;
+    public BroadleafThymeleaf3StringResourceResolver(String path) {
 
-    public BroadleafThymeleaf3ITemplateResource(String resourceName, InputStream inputStream) {
-        this.resourceName = resourceName;
-        this.inputStream = inputStream;
+        this.path = path;
     }
 
-    @Override
     public String getDescription() {
-        return "BL_CUSTOM";
+        return "BL_STRING";
     }
 
-    @Override
     public String getBaseName() {
-        return resourceName;
+        return FilenameUtils.getBaseName(this.path);
     }
 
-    @Override
     public boolean exists() {
-        return inputStream != null;
+        return this.resolveResource() != null;
     }
 
-    @Override
-    public Reader reader() throws IOException {
-        return inputStream == null ? null : new BufferedReader(new InputStreamReader(inputStream));
+    public Reader reader() {
+        InputStream resourceStream = this.resolveResource();
+        return resourceStream == null ? null : new BufferedReader(new InputStreamReader(resourceStream));
     }
 
-    @Override
-    public ITemplateResource relative(String s) {
+    public ITemplateResource relative(String relativeLocation) {
         return null;
+    }
+
+    protected InputStream resolveResource() {
+        return new ByteArrayInputStream(path.getBytes());
     }
 }

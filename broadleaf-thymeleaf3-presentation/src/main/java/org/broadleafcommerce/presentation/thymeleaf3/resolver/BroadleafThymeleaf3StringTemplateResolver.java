@@ -1,6 +1,6 @@
 /*-
  * #%L
- * BroadleafCommerce Thymeleaf3 Presentation
+ * broadleaf-thymeleaf3-presentation
  * %%
  * Copyright (C) 2009 - 2022 Broadleaf Commerce
  * %%
@@ -15,34 +15,22 @@
  * between you and Broadleaf Commerce. You may not use this file except in compliance with the applicable license.
  * #L%
  */
-package org.broadleafcommerce.presentation.thymeleaf3.model;
+package org.broadleafcommerce.presentation.thymeleaf3.resolver;
 
-import org.thymeleaf.model.ITemplateEvent;
-import org.thymeleaf.model.IText;
+import java.util.Map;
 
-import java.util.ArrayList;
+import org.thymeleaf.IEngineConfiguration;
+import org.thymeleaf.templateresolver.AbstractConfigurableTemplateResolver;
+import org.thymeleaf.templateresource.ITemplateResource;
 
-/**
- * Class that's used for encapsulating a Thymeleaf 3 text node
- * 
- * Note that this is only for use inside of the Broadleaf common layer for Thymeleaf module
- * 
- * @author Jay Aisenbrey (cja769)
- *
- */
-public class BroadleafThymeleaf3TextElement implements BroadleafThymeleaf3TemplateEvent {
+public class BroadleafThymeleaf3StringTemplateResolver extends AbstractConfigurableTemplateResolver {
 
-    protected IText text;
-
-    public BroadleafThymeleaf3TextElement(IText text) {
-        this.text = text;
+    public BroadleafThymeleaf3StringTemplateResolver() {
+        this.setCheckExistence(true);
     }
 
-    @Override
-    public ArrayList<ITemplateEvent> getAllTags() {
-        ArrayList<ITemplateEvent> tags = new ArrayList<>();
-        tags.add(text);
-        return tags;
+    protected ITemplateResource computeTemplateResource(IEngineConfiguration configuration, String ownerTemplate, String template, String resourceName, String characterEncoding, Map<String, Object> templateResolutionAttributes) {
+        return new BroadleafThymeleaf3StringResourceResolver(template);
     }
 
 }
