@@ -1,8 +1,8 @@
-/*
+/*-
  * #%L
- * broadleaf-theme
+ * BroadleafCommerce Thymeleaf3 Presentation
  * %%
- * Copyright (C) 2009 - 2016 Broadleaf Commerce
+ * Copyright (C) 2009 - 2022 Broadleaf Commerce
  * %%
  * Licensed under the Broadleaf Fair Use License Agreement, Version 1.0
  * (the "Fair Use License" located  at http://license.broadleafcommerce.org/fair_use_license-1.0.txt)
@@ -20,6 +20,7 @@ package org.broadleafcommerce.presentation.thymeleaf3.resolver;
 import org.apache.commons.io.FilenameUtils;
 import org.broadleafcommerce.common.extension.ExtensionResultHolder;
 import org.broadleafcommerce.common.extension.ExtensionResultStatusType;
+import org.broadleafcommerce.common.web.BroadleafRequestContext;
 import org.broadleafcommerce.common.web.resource.BroadleafContextUtil;
 import org.broadleafcommerce.core.web.resolver.DatabaseResourceResolverExtensionHandler;
 import org.broadleafcommerce.core.web.resolver.DatabaseResourceResolverExtensionManager;
@@ -33,7 +34,7 @@ import java.io.Reader;
 
 
 /**
- * An implementation of {@link IResourceResolver} that provides an extension point for retrieving
+ * An implementation of {@link ITemplateResource} that provides an extension point for retrieving
  * templates from the database.
  * 
  * @author Andre Azzolini (apazzolini)
@@ -88,14 +89,19 @@ public class BroadleafThymeleaf3DatabaseResourceResolver implements ITemplateRes
     }
     
     protected InputStream resolveResource() {
-        blcContextUtil.establishThinRequestContext();
+        try {
+            this.blcContextUtil.establishThinRequestContext();
 
-        ExtensionResultHolder erh = new ExtensionResultHolder();
-        ExtensionResultStatusType result = extensionManager.getProxy().resolveResource(erh, path);
-        if (result ==  ExtensionResultStatusType.HANDLED) {
-            return (InputStream) erh.getContextMap().get(DatabaseResourceResolverExtensionHandler.IS_KEY);
+            ExtensionResultHolder erh = new ExtensionResultHolder();
+            ExtensionResultStatusType result = extensionManager.getProxy().resolveResource(erh, path);
+            if (result == ExtensionResultStatusType.HANDLED) {
+                return (InputStream) erh.getContextMap().get(DatabaseResourceResolverExtensionHandler.IS_KEY);
+            }
+            return null;
+        } finally {
+            BroadleafRequestContext brc = BroadleafRequestContext.getBroadleafRequestContext();
+            brc.setTheme(null);
         }
-        return null;
     }
 
 }
