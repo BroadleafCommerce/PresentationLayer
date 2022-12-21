@@ -17,6 +17,7 @@
  */
 package org.broadleafcommerce.presentation.thymeleaf3.config;
 
+import com.github.mxab.thymeleaf.extras.dataattribute.dialect.DataAttributeDialect;
 import nz.net.ultraq.thymeleaf.layoutdialect.LayoutDialect;
 import org.broadleafcommerce.presentation.dialect.BroadleafProcessor;
 import org.broadleafcommerce.presentation.thymeleaf3.dialect.BroadleafThymeleaf3Dialect;
@@ -35,12 +36,11 @@ import org.thymeleaf.extras.springsecurity5.dialect.SpringSecurityDialect;
 import org.thymeleaf.processor.IProcessor;
 import org.thymeleaf.spring5.dialect.SpringStandardDialect;
 
-import com.github.mxab.thymeleaf.extras.dataattribute.dialect.DataAttributeDialect;
-
 import java.util.LinkedHashSet;
 import java.util.Set;
 
 
+@Configuration
 public abstract class AbstractThymeleaf3DialectConfig {
 
     @Autowired(required = false)
@@ -81,7 +81,7 @@ public abstract class AbstractThymeleaf3DialectConfig {
     }
 
     @Configuration
-    @ConditionalOnClass(name = "nz.net.ultraq.thymeleaf.LayoutDialect")
+    @ConditionalOnClass(name = "nz.net.ultraq.thymeleaf.layoutdialect.LayoutDialect")
     protected static class ThymeleafWebLayoutConfiguration {
 
         @Bean
