@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.broadleafcommerce</groupId>
         <artifactId>broadleaf-module-parent</artifactId>
-        <version>3.3.3-GA</version>
+        <version>3.3.4-SNAPSHOT</version>
     </parent>
 
     <name>BroadleafCommerce Presentation Parent</name>
@@ -19,8 +19,8 @@
     <properties>
         <project.uri>${project.baseUri}</project.uri>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <blc.version>6.2.4-GA</blc.version>
-        <broadleaf-common-presentation.version>1.3.4-GA</broadleaf-common-presentation.version>
+        <blc.version>6.2.5-SNAPSHOT</blc.version>
+        <broadleaf-common-presentation.version>1.3.5-SNAPSHOT</broadleaf-common-presentation.version>
     </properties>
     <scm>
         <connection>scm:git:git@github.com:BroadleafCommerce/PresentationLayer.git</connection>
