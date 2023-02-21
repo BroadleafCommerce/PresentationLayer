@@ -17,6 +17,7 @@
  */
 package org.broadleafcommerce.presentation.thymeleaf3.config;
 
+import nz.net.ultraq.thymeleaf.layoutdialect.LayoutDialect;
 import org.broadleafcommerce.presentation.dialect.BroadleafProcessor;
 import org.broadleafcommerce.presentation.thymeleaf3.dialect.BroadleafThymeleaf3Dialect;
 import org.broadleafcommerce.presentation.thymeleaf3.processor.ArbitraryHtmlInsertionProcessor;
@@ -38,8 +39,6 @@ import com.github.mxab.thymeleaf.extras.dataattribute.dialect.DataAttributeDiale
 
 import java.util.LinkedHashSet;
 import java.util.Set;
-
-import nz.net.ultraq.thymeleaf.LayoutDialect;
 
 public abstract class AbstractThymeleaf3DialectConfig {
 
