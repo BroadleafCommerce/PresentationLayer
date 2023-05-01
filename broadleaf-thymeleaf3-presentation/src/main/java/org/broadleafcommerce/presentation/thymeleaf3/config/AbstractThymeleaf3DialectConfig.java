@@ -80,7 +80,7 @@ public abstract class AbstractThymeleaf3DialectConfig {
     }
 
     @Configuration
-    @ConditionalOnClass(name = "nz.net.ultraq.thymeleaf.LayoutDialect")
+    @ConditionalOnClass(LayoutDialect.class)
     protected static class ThymeleafWebLayoutConfiguration {
 
         @Bean
