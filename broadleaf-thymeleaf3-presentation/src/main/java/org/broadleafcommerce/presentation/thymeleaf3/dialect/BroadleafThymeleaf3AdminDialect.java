@@ -22,12 +22,12 @@ import org.thymeleaf.dialect.AbstractProcessorDialect;
 import org.thymeleaf.dialect.IExpressionObjectDialect;
 import org.thymeleaf.expression.IExpressionObjectFactory;
 import org.thymeleaf.processor.IProcessor;
-import org.thymeleaf.spring5.dialect.SpringStandardDialect;
+import org.thymeleaf.spring6.dialect.SpringStandardDialect;
 
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 
 public class BroadleafThymeleaf3AdminDialect extends AbstractProcessorDialect implements IExpressionObjectDialect {
 

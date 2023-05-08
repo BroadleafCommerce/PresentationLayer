@@ -26,7 +26,7 @@ import org.thymeleaf.cache.StandardCacheManager;
 import org.thymeleaf.cache.TemplateCacheKey;
 import org.thymeleaf.engine.TemplateModel;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 
 /**
  * Implementation of {@link org.thymeleaf.cache.AbstractCacheManager} to use {@link BroadleafThymeleaf3ICache} for templates.

@@ -25,6 +25,7 @@ import org.broadleafcommerce.presentation.model.BroadleafTemplateModel;
 import org.broadleafcommerce.presentation.model.BroadleafTemplateNonVoidElement;
 import org.thymeleaf.context.ITemplateContext;
 import org.thymeleaf.context.WebEngineContext;
+import org.thymeleaf.expression.IExpressionObjects;
 import org.thymeleaf.model.AttributeValueQuotes;
 import org.thymeleaf.model.ICloseElementTag;
 import org.thymeleaf.model.IOpenElementTag;
@@ -32,16 +33,17 @@ import org.thymeleaf.model.IStandaloneElementTag;
 import org.thymeleaf.model.IText;
 import org.thymeleaf.processor.element.IElementModelStructureHandler;
 import org.thymeleaf.processor.element.IElementTagStructureHandler;
-import org.thymeleaf.spring5.util.FieldUtils;
+import org.thymeleaf.spring6.util.FieldUtils;
 import org.thymeleaf.standard.expression.Assignation;
 import org.thymeleaf.standard.expression.AssignationUtils;
 import org.thymeleaf.standard.expression.StandardExpressions;
+import org.thymeleaf.web.IWebRequest;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * Concrete implementation of utilities that can be done during execution of a processor.
@@ -159,10 +161,8 @@ public class BroadleafThymeleaf3Context implements BroadleafTemplateContext {
 
     @Override
     public HttpServletRequest getRequest() {
-        if (context instanceof WebEngineContext) {
-            return ((WebEngineContext) context).getRequest();
-        }
-        return null;
+        IExpressionObjects expressionObjects = context.getExpressionObjects();
+        return (HttpServletRequest) expressionObjects.getObject("request");
     }
 
 }

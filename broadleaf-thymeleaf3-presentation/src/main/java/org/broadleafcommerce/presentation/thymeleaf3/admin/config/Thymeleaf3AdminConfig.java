@@ -34,7 +34,7 @@ import org.thymeleaf.ITemplateEngine;
 import org.thymeleaf.dialect.IDialect;
 import org.thymeleaf.messageresolver.IMessageResolver;
 import org.thymeleaf.processor.IProcessor;
-import org.thymeleaf.spring5.ISpringTemplateEngine;
+import org.thymeleaf.spring6.ISpringTemplateEngine;
 import org.thymeleaf.templateresolver.ITemplateResolver;
 
 import java.util.ArrayList;

@@ -17,7 +17,7 @@
  */
 package org.broadleafcommerce.presentation.thymeleaf3.processor;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.broadleafcommerce.common.config.service.SystemPropertiesService;
@@ -43,7 +43,7 @@ import java.io.IOException;
 import java.io.StringWriter;
 import java.util.Map;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import javax.cache.Cache;
 
 public class BroadleafThymeleaf3CacheProcessor extends AbstractAttributeModelProcessor {

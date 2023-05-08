@@ -27,7 +27,7 @@ import org.springframework.lang.NonNull;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
-import org.thymeleaf.spring5.expression.ThymeleafEvaluationContext;
+import org.thymeleaf.spring6.expression.ThymeleafEvaluationContext;
 
 import java.util.Iterator;
 import java.util.Map;

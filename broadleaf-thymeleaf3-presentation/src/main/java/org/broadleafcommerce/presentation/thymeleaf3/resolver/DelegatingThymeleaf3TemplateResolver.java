@@ -22,13 +22,13 @@ import org.apache.commons.logging.LogFactory;
 import org.broadleafcommerce.common.web.resource.BroadleafContextUtil;
 import org.broadleafcommerce.presentation.resolver.BroadleafTemplateResolver;
 import org.thymeleaf.IEngineConfiguration;
-import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver;
+import org.thymeleaf.spring6.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.templateresource.ITemplateResource;
 
 import java.io.InputStream;
 import java.util.Map;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 
 /**
  * @author Jon Fleschler (jfleschler)

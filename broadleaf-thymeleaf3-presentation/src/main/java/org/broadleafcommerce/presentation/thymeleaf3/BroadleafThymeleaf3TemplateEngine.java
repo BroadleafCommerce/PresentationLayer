@@ -17,7 +17,7 @@
  */
 package org.broadleafcommerce.presentation.thymeleaf3;
 
-import org.thymeleaf.spring5.SpringTemplateEngine;
+import org.thymeleaf.spring6.SpringTemplateEngine;
 
 /**
  * Overrides the standard {@link SpringTemplateEngine} to allow for custom MessageResolvers to be added with
