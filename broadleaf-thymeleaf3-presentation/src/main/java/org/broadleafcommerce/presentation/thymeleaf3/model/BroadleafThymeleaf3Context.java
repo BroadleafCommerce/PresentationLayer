@@ -24,7 +24,6 @@ import org.broadleafcommerce.presentation.model.BroadleafTemplateElement;
 import org.broadleafcommerce.presentation.model.BroadleafTemplateModel;
 import org.broadleafcommerce.presentation.model.BroadleafTemplateNonVoidElement;
 import org.thymeleaf.context.ITemplateContext;
-import org.thymeleaf.context.WebEngineContext;
 import org.thymeleaf.expression.IExpressionObjects;
 import org.thymeleaf.model.AttributeValueQuotes;
 import org.thymeleaf.model.ICloseElementTag;
@@ -37,7 +36,6 @@ import org.thymeleaf.spring6.util.FieldUtils;
 import org.thymeleaf.standard.expression.Assignation;
 import org.thymeleaf.standard.expression.AssignationUtils;
 import org.thymeleaf.standard.expression.StandardExpressions;
-import org.thymeleaf.web.IWebRequest;
 
 import java.util.ArrayList;
 import java.util.List;

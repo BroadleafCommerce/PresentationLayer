@@ -32,7 +32,6 @@ import org.thymeleaf.spring6.expression.ThymeleafEvaluationContext;
 import java.util.Iterator;
 import java.util.Map;
 
-
 public class BroadleafThymeleaf3MessageCreator extends MessageCreator implements ApplicationContextAware {
 
     protected TemplateEngine templateEngine;

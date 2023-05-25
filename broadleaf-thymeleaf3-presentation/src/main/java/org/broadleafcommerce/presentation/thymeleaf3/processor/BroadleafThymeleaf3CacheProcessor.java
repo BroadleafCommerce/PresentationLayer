@@ -43,8 +43,9 @@ import java.io.IOException;
 import java.io.StringWriter;
 import java.util.Map;
 
-import jakarta.annotation.Resource;
 import javax.cache.Cache;
+
+import jakarta.annotation.Resource;
 
 public class BroadleafThymeleaf3CacheProcessor extends AbstractAttributeModelProcessor {
 

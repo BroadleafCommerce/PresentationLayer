@@ -17,14 +17,14 @@
  */
 package org.broadleafcommerce.presentation.thymeleaf3.resolver;
 
+import org.apache.commons.io.FilenameUtils;
+import org.thymeleaf.templateresource.ITemplateResource;
+
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
-import org.apache.commons.io.FilenameUtils;
-import org.thymeleaf.templateresource.ITemplateResource;
 
 public class BroadleafThymeleaf3StringResourceResolver implements ITemplateResource {
     protected String path;
