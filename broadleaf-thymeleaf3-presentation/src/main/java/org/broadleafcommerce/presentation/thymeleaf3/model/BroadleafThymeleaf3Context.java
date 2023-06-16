@@ -17,6 +17,7 @@
  */
 package org.broadleafcommerce.presentation.thymeleaf3.model;
 
+import org.broadleafcommerce.common.web.BroadleafRequestContext;
 import org.broadleafcommerce.presentation.model.BroadleafAssignation;
 import org.broadleafcommerce.presentation.model.BroadleafBindStatus;
 import org.broadleafcommerce.presentation.model.BroadleafTemplateContext;
@@ -24,7 +25,6 @@ import org.broadleafcommerce.presentation.model.BroadleafTemplateElement;
 import org.broadleafcommerce.presentation.model.BroadleafTemplateModel;
 import org.broadleafcommerce.presentation.model.BroadleafTemplateNonVoidElement;
 import org.thymeleaf.context.ITemplateContext;
-import org.thymeleaf.expression.IExpressionObjects;
 import org.thymeleaf.model.AttributeValueQuotes;
 import org.thymeleaf.model.ICloseElementTag;
 import org.thymeleaf.model.IOpenElementTag;
@@ -46,9 +46,8 @@ import jakarta.servlet.http.HttpServletRequest;
 /**
  * Concrete implementation of utilities that can be done during execution of a processor.
  * The underlying encapsulated object is an {@code ITemplateContext}
- * 
- * @author Jay Aisenbrey (cja769)
  *
+ * @author Jay Aisenbrey (cja769)
  */
 public class BroadleafThymeleaf3Context implements BroadleafTemplateContext {
 
@@ -61,7 +60,7 @@ public class BroadleafThymeleaf3Context implements BroadleafTemplateContext {
         this.modelHandler = modelHandler;
         this.tagHandler = null;
     }
-    
+
     public BroadleafThymeleaf3Context(ITemplateContext context, IElementTagStructureHandler tagHandler) {
         this.context = context;
         this.tagHandler = tagHandler;
@@ -71,10 +70,10 @@ public class BroadleafThymeleaf3Context implements BroadleafTemplateContext {
     @Override
     public <T> T parseExpression(String value) {
         return (T) StandardExpressions.getExpressionParser(context.getConfiguration())
-            .parseExpression(context, value)
-            .execute(context);
+                .parseExpression(context, value)
+                .execute(context);
     }
-    
+
     @Override
     public List<BroadleafAssignation> getAssignationSequence(String value, boolean allowParametersWithoutValue) {
         List<BroadleafAssignation> assignations = new ArrayList<>();
@@ -159,8 +158,8 @@ public class BroadleafThymeleaf3Context implements BroadleafTemplateContext {
 
     @Override
     public HttpServletRequest getRequest() {
-        IExpressionObjects expressionObjects = context.getExpressionObjects();
-        return (HttpServletRequest) expressionObjects.getObject("request");
+        BroadleafRequestContext broadleafRequestContext = BroadleafRequestContext.getBroadleafRequestContext();
+        return broadleafRequestContext.getRequest();
     }
 
 }

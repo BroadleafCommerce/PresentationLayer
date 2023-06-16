@@ -61,9 +61,10 @@
         <dependency>
             <groupId>com.github.zhanhb</groupId>
             <artifactId>thymeleaf-layout-dialect</artifactId>
-            <version>3.0.0</version>
+            <version>3.2.0</version>
             <optional>true</optional>
         </dependency>
+<!--        TODO need update or remove-->
         <dependency>
             <groupId>com.github.mxab.thymeleaf.extras</groupId>
             <artifactId>thymeleaf-extras-data-attribute</artifactId>
@@ -76,6 +77,7 @@
             <version>3.1.1.RELEASE</version>
             <optional>true</optional>
         </dependency>
+<!--        TODO need update or remove-->
         <dependency>
             <groupId>org.thymeleaf.extras</groupId>
             <artifactId>thymeleaf-extras-java8time</artifactId>
