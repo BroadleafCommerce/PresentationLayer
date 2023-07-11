@@ -27,7 +27,7 @@ import org.thymeleaf.util.Validate;
 
 import java.util.Locale;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 
 /**
  * This implementation will check to see if the key matches the known i18n value key. If that is the case, we will attempt 

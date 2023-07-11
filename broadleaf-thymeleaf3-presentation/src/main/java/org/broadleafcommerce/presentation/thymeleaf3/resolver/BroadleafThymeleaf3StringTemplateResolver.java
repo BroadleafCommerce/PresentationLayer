@@ -17,11 +17,11 @@
  */
 package org.broadleafcommerce.presentation.thymeleaf3.resolver;
 
-import java.util.Map;
-
 import org.thymeleaf.IEngineConfiguration;
 import org.thymeleaf.templateresolver.AbstractConfigurableTemplateResolver;
 import org.thymeleaf.templateresource.ITemplateResource;
+
+import java.util.Map;
 
 public class BroadleafThymeleaf3StringTemplateResolver extends AbstractConfigurableTemplateResolver {
 

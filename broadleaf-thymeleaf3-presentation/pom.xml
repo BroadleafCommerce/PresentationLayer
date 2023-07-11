@@ -31,7 +31,7 @@
     </developers>
     <properties>
         <project.uri>${project.baseUri}/../</project.uri>
-        <thymeleaf.version>3.0.15.RELEASE</thymeleaf.version>
+        <thymeleaf.version>3.1.1.RELEASE</thymeleaf.version>
     </properties>
     <dependencies>
         <dependency>
@@ -47,7 +47,7 @@
          </dependency>
         <dependency>
             <groupId>org.thymeleaf</groupId>
-            <artifactId>thymeleaf-spring5</artifactId>
+            <artifactId>thymeleaf-spring6</artifactId>
             <version>${thymeleaf.version}</version>
             <exclusions>
                 <exclusion>
@@ -61,26 +61,46 @@
         <dependency>
             <groupId>com.github.zhanhb</groupId>
             <artifactId>thymeleaf-layout-dialect</artifactId>
-            <version>3.0.0</version>
+            <version>3.2.0</version>
             <optional>true</optional>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.thymeleaf</groupId>
+                    <artifactId>thymeleaf</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
+<!--        TODO need update or remove-->
         <dependency>
             <groupId>com.github.mxab.thymeleaf.extras</groupId>
             <artifactId>thymeleaf-extras-data-attribute</artifactId>
             <version>2.0.1</version>
             <optional>true</optional>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.thymeleaf</groupId>
+                    <artifactId>thymeleaf</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.thymeleaf.extras</groupId>
-            <artifactId>thymeleaf-extras-springsecurity5</artifactId>
-            <version>3.0.4.RELEASE</version>
+            <artifactId>thymeleaf-extras-springsecurity6</artifactId>
+            <version>3.1.1.RELEASE</version>
             <optional>true</optional>
         </dependency>
+<!--        TODO need update or remove-->
         <dependency>
             <groupId>org.thymeleaf.extras</groupId>
             <artifactId>thymeleaf-extras-java8time</artifactId>
             <version>3.0.4.RELEASE</version>
             <optional>true</optional>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.thymeleaf</groupId>
+                    <artifactId>thymeleaf</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
     </dependencies>
 </project>

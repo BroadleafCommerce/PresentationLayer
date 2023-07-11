@@ -19,7 +19,7 @@ package org.broadleafcommerce.presentation.thymeleaf3.model;
 
 import org.broadleafcommerce.presentation.model.BroadleafBindStatus;
 import org.springframework.validation.Errors;
-import org.thymeleaf.spring5.context.IThymeleafBindStatus;
+import org.thymeleaf.spring6.context.IThymeleafBindStatus;
 
 /**
  * @author Jeff Fischer

@@ -24,8 +24,8 @@ import org.broadleafcommerce.common.extension.TemplateCacheExtensionManager;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.cache.TemplateCacheKey;
 
-import javax.annotation.PostConstruct;
-import javax.annotation.Resource;
+import jakarta.annotation.PostConstruct;
+import jakarta.annotation.Resource;
 
 @Service("blThymeleafTemplateCacheExtensionHandler")
 public class ThymeleafTemplateCacheExtensionHandler implements TemplateCacheExtensionHandler {

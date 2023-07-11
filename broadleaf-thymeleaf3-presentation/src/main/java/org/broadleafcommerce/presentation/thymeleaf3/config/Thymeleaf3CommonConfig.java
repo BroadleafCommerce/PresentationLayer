@@ -24,7 +24,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.thymeleaf.expression.IExpressionObjectFactory;
-import org.thymeleaf.spring5.messageresolver.SpringMessageResolver;
+import org.thymeleaf.spring6.messageresolver.SpringMessageResolver;
 
 @Configuration
 public class Thymeleaf3CommonConfig {
