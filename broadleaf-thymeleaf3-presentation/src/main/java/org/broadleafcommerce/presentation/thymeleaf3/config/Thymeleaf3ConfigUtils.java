@@ -34,9 +34,11 @@ import org.broadleafcommerce.presentation.thymeleaf3.dialect.DelegatingThymeleaf
 import org.broadleafcommerce.presentation.thymeleaf3.dialect.DelegatingThymeleaf3ModelModifierProcessor;
 import org.broadleafcommerce.presentation.thymeleaf3.dialect.DelegatingThymeleaf3TagReplacementProcessor;
 import org.broadleafcommerce.presentation.thymeleaf3.dialect.DelegatingThymeleaf3TagTextModifierProcessor;
+import org.broadleafcommerce.presentation.thymeleaf3.resolver.BroadleafClassLoaderTemplateResolver;
 import org.broadleafcommerce.presentation.thymeleaf3.resolver.BroadleafThymeleaf3DatabaseTemplateResolver;
 import org.broadleafcommerce.presentation.thymeleaf3.resolver.BroadleafThymeleaf3StringTemplateResolver;
 import org.broadleafcommerce.presentation.thymeleaf3.resolver.DelegatingThymeleaf3TemplateResolver;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 import org.thymeleaf.processor.IProcessor;
@@ -57,6 +59,9 @@ public class Thymeleaf3ConfigUtils {
     
     @Resource
     protected ApplicationContext applicationContext;
+
+    @Value("${cache.template.exists.for.path:true}")
+    protected boolean cacheIsTemplateExist;
             
     public Set<IProcessor> getDialectProcessors(Collection<BroadleafProcessor> blcProcessors) {
         Set<IProcessor> iProcessors = new HashSet<>();
@@ -138,7 +143,12 @@ public class Thymeleaf3ConfigUtils {
     }
     
     protected ClassLoaderTemplateResolver createClassLoaderTemplateResolver(BroadleafTemplateResolver resolver) {
-        ClassLoaderTemplateResolver classpathResolver = new ClassLoaderTemplateResolver();
+        ClassLoaderTemplateResolver classpathResolver = null;
+        if (cacheIsTemplateExist) {
+            classpathResolver = new BroadleafClassLoaderTemplateResolver();
+        } else {
+            classpathResolver = new ClassLoaderTemplateResolver();
+        }
         commonTemplateResolver(resolver, classpathResolver);
         classpathResolver.setCheckExistence(true);
         classpathResolver.setPrefix(resolver.getPrefix() + resolver.getTemplateFolder());
