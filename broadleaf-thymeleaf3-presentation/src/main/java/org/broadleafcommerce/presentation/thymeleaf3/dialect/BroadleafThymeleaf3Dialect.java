@@ -10,12 +10,11 @@
  * the Broadleaf End User License Agreement (EULA), Version 1.1
  * (the "Commercial License" located at http://license.broadleafcommerce.org/commercial_license-1.1.txt)
  * shall apply.
- * 
+ *
  * Alternatively, the Commercial License may be replaced with a mutually agreed upon license (the "Custom License")
  * between you and Broadleaf Commerce. You may not use this file except in compliance with the applicable license.
  * #L%
  */
-
 package org.broadleafcommerce.presentation.thymeleaf3.dialect;
 
 import org.broadleafcommerce.presentation.dialect.BroadleafDialectPrefix;
@@ -38,9 +37,13 @@ public class BroadleafThymeleaf3Dialect extends AbstractProcessorDialect impleme
     private Set<IProcessor> processors = new HashSet<>();
 
     public BroadleafThymeleaf3Dialect() {
-        super("Broadleaf Common Dialect", BroadleafDialectPrefix.BLC.toString(), SpringStandardDialect.PROCESSOR_PRECEDENCE);
+        super(
+                "Broadleaf Common Dialect",
+                BroadleafDialectPrefix.BLC.toString(),
+                SpringStandardDialect.PROCESSOR_PRECEDENCE
+        );
     }
-    
+
     public BroadleafThymeleaf3Dialect(final String name, final String prefix, final int processorPrecedence) {
         super(name, prefix, processorPrecedence);
     }

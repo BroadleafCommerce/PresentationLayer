@@ -10,7 +10,7 @@
  * the Broadleaf End User License Agreement (EULA), Version 1.1
  * (the "Commercial License" located at http://license.broadleafcommerce.org/commercial_license-1.1.txt)
  * shall apply.
- * 
+ *
  * Alternatively, the Commercial License may be replaced with a mutually agreed upon license (the "Custom License")
  * between you and Broadleaf Commerce. You may not use this file except in compliance with the applicable license.
  * #L%
@@ -58,6 +58,7 @@ import jakarta.servlet.http.HttpServletResponse;
  * @author Andre Azzolini (apazzolini)
  */
 public class BroadleafThymeleafViewResolver extends ThymeleafViewResolver {
+
     private static final Log LOG = LogFactory.getLog(BroadleafThymeleafViewResolver.class);
 
     @Resource(name = "blBroadleafTemplateViewResolverExtensionManager")
@@ -67,17 +68,17 @@ public class BroadleafThymeleafViewResolver extends ThymeleafViewResolver {
 
     /**
      * <p>
-     *   Prefix to be used in view names (returned by controllers) for specifying an
-     *   HTTP redirect with AJAX support. That is, if you want a redirect to be followed
-     *   by the browser as the result of an AJAX call or within an iFrame at the parent
-     *   window, you can utilize this prefix. Note that this requires a JavaScript component,
-     *   which is provided as part of BLC.js
-     *
-     *   If the request was not performed in an AJAX / iFrame context, this method will
-     *   delegate to the normal "redirect:" prefix.
+     * Prefix to be used in view names (returned by controllers) for specifying an
+     * HTTP redirect with AJAX support. That is, if you want a redirect to be followed
+     * by the browser as the result of an AJAX call or within an iFrame at the parent
+     * window, you can utilize this prefix. Note that this requires a JavaScript component,
+     * which is provided as part of BLC.js
+     * <p>
+     * If the request was not performed in an AJAX / iFrame context, this method will
+     * delegate to the normal "redirect:" prefix.
      * </p>
      * <p>
-     *   Value: <tt>ajaxredirect:</tt>
+     * Value: <tt>ajaxredirect:</tt>
      * </p>
      */
     public static final String AJAX_REDIRECT_URL_PREFIX = "ajaxredirect:";
@@ -159,6 +160,7 @@ public class BroadleafThymeleafViewResolver extends ThymeleafViewResolver {
     /**
      * Sets up the Spring MVC FlashMap to replicate what happens when you return "redirect:"
      * from a Spring controller. This code comes directly from {@link RedirectView#renderMergedOutputModel}
+     *
      * @param redirectUrl URL to redirect to
      */
     protected void initializeAjaxRedirectFlashmap(String redirectUrl) {
@@ -270,13 +272,14 @@ public class BroadleafThymeleafViewResolver extends ThymeleafViewResolver {
         // If we didn't find it there, we might be outside of a security-configured uri. Let's see if the filter got it
         if (request == null) {
             try {
-                HttpServletRequest servletRequest = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+                HttpServletRequest servletRequest = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes())
+                        .getRequest();
                 request = new ServletWebRequest(servletRequest);
             } catch (ClassCastException e) {
                 // In portlet environments, we won't be able to cast to a ServletRequestAttributes. We don't want to
                 // blow up in these scenarios.
                 LOG.warn("Unable to cast to ServletRequestAttributes and the request in BroadleafRequestContext " +
-                         "was not set. This may introduce incorrect AJAX behavior.");
+                        "was not set. This may introduce incorrect AJAX behavior.");
             }
         }
 
@@ -294,8 +297,8 @@ public class BroadleafThymeleafViewResolver extends ThymeleafViewResolver {
     }
 
     /**
-     * @see #getLayoutMap()
      * @param layoutMap
+     * @see #getLayoutMap()
      */
     public void setLayoutMap(Map<String, String> layoutMap) {
         this.layoutMap = layoutMap;
@@ -311,8 +314,8 @@ public class BroadleafThymeleafViewResolver extends ThymeleafViewResolver {
     }
 
     /**
-     * @see #getFullPageLayout()
      * @param fullPageLayout
+     * @see #getFullPageLayout()
      */
     public void setFullPageLayout(String fullPageLayout) {
         this.fullPageLayout = fullPageLayout;
@@ -328,8 +331,8 @@ public class BroadleafThymeleafViewResolver extends ThymeleafViewResolver {
     }
 
     /**
-     * @see #getIframeLayout()
      * @param iframeLayout
+     * @see #getIframeLayout()
      */
     public void setIframeLayout(String iframeLayout) {
         this.iframeLayout = iframeLayout;

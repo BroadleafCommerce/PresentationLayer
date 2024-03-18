@@ -10,7 +10,7 @@
  * the Broadleaf End User License Agreement (EULA), Version 1.1
  * (the "Commercial License" located at http://license.broadleafcommerce.org/commercial_license-1.1.txt)
  * shall apply.
- * 
+ *
  * Alternatively, the Commercial License may be replaced with a mutually agreed upon license (the "Custom License")
  * between you and Broadleaf Commerce. You may not use this file except in compliance with the applicable license.
  * #L%
@@ -50,7 +50,7 @@ import jakarta.annotation.Resource;
 public class BroadleafThymeleaf3CacheProcessor extends AbstractAttributeModelProcessor {
 
     public static final String ATTR_NAME = "cache";
-    
+
     private static final Log LOG = LogFactory.getLog(BroadleafThymeleaf3CacheProcessor.class);
 
     protected Cache cache;
@@ -60,16 +60,31 @@ public class BroadleafThymeleaf3CacheProcessor extends AbstractAttributeModelPro
 
     @Resource(name = "blTemplateCacheKeyResolver")
     protected TemplateCacheKeyResolverService cacheKeyResolver;
-    
+
     @Resource(name = "blJCacheUtil")
     protected JCacheUtil jcacheUtil;
 
     public BroadleafThymeleaf3CacheProcessor() {
-        super(TemplateMode.HTML, BroadleafDialectPrefix.BLC.toString(), null, false, ATTR_NAME, true, Integer.MIN_VALUE, true);
+        super(
+                TemplateMode.HTML,
+                BroadleafDialectPrefix.BLC.toString(),
+                null,
+                false,
+                ATTR_NAME,
+                true,
+                Integer.MIN_VALUE,
+                true
+        );
     }
-    
+
     @Override
-    protected void doProcess(ITemplateContext iContext, IModel model, AttributeName attributeName, String attributeValue, IElementModelStructureHandler structureHandler) {
+    protected void doProcess(
+            ITemplateContext iContext,
+            IModel model,
+            AttributeName attributeName,
+            String attributeValue,
+            IElementModelStructureHandler structureHandler
+    ) {
         IProcessableElementTag rootTag = (IProcessableElementTag) model.get(0);
         String tagName = rootTag.getElementCompleteName();
         Map<String, String> tagAttributes = rootTag.getAttributeMap();
@@ -94,14 +109,14 @@ public class BroadleafThymeleaf3CacheProcessor extends AbstractAttributeModelPro
             if (StringUtils.isEmpty(attributeValue)) {
                 return false;
             }
-    
+
             cacheAttrValue = cacheAttrValue.toLowerCase();
             if (!isCachingEnabled() || "false".equals(cacheAttrValue)) {
                 return false;
             } else if ("true".equals(cacheAttrValue)) {
                 return true;
             }
-    
+
             // Check for an expression
             Object o = context.parseExpression(cacheAttrValue);
             if (o instanceof Boolean) {
@@ -121,16 +136,16 @@ public class BroadleafThymeleaf3CacheProcessor extends AbstractAttributeModelPro
 
     /**
      * If this template was found in cache, adds the response to the element and returns true.
-     * 
+     * <p>
      * If not found in cache, adds the cacheKey to the element so that the Writer can cache after the
      * first process.
-     * 
-     * @param arguments
-     * @param element
+     *
+     * @param tagAttributes
+     * @param cacheKey
      * @return
      */
     protected Object checkCacheForElement(Map<String, String> tagAttributes, String cacheKey) {
-        
+
         if (!StringUtils.isEmpty(cacheKey)) {
             Object cacheElement = getCache().get(cacheKey);
             if (cacheElement != null) {
@@ -151,11 +166,18 @@ public class BroadleafThymeleaf3CacheProcessor extends AbstractAttributeModelPro
 
         return null;
     }
-    
+
     protected void replaceTagWithCache(String cachedObject, IModel model, ITemplateContext context) {
-        model = context.getConfiguration().getTemplateManager().parseString(context.getTemplateData(), cachedObject, model.get(0).getLine(), model.get(0).getCol(), getTemplateMode(), false);
+        model = context.getConfiguration().getTemplateManager().parseString(
+                context.getTemplateData(),
+                cachedObject,
+                model.get(0).getLine(),
+                model.get(0).getCol(),
+                getTemplateMode(),
+                false
+        );
     }
-    
+
     protected void addToCache(String cacheKey, IModel model, ITemplateContext context, Map<String, String> tagAttributes) {
         IProcessableElementTag firstEvent = (IProcessableElementTag) model.get(0);
         final IModelFactory modelFactory = context.getModelFactory();
@@ -219,5 +241,5 @@ public class BroadleafThymeleaf3CacheProcessor extends AbstractAttributeModelPro
         }
         return enabled;
     }
-    
+
 }

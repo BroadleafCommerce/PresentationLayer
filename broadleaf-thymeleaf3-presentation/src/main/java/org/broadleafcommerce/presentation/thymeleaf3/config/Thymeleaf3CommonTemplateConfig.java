@@ -10,7 +10,7 @@
  * the Broadleaf End User License Agreement (EULA), Version 1.1
  * (the "Commercial License" located at http://license.broadleafcommerce.org/commercial_license-1.1.txt)
  * shall apply.
- * 
+ *
  * Alternatively, the Commercial License may be replaced with a mutually agreed upon license (the "Custom License")
  * between you and Broadleaf Commerce. You may not use this file except in compliance with the applicable license.
  * #L%
@@ -28,10 +28,10 @@ public class Thymeleaf3CommonTemplateConfig {
 
     @Autowired
     protected Environment environment;
-    
+
     protected final String isCacheableProperty = "cache.page.templates";
     protected final String cacheableTTLProperty = "cache.page.templates.ttl";
-    
+
     @Bean(name = {"blWebCommonClasspathTemplateResolver", "defaultTemplateResolver"})
     public BroadleafTemplateResolver blWebCommonClasspathTemplateResolver() {
         BroadleafClasspathTemplateResolver resolver = new BroadleafClasspathTemplateResolver();
@@ -44,7 +44,7 @@ public class Thymeleaf3CommonTemplateConfig {
         resolver.setOrder(500);
         return resolver;
     }
-    
+
     @Bean
     public BroadleafTemplateResolver blEmailClasspathTemplateResolver() {
         BroadleafClasspathTemplateResolver resolver = new BroadleafClasspathTemplateResolver();

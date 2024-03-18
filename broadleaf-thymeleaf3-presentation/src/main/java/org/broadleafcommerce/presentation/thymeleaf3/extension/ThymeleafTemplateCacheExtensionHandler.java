@@ -10,7 +10,7 @@
  * the Broadleaf End User License Agreement (EULA), Version 1.1
  * (the "Commercial License" located at http://license.broadleafcommerce.org/commercial_license-1.1.txt)
  * shall apply.
- * 
+ *
  * Alternatively, the Commercial License may be replaced with a mutually agreed upon license (the "Custom License")
  * between you and Broadleaf Commerce. You may not use this file except in compliance with the applicable license.
  * #L%
@@ -44,17 +44,29 @@ public class ThymeleafTemplateCacheExtensionHandler implements TemplateCacheExte
     }
 
     @PostConstruct
-    public void init(){
+    public void init() {
         if (isEnabled()) {
             extensionManager.registerHandler(this);
         }
     }
 
     @Override
-    public ExtensionResultStatusType getTemplateCacheKey(Object key, String template, ExtensionResultHolder<Object> extensionResultHolder) {
-        if(key instanceof TemplateCacheKey) {
+    public ExtensionResultStatusType getTemplateCacheKey(
+            Object key,
+            String template,
+            ExtensionResultHolder<Object> extensionResultHolder
+    ) {
+        if (key instanceof TemplateCacheKey) {
             TemplateCacheKey templateCacheKey = ((TemplateCacheKey) key);
-            extensionResultHolder.setResult(new TemplateCacheKey(templateCacheKey.getOwnerTemplate(), template, templateCacheKey.getTemplateSelectors(), templateCacheKey.getLineOffset(), templateCacheKey.getColOffset(), templateCacheKey.getTemplateMode(), templateCacheKey.getTemplateResolutionAttributes()));
+            extensionResultHolder.setResult(new TemplateCacheKey(
+                    templateCacheKey.getOwnerTemplate(),
+                    template,
+                    templateCacheKey.getTemplateSelectors(),
+                    templateCacheKey.getLineOffset(),
+                    templateCacheKey.getColOffset(),
+                    templateCacheKey.getTemplateMode(),
+                    templateCacheKey.getTemplateResolutionAttributes()
+            ));
             return ExtensionResultStatusType.HANDLED;
         }
         return ExtensionResultStatusType.NOT_HANDLED;
@@ -62,7 +74,7 @@ public class ThymeleafTemplateCacheExtensionHandler implements TemplateCacheExte
 
     @Override
     public ExtensionResultStatusType getTemplateName(Object key, ExtensionResultHolder<Object> extensionResultHolder) {
-        if(key instanceof TemplateCacheKey) {
+        if (key instanceof TemplateCacheKey) {
             TemplateCacheKey templateCacheKey = ((TemplateCacheKey) key);
             String template = templateCacheKey.getTemplate();
             extensionResultHolder.setResult(template);

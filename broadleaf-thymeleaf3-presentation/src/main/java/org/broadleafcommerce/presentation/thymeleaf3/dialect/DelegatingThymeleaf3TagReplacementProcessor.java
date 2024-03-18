@@ -10,7 +10,7 @@
  * the Broadleaf End User License Agreement (EULA), Version 1.1
  * (the "Commercial License" located at http://license.broadleafcommerce.org/commercial_license-1.1.txt)
  * shall apply.
- * 
+ *
  * Alternatively, the Commercial License may be replaced with a mutually agreed upon license (the "Custom License")
  * between you and Broadleaf Commerce. You may not use this file except in compliance with the applicable license.
  * #L%
@@ -30,24 +30,41 @@ import org.thymeleaf.templatemode.TemplateMode;
 
 import java.util.Map;
 
-
 public class DelegatingThymeleaf3TagReplacementProcessor extends AbstractElementTagProcessor {
 
     protected BroadleafTagReplacementProcessor processor;
-    
-    public DelegatingThymeleaf3TagReplacementProcessor(String tagName, BroadleafTagReplacementProcessor processor, int precedence) {
-        super(TemplateMode.HTML, processor.getPrefix(), tagName, true, null, false, precedence);
+
+    public DelegatingThymeleaf3TagReplacementProcessor(
+            String tagName,
+            BroadleafTagReplacementProcessor processor,
+            int precedence
+    ) {
+        super(
+                TemplateMode.HTML,
+                processor.getPrefix(),
+                tagName,
+                true,
+                null,
+                false,
+                precedence
+        );
         this.processor = processor;
     }
 
     @Override
-    protected void doProcess(ITemplateContext context, IProcessableElementTag tag, IElementTagStructureHandler structureHandler) {
+    protected void doProcess(
+            ITemplateContext context,
+            IProcessableElementTag tag,
+            IElementTagStructureHandler structureHandler
+    ) {
         BroadleafTemplateContext blcContext = new BroadleafThymeleaf3Context(context, structureHandler);
         String tagName = tag.getElementCompleteName();
         Map<String, String> tagAttributes = tag.getAttributeMap();
         BroadleafTemplateModel blcModel = processor.getReplacementModel(tagName, tagAttributes, blcContext);
         if (blcModel != null) {
-            structureHandler.replaceWith(((BroadleafThymeleaf3Model) blcModel).getModel(), processor.replacementNeedsProcessing());
+            structureHandler.replaceWith(
+                    ((BroadleafThymeleaf3Model) blcModel).getModel(), processor.replacementNeedsProcessing()
+            );
         } else {
             structureHandler.removeTags();
         }

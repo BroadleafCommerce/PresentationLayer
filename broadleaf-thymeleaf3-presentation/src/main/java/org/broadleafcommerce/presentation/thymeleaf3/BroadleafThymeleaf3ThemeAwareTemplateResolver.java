@@ -10,7 +10,7 @@
  * the Broadleaf End User License Agreement (EULA), Version 1.1
  * (the "Commercial License" located at http://license.broadleafcommerce.org/commercial_license-1.1.txt)
  * shall apply.
- * 
+ *
  * Alternatively, the Commercial License may be replaced with a mutually agreed upon license (the "Custom License")
  * between you and Broadleaf Commerce. You may not use this file except in compliance with the applicable license.
  * #L%
@@ -40,15 +40,21 @@ public class BroadleafThymeleaf3ThemeAwareTemplateResolver extends SpringResourc
     protected BroadleafContextUtil blcContextUtil;
 
     protected String templateFolder = "";
-    
+
     public BroadleafThymeleaf3ThemeAwareTemplateResolver() {
         super();
         setCheckExistence(true);
     }
 
     @Override
-    protected ITemplateResource computeTemplateResource(final IEngineConfiguration configuration, final String ownerTemplate,
-            final String template, final String resourceName, final String characterEncoding, final Map<String, Object> templateResolutionAttributes) {
+    protected ITemplateResource computeTemplateResource(
+            final IEngineConfiguration configuration,
+            final String ownerTemplate,
+            final String template,
+            final String resourceName,
+            final String characterEncoding,
+            final Map<String, Object> templateResolutionAttributes
+    ) {
 
         blcContextUtil.establishThinRequestContextWithoutSandBox();
 
@@ -71,7 +77,14 @@ public class BroadleafThymeleaf3ThemeAwareTemplateResolver extends SpringResourc
             themeAwareResourceName = resourceName + actualPath;
         }
 
-        return super.computeTemplateResource(configuration, ownerTemplate, template, themeAwareResourceName, characterEncoding, templateResolutionAttributes);
+        return super.computeTemplateResource(
+                configuration,
+                ownerTemplate,
+                template,
+                themeAwareResourceName,
+                characterEncoding,
+                templateResolutionAttributes
+        );
     }
 
     protected String getThemePath() {
@@ -87,7 +100,7 @@ public class BroadleafThymeleaf3ThemeAwareTemplateResolver extends SpringResourc
     public void setTemplateFolder(String templateFolder) {
         this.templateFolder = templateFolder;
     }
-    
+
 }
 
 

@@ -10,7 +10,7 @@
  * the Broadleaf End User License Agreement (EULA), Version 1.1
  * (the "Commercial License" located at http://license.broadleafcommerce.org/commercial_license-1.1.txt)
  * shall apply.
- * 
+ *
  * Alternatively, the Commercial License may be replaced with a mutually agreed upon license (the "Custom License")
  * between you and Broadleaf Commerce. You may not use this file except in compliance with the applicable license.
  * #L%
@@ -24,22 +24,22 @@ import org.thymeleaf.TemplateEngine;
 public class BroadleafThymeleaf3CacheInvalidationContext implements BroadleafTemplateCacheInvalidationContext {
 
     protected ITemplateEngine templateEngine;
-    
+
     @Override
     public void clearTemplateCacheFor(String path) {
         if (TemplateEngine.class.isAssignableFrom(templateEngine.getClass())) {
             ((TemplateEngine) templateEngine).clearTemplateCacheFor(path);
         } else {
-            throw new UnsupportedOperationException("Unable to invalidate cache for template engine because it's of type " + templateEngine.getClass().getName() 
-                + " which doesn't extend " + TemplateEngine.class.getName() + ". To fix this extend " + this.getClass().getName() 
-                + " and implement the clearTemplateCacheFor method for your template engine");
+            throw new UnsupportedOperationException("Unable to invalidate cache for template engine because it's of type " + templateEngine.getClass().getName()
+                    + " which doesn't extend " + TemplateEngine.class.getName() + ". To fix this extend " + this.getClass().getName()
+                    + " and implement the clearTemplateCacheFor method for your template engine");
         }
     }
 
     public ITemplateEngine getTemplateEngine() {
         return templateEngine;
     }
-    
+
     public void setTemplateEngine(ITemplateEngine templateEngine) {
         this.templateEngine = templateEngine;
     }

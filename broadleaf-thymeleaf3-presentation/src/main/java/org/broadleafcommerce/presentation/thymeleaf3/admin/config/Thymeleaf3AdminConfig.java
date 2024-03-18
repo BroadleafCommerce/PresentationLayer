@@ -10,7 +10,7 @@
  * the Broadleaf End User License Agreement (EULA), Version 1.1
  * (the "Commercial License" located at http://license.broadleafcommerce.org/commercial_license-1.1.txt)
  * shall apply.
- * 
+ *
  * Alternatively, the Commercial License may be replaced with a mutually agreed upon license (the "Custom License")
  * between you and Broadleaf Commerce. You may not use this file except in compliance with the applicable license.
  * #L%
@@ -46,7 +46,6 @@ import java.util.Set;
 @Configuration
 public class Thymeleaf3AdminConfig extends Thymeleaf3CommonConfig {
 
-    
     @Configuration
     static class Thymeleaf3AdminDialectConfig extends AbstractThymeleaf3DialectConfig {
 
@@ -59,7 +58,7 @@ public class Thymeleaf3AdminConfig extends Thymeleaf3CommonConfig {
             dialect.setProcessors(allProcessors);
             return dialect;
         }
-        
+
         @Bean
         @Override
         public Set<IProcessor> blDialectProcessors() {
@@ -71,7 +70,7 @@ public class Thymeleaf3AdminConfig extends Thymeleaf3CommonConfig {
             }
             return configUtil.getDialectProcessors(commonProcessors);
         }
-        
+
         @Bean
         public Set<IProcessor> blAdminDialectProcessors() {
             Collection<BroadleafProcessor> adminProcessors = new ArrayList<>();
@@ -82,7 +81,7 @@ public class Thymeleaf3AdminConfig extends Thymeleaf3CommonConfig {
             }
             return configUtil.getDialectProcessors(adminProcessors);
         }
-        
+
         @Bean
         public Set<IDialect> blAdminDialects() {
             Set<IDialect> dialects = new LinkedHashSet<>();
@@ -91,23 +90,22 @@ public class Thymeleaf3AdminConfig extends Thymeleaf3CommonConfig {
             dialects.add(blDialect());
             return dialects;
         }
-        
     }
-    
+
     @Configuration
     static class Thymeleaf3AdminEngineConfig extends AbstractThymeleaf3EngineConfig {
 
         protected Set<IMessageResolver> messageResolvers;
-        
+
         public Thymeleaf3AdminEngineConfig(Set<IMessageResolver> messageResolvers) {
             this.messageResolvers = messageResolvers;
         }
-        
+
         @Bean
         public Set<ITemplateResolver> blAdminWebTemplateResolvers() {
             return configUtil.getWebResolvers(blcTemplateResolvers);
         }
-        
+
         @Bean
         @Primary
         public BroadleafThymeleaf3TemplateEngine blAdminWebTemplateEngine() {
@@ -120,23 +118,24 @@ public class Thymeleaf3AdminConfig extends Thymeleaf3CommonConfig {
             engine.setDialects(dialects);
             return engine;
         }
-        
+
         @Configuration
-        protected static class Thymeleaf3AdminTemplateResolverConfig extends Thymeleaf3AdminTemplateConfig {}
+        protected static class Thymeleaf3AdminTemplateResolverConfig extends Thymeleaf3AdminTemplateConfig {
+        }
     }
-    
+
     @Configuration
     static class Thymeleaf3AdminViewConfig {
-        
+
         protected ISpringTemplateEngine templateEngine;
-        
+
         protected Environment environment;
-        
+
         public Thymeleaf3AdminViewConfig(ISpringTemplateEngine templateEngine, Environment environment) {
             this.templateEngine = templateEngine;
             this.environment = environment;
         }
-        
+
         @Bean(name = {"blAdminThymeleafViewResolver", "thymeleafViewResolver"})
         public BroadleafThymeleafViewResolver blAdminThymeleafViewResolver() {
             BroadleafThymeleafViewResolver view = new BroadleafThymeleafViewResolver();
@@ -153,12 +152,12 @@ public class Thymeleaf3AdminConfig extends Thymeleaf3CommonConfig {
             return view;
         }
     }
-    
-    @Bean 
+
+    @Bean
     public IMessageResolver blAdminMessageResolver() {
         BroadleafThymeleaf3MessageResolver resolver = new BroadleafThymeleaf3MessageResolver();
         resolver.setOrder(100);
         return resolver;
     }
-    
+
 }

@@ -10,7 +10,7 @@
  * the Broadleaf End User License Agreement (EULA), Version 1.1
  * (the "Commercial License" located at http://license.broadleafcommerce.org/commercial_license-1.1.txt)
  * shall apply.
- * 
+ *
  * Alternatively, the Commercial License may be replaced with a mutually agreed upon license (the "Custom License")
  * between you and Broadleaf Commerce. You may not use this file except in compliance with the applicable license.
  * #L%
@@ -32,11 +32,10 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 
-
 /**
  * An implementation of {@link ITemplateResource} that provides an extension point for retrieving
  * templates from the database.
- * 
+ *
  * @author Andre Azzolini (apazzolini)
  */
 public class BroadleafThymeleaf3DatabaseResourceResolver implements ITemplateResource {
@@ -44,9 +43,12 @@ public class BroadleafThymeleaf3DatabaseResourceResolver implements ITemplateRes
     protected BroadleafContextUtil blcContextUtil;
     protected DatabaseResourceResolverExtensionManager extensionManager;
     protected String path;
-    
-    public BroadleafThymeleaf3DatabaseResourceResolver(DatabaseResourceResolverExtensionManager extensionManager,
-            BroadleafContextUtil blcContextUtil, String path) {
+
+    public BroadleafThymeleaf3DatabaseResourceResolver(
+            DatabaseResourceResolverExtensionManager extensionManager,
+            BroadleafContextUtil blcContextUtil,
+            String path
+    ) {
         this.extensionManager = extensionManager;
         this.blcContextUtil = blcContextUtil;
         this.path = path;
@@ -87,7 +89,7 @@ public class BroadleafThymeleaf3DatabaseResourceResolver implements ITemplateRes
         // Intentionally unimplemented
         return null;
     }
-    
+
     protected InputStream resolveResource() {
         try {
             this.blcContextUtil.establishThinRequestContext();

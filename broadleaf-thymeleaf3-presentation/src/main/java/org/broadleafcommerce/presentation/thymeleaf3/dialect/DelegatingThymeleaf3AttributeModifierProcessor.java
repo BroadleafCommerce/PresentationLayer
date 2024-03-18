@@ -10,7 +10,7 @@
  * the Broadleaf End User License Agreement (EULA), Version 1.1
  * (the "Commercial License" located at http://license.broadleafcommerce.org/commercial_license-1.1.txt)
  * shall apply.
- * 
+ *
  * Alternatively, the Commercial License may be replaced with a mutually agreed upon license (the "Custom License")
  * between you and Broadleaf Commerce. You may not use this file except in compliance with the applicable license.
  * #L%
@@ -34,18 +34,39 @@ import java.util.Map;
 public class DelegatingThymeleaf3AttributeModifierProcessor extends AbstractAttributeTagProcessor {
 
     protected BroadleafAttributeModifierProcessor processor;
-    
-    public DelegatingThymeleaf3AttributeModifierProcessor(String name, BroadleafAttributeModifierProcessor processor, int precedence) {
-        super(TemplateMode.HTML, processor.getPrefix(), null, false, name, true, precedence, true);
+
+    public DelegatingThymeleaf3AttributeModifierProcessor(
+            String name,
+            BroadleafAttributeModifierProcessor processor,
+            int precedence
+    ) {
+        super(
+                TemplateMode.HTML,
+                processor.getPrefix(),
+                null,
+                false,
+                name,
+                true,
+                precedence,
+                true
+        );
         this.processor = processor;
     }
 
     @Override
-    protected void doProcess(ITemplateContext context, IProcessableElementTag tag, AttributeName attributeName, String attributeValue, IElementTagStructureHandler structureHandler) {
+    protected void doProcess(
+            ITemplateContext context,
+            IProcessableElementTag tag,
+            AttributeName attributeName,
+            String attributeValue,
+            IElementTagStructureHandler structureHandler
+    ) {
         BroadleafTemplateContext blcContext = new BroadleafThymeleaf3Context(context, structureHandler);
         String tagName = tag.getElementCompleteName();
         Map<String, String> tagAttributes = tag.getAttributeMap();
-        BroadleafAttributeModifier modifications = processor.getModifiedAttributes(tagName, tagAttributes, attributeName.getAttributeName(), attributeValue, blcContext);
+        BroadleafAttributeModifier modifications = processor.getModifiedAttributes(
+                tagName, tagAttributes, attributeName.getAttributeName(), attributeValue, blcContext
+        );
         AttributeValueQuotes quotes = processor.useSingleQuotes() ? AttributeValueQuotes.SINGLE : AttributeValueQuotes.DOUBLE;
         Map<String, String> added = modifications.getAdded();
         for (String key : added.keySet()) {

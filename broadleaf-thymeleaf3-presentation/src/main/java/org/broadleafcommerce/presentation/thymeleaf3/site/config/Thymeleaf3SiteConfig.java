@@ -10,7 +10,7 @@
  * the Broadleaf End User License Agreement (EULA), Version 1.1
  * (the "Commercial License" located at http://license.broadleafcommerce.org/commercial_license-1.1.txt)
  * shall apply.
- * 
+ *
  * Alternatively, the Commercial License may be replaced with a mutually agreed upon license (the "Custom License")
  * between you and Broadleaf Commerce. You may not use this file except in compliance with the applicable license.
  * #L%
@@ -45,15 +45,15 @@ import java.util.Set;
 
 @Configuration
 public class Thymeleaf3SiteConfig extends Thymeleaf3CommonConfig {
-    
+
     @Bean
     public ModuleLifecycleLoggingBean blThymeleaf3Lifecycle() {
         return new ModuleLifecycleLoggingBean(Thymeleaf3ModuleRegistration.MODULE_NAME, LifeCycleEvent.LOADING);
     }
-    
+
     @Configuration
     static class Thymeleaf3SiteDialectConfig extends AbstractThymeleaf3DialectConfig {
-        
+
         @Bean
         public Set<IDialect> blWebDialects() {
             Set<IDialect> dialects = new LinkedHashSet<>();
@@ -62,20 +62,19 @@ public class Thymeleaf3SiteConfig extends Thymeleaf3CommonConfig {
             return dialects;
         }
     }
-    
+
     @Configuration
     static class Thymeleaf3SiteEngineConfig extends AbstractThymeleaf3EngineConfig {
-        
+
         protected Set<IMessageResolver> messageResolvers;
-        
+
         protected ICacheManager cacheManager;
 
-        public Thymeleaf3SiteEngineConfig(Set<IMessageResolver> messageResolvers,
-                                          ICacheManager cacheManager) {
+        public Thymeleaf3SiteEngineConfig(Set<IMessageResolver> messageResolvers, ICacheManager cacheManager) {
             this.messageResolvers = messageResolvers;
             this.cacheManager = cacheManager;
         }
-        
+
         @Bean
         @Primary
         public BroadleafThymeleaf3TemplateEngine blWebTemplateEngine() {
@@ -89,23 +88,24 @@ public class Thymeleaf3SiteConfig extends Thymeleaf3CommonConfig {
             engine.setDialects(dialects);
             return engine;
         }
-        
+
         @Configuration
-        protected static class Thymeleaf3TemplateResolverConfig extends Thymeleaf3SiteTemplateConfig {}
+        protected static class Thymeleaf3TemplateResolverConfig extends Thymeleaf3SiteTemplateConfig {
+        }
     }
-    
+
     @Configuration
     static class Thymeleaf3SiteViewConfig {
-        
+
         protected ISpringTemplateEngine templateEngine;
-        
+
         protected Environment environment;
-        
+
         public Thymeleaf3SiteViewConfig(ISpringTemplateEngine templateEngine, Environment environment) {
             this.templateEngine = templateEngine;
             this.environment = environment;
         }
-        
+
         @Bean(name = {"blThymeleafViewResolver", "thymeleafViewResolver"})
         public BroadleafThymeleafViewResolver blThymeleafViewResolver() {
             BroadleafThymeleafViewResolver view = new BroadleafThymeleafViewResolver();
@@ -116,36 +116,36 @@ public class Thymeleaf3SiteConfig extends Thymeleaf3CommonConfig {
             return view;
         }
     }
-    
+
     @Configuration
     static class Thymeleaf3CacheInvalidationConfig {
-        
+
         protected ITemplateEngine templateEngine;
-        
+
         public Thymeleaf3CacheInvalidationConfig(ITemplateEngine templateEngine) {
             this.templateEngine = templateEngine;
         }
-        
+
         @Bean
         public BroadleafThymeleaf3CacheInvalidationContext blTemplateCacheInvalidationContext() {
             BroadleafThymeleaf3CacheInvalidationContext context = new BroadleafThymeleaf3CacheInvalidationContext();
             context.setTemplateEngine(templateEngine);
             return context;
         }
-        
+
     }
-    
+
     @Bean
     public IMessageResolver blMessageResolver() {
         BroadleafThymeleaf3MessageResolver resolver = new BroadleafThymeleaf3MessageResolver();
         resolver.setOrder(100);
         return resolver;
     }
-    
+
     @Bean
     @ConditionalOnMissingBean(ICacheManager.class)
     public BroadleafThymeleaf3CacheManager blICacheManager() {
         return new BroadleafThymeleaf3CacheManager();
     }
-    
+
 }

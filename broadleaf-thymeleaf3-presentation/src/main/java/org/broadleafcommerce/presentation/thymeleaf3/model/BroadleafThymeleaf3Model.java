@@ -10,7 +10,7 @@
  * the Broadleaf End User License Agreement (EULA), Version 1.1
  * (the "Commercial License" located at http://license.broadleafcommerce.org/commercial_license-1.1.txt)
  * shall apply.
- * 
+ *
  * Alternatively, the Commercial License may be replaced with a mutually agreed upon license (the "Custom License")
  * between you and Broadleaf Commerce. You may not use this file except in compliance with the applicable license.
  * #L%
@@ -23,14 +23,13 @@ import org.thymeleaf.model.IModel;
 import org.thymeleaf.model.ITemplateEvent;
 
 /**
- * A class used to encapsulate the underlying IModel for Thymeleaf 3. 
+ * A class used to encapsulate the underlying IModel for Thymeleaf 3.
  * The model is modified using {@code BroadleafThymeleafTemplateEvent}s and then used to
  * modify the original model sent to the processor
- * 
+ * <p>
  * Note that this is only for use inside of the Broadleaf common layer for Thymeleaf module
- * 
- * @author Jay Aisenbrey (cja769)
  *
+ * @author Jay Aisenbrey (cja769)
  */
 public class BroadleafThymeleaf3Model implements BroadleafTemplateModel {
 
@@ -39,6 +38,7 @@ public class BroadleafThymeleaf3Model implements BroadleafTemplateModel {
     public BroadleafThymeleaf3Model(IModel model) {
         this.model = model;
     }
+
     @Override
     public void addElement(BroadleafTemplateElement elem) {
         for (ITemplateEvent tag : ((BroadleafThymeleaf3TemplateEvent) elem).getAllTags()) {

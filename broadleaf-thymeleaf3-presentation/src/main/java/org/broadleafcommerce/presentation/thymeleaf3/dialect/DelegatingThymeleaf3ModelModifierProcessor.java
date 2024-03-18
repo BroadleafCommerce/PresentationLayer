@@ -10,7 +10,7 @@
  * the Broadleaf End User License Agreement (EULA), Version 1.1
  * (the "Commercial License" located at http://license.broadleafcommerce.org/commercial_license-1.1.txt)
  * shall apply.
- * 
+ *
  * Alternatively, the Commercial License may be replaced with a mutually agreed upon license (the "Custom License")
  * between you and Broadleaf Commerce. You may not use this file except in compliance with the applicable license.
  * #L%
@@ -35,21 +35,35 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class DelegatingThymeleaf3ModelModifierProcessor extends AbstractElementModelProcessor {
-    
+
     protected BroadleafModelModifierProcessor processor;
-    
-    public DelegatingThymeleaf3ModelModifierProcessor(String elementName, BroadleafModelModifierProcessor processor, int precedence) {
-        super(TemplateMode.HTML, processor.getPrefix(), elementName, true, null, false, precedence);
+
+    public DelegatingThymeleaf3ModelModifierProcessor(
+            String elementName,
+            BroadleafModelModifierProcessor processor,
+            int precedence
+    ) {
+        super(
+                TemplateMode.HTML,
+                processor.getPrefix(),
+                elementName,
+                true,
+                null,
+                false,
+                precedence
+        );
         this.processor = processor;
     }
-    
+
     @Override
     protected void doProcess(ITemplateContext context, IModel model, IElementModelStructureHandler structureHandler) {
         IProcessableElementTag rootTag = (IProcessableElementTag) model.get(0);
         String rootTagName = rootTag.getElementCompleteName();
         Map<String, String> rootTagAttributes = rootTag.getAttributeMap();
         BroadleafTemplateContext blcContext = new BroadleafThymeleaf3Context(context, structureHandler);
-        BroadleafTemplateModelModifierDTO dto = processor.getInjectedModelAndTagAttributes(rootTagName, rootTagAttributes, blcContext);
+        BroadleafTemplateModelModifierDTO dto = processor.getInjectedModelAndTagAttributes(
+                rootTagName, rootTagAttributes, blcContext
+        );
         if (dto.getModel() != null) {
             model.insertModel(model.size() - 1, ((BroadleafThymeleaf3Model) dto.getModel()).getModel());
         }
@@ -58,7 +72,12 @@ public class DelegatingThymeleaf3ModelModifierProcessor extends AbstractElementM
             newParams = new HashMap<>();
         }
         String tagName = dto.getReplacementTagName() != null ? dto.getReplacementTagName() : "form";
-        model.replace(0, context.getModelFactory().createOpenElementTag(tagName, dto.getFormParameters(), processor.useSingleQuotes() ? AttributeValueQuotes.SINGLE : AttributeValueQuotes.DOUBLE, false));
+        model.replace(0, context.getModelFactory().createOpenElementTag(
+                tagName,
+                dto.getFormParameters(),
+                processor.useSingleQuotes() ? AttributeValueQuotes.SINGLE : AttributeValueQuotes.DOUBLE,
+                false
+        ));
         model.replace(model.size() - 1, context.getModelFactory().createCloseElementTag(tagName));
         if (!MapUtils.isEmpty(dto.getFormLocalVariables())) {
             for (String key : dto.getFormLocalVariables().keySet()) {
