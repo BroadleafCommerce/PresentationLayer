@@ -10,7 +10,7 @@
  * the Broadleaf End User License Agreement (EULA), Version 1.1
  * (the "Commercial License" located at http://license.broadleafcommerce.org/commercial_license-1.1.txt)
  * shall apply.
- * 
+ *
  * Alternatively, the Commercial License may be replaced with a mutually agreed upon license (the "Custom License")
  * between you and Broadleaf Commerce. You may not use this file except in compliance with the applicable license.
  * #L%
@@ -28,19 +28,36 @@ import org.thymeleaf.templatemode.TemplateMode;
 public class ArbitraryHtmlInsertionProcessor extends AbstractAttributeTagProcessor {
 
     public ArbitraryHtmlInsertionProcessor() {
-        super(TemplateMode.HTML, "blc", null, false, "html", true, 100, true);
+        super(
+                TemplateMode.HTML,
+                "blc",
+                null,
+                false,
+                "html",
+                true,
+                100,
+                true
+        );
     }
 
     @Override
-    protected void doProcess(ITemplateContext context, IProcessableElementTag tag, AttributeName attributeName, String attributeValue, IElementTagStructureHandler structureHandler) {
+    protected void doProcess(
+            ITemplateContext context,
+            IProcessableElementTag tag,
+            AttributeName attributeName,
+            String attributeValue,
+            IElementTagStructureHandler structureHandler
+    ) {
         Object result = StandardExpressions.getExpressionParser(context.getConfiguration())
                 .parseExpression(context, attributeValue)
                 .execute(context);
         if (result != null) {
-            structureHandler.setBody(context.getConfiguration().getTemplateManager()
-                                        .parseString(context.getTemplateData(), result.toString(), 0, 0, getTemplateMode(), false), true);
+            structureHandler.setBody(
+                    context.getConfiguration().getTemplateManager()
+                            .parseString(context.getTemplateData(), result.toString(), 0, 0, getTemplateMode(), false),
+                    true
+            );
         }
     }
-
 
 }

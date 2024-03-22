@@ -10,7 +10,7 @@
  * the Broadleaf End User License Agreement (EULA), Version 1.1
  * (the "Commercial License" located at http://license.broadleafcommerce.org/commercial_license-1.1.txt)
  * shall apply.
- * 
+ *
  * Alternatively, the Commercial License may be replaced with a mutually agreed upon license (the "Custom License")
  * between you and Broadleaf Commerce. You may not use this file except in compliance with the applicable license.
  * #L%
@@ -37,20 +37,20 @@ public class BroadleafThymeleaf3MessageCreator extends MessageCreator implements
     protected TemplateEngine templateEngine;
 
     protected ApplicationContext applicationContext;
-    
+
     public BroadleafThymeleaf3MessageCreator(TemplateEngine templateEngine, JavaMailSender mailSender) {
         super(mailSender);
-        this.templateEngine = templateEngine;        
+        this.templateEngine = templateEngine;
     }
 
     public void setApplicationContext(@NonNull final ApplicationContext applicationContext) throws BeansException {
         this.applicationContext = applicationContext;
     }
-    
+
     @Override
-    public String buildMessageBody(EmailInfo info, Map<String,Object> props) {
+    public String buildMessageBody(EmailInfo info, Map<String, Object> props) {
         BroadleafRequestContext blcContext = BroadleafRequestContext.getBroadleafRequestContext();
-      
+
         final Context thymeleafContext = new Context();
         if (blcContext != null && blcContext.getJavaLocale() != null) {
             thymeleafContext.setLocale(blcContext.getJavaLocale());
@@ -62,12 +62,12 @@ public class BroadleafThymeleaf3MessageCreator extends MessageCreator implements
                         new ThymeleafEvaluationContext(applicationContext, null));
             }
             Iterator<String> propsIterator = props.keySet().iterator();
-            while(propsIterator.hasNext()) {
+            while (propsIterator.hasNext()) {
                 String key = propsIterator.next();
                 thymeleafContext.setVariable(key, props.get(key));
             }
         }
 
-        return this.templateEngine.process( info.getEmailTemplate(), thymeleafContext);
+        return this.templateEngine.process(info.getEmailTemplate(), thymeleafContext);
     }
 }

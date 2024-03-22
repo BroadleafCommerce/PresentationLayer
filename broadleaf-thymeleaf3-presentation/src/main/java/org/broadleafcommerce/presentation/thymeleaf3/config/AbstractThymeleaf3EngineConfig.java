@@ -10,7 +10,7 @@
  * the Broadleaf End User License Agreement (EULA), Version 1.1
  * (the "Commercial License" located at http://license.broadleafcommerce.org/commercial_license-1.1.txt)
  * shall apply.
- * 
+ *
  * Alternatively, the Commercial License may be replaced with a mutually agreed upon license (the "Custom License")
  * between you and Broadleaf Commerce. You may not use this file except in compliance with the applicable license.
  * #L%
@@ -33,16 +33,16 @@ public abstract class AbstractThymeleaf3EngineConfig {
 
     @Autowired(required = false)
     protected Set<ITemplateResolver> iTemplateResolvers = new LinkedHashSet<>();
-    
+
     @Autowired(required = false)
     protected Set<BroadleafTemplateResolver> blcTemplateResolvers = new LinkedHashSet<>();
-    
+
     @Autowired
     protected Set<IDialect> dialects;
-    
+
     @Autowired
     protected Thymeleaf3ConfigUtils configUtil;
-    
+
     @Bean
     public SpringTemplateEngine blEmailTemplateEngine() {
         SpringTemplateEngine engine = new SpringTemplateEngine();
@@ -53,18 +53,19 @@ public abstract class AbstractThymeleaf3EngineConfig {
         engine.setDialects(dialects);
         return engine;
     }
-    
+
     @Bean
     public Set<ITemplateResolver> blEmailTemplateResolvers() {
         return configUtil.getEmailResolvers(blcTemplateResolvers);
     }
-    
+
     @Bean
     @Primary
     public Set<ITemplateResolver> blWebTemplateResolvers() {
         return configUtil.getWebResolvers(blcTemplateResolvers);
     }
-    
+
     @Configuration
-    protected static class Thymeleaf3CommonTemplateResolverConfig extends Thymeleaf3CommonTemplateConfig {}
+    protected static class Thymeleaf3CommonTemplateResolverConfig extends Thymeleaf3CommonTemplateConfig {
+    }
 }

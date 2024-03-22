@@ -10,7 +10,7 @@
  * the Broadleaf End User License Agreement (EULA), Version 1.1
  * (the "Commercial License" located at http://license.broadleafcommerce.org/commercial_license-1.1.txt)
  * shall apply.
- * 
+ *
  * Alternatively, the Commercial License may be replaced with a mutually agreed upon license (the "Custom License")
  * between you and Broadleaf Commerce. You may not use this file except in compliance with the applicable license.
  * #L%
@@ -22,11 +22,11 @@ import org.broadleafcommerce.presentation.cache.BroadleafTemplateCacheContext;
 public class BroadleafThymeleaf3CacheContext<K, V> implements BroadleafTemplateCacheContext<K, V> {
 
     protected BroadleafThymeleaf3ICache<K, V> blcCache;
-    
+
     public BroadleafThymeleaf3CacheContext(BroadleafThymeleaf3ICache blcCache) {
         this.blcCache = blcCache;
     }
-    
+
     @Override
     public V defaultGet(K key) {
         return blcCache.defaultGet(key);

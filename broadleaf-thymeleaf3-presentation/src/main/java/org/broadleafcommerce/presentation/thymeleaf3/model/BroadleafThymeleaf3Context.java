@@ -10,7 +10,7 @@
  * the Broadleaf End User License Agreement (EULA), Version 1.1
  * (the "Commercial License" located at http://license.broadleafcommerce.org/commercial_license-1.1.txt)
  * shall apply.
- * 
+ *
  * Alternatively, the Commercial License may be replaced with a mutually agreed upon license (the "Custom License")
  * between you and Broadleaf Commerce. You may not use this file except in compliance with the applicable license.
  * #L%
@@ -88,8 +88,17 @@ public class BroadleafThymeleaf3Context implements BroadleafTemplateContext {
     }
 
     @Override
-    public BroadleafTemplateNonVoidElement createNonVoidElement(String tagName, Map<String, String> attributes, boolean useDoubleQuotes) {
-        IOpenElementTag open = context.getModelFactory().createOpenElementTag(tagName, attributes, useDoubleQuotes ? AttributeValueQuotes.DOUBLE : AttributeValueQuotes.SINGLE, false);
+    public BroadleafTemplateNonVoidElement createNonVoidElement(
+            String tagName,
+            Map<String, String> attributes,
+            boolean useDoubleQuotes
+    ) {
+        IOpenElementTag open = context.getModelFactory().createOpenElementTag(
+                tagName,
+                attributes,
+                useDoubleQuotes ? AttributeValueQuotes.DOUBLE : AttributeValueQuotes.SINGLE,
+                false
+        );
         ICloseElementTag close = context.getModelFactory().createCloseElementTag(tagName, false, false);
         return new BroadleafThymeleaf3NonVoidElement(open, close);
     }
@@ -102,8 +111,18 @@ public class BroadleafThymeleaf3Context implements BroadleafTemplateContext {
     }
 
     @Override
-    public BroadleafTemplateElement createStandaloneElement(String tagName, Map<String, String> attributes, boolean useDoubleQuotes) {
-        IStandaloneElementTag standaloneTag = context.getModelFactory().createStandaloneElementTag(tagName, attributes, useDoubleQuotes ? AttributeValueQuotes.DOUBLE : AttributeValueQuotes.SINGLE, false, true);
+    public BroadleafTemplateElement createStandaloneElement(
+            String tagName,
+            Map<String, String> attributes,
+            boolean useDoubleQuotes
+    ) {
+        IStandaloneElementTag standaloneTag = context.getModelFactory().createStandaloneElementTag(
+                tagName,
+                attributes,
+                useDoubleQuotes ? AttributeValueQuotes.DOUBLE : AttributeValueQuotes.SINGLE,
+                false,
+                true
+        );
         return new BroadleafThymeleaf3StandaloneElement(standaloneTag);
     }
 

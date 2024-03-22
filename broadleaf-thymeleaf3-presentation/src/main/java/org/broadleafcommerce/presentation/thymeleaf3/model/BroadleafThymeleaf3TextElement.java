@@ -10,7 +10,7 @@
  * the Broadleaf End User License Agreement (EULA), Version 1.1
  * (the "Commercial License" located at http://license.broadleafcommerce.org/commercial_license-1.1.txt)
  * shall apply.
- * 
+ *
  * Alternatively, the Commercial License may be replaced with a mutually agreed upon license (the "Custom License")
  * between you and Broadleaf Commerce. You may not use this file except in compliance with the applicable license.
  * #L%
@@ -24,11 +24,10 @@ import java.util.ArrayList;
 
 /**
  * Class that's used for encapsulating a Thymeleaf 3 text node
- * 
+ * <p>
  * Note that this is only for use inside of the Broadleaf common layer for Thymeleaf module
- * 
- * @author Jay Aisenbrey (cja769)
  *
+ * @author Jay Aisenbrey (cja769)
  */
 public class BroadleafThymeleaf3TextElement implements BroadleafThymeleaf3TemplateEvent {
 

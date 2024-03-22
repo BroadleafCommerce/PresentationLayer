@@ -10,7 +10,7 @@
  * the Broadleaf End User License Agreement (EULA), Version 1.1
  * (the "Commercial License" located at http://license.broadleafcommerce.org/commercial_license-1.1.txt)
  * shall apply.
- * 
+ *
  * Alternatively, the Commercial License may be replaced with a mutually agreed upon license (the "Custom License")
  * between you and Broadleaf Commerce. You may not use this file except in compliance with the applicable license.
  * #L%
@@ -92,7 +92,9 @@ public class BroadleafThymeleaf3ICache<K, V> implements ICache<K, V> {
         }
 
         ExtensionResultHolder<V> result = new ExtensionResultHolder<>();
-        ExtensionResultStatusType erst = extensionManager.getProxy().getCache(key, (ExtensionResultHolder<Object>) result, new BroadleafThymeleaf3CacheContext(this));
+        ExtensionResultStatusType erst = extensionManager.getProxy().getCache(
+                key, (ExtensionResultHolder<Object>) result, new BroadleafThymeleaf3CacheContext(this)
+        );
 
         if (erst.equals(ExtensionResultStatusType.HANDLED)) {
             value = result.getResult();
@@ -113,10 +115,15 @@ public class BroadleafThymeleaf3ICache<K, V> implements ICache<K, V> {
      * @param logger
      * @param extensionManager
      */
-    public BroadleafThymeleaf3ICache(final String name, final boolean useSoftReferences,
-                         final int initialCapacity, final int maxSize, final ICacheEntryValidityChecker<? super K, ? super V> entryValidityChecker,
-                         final Logger logger, BLCICacheExtensionManager extensionManager) {
-
+    public BroadleafThymeleaf3ICache(
+            final String name,
+            final boolean useSoftReferences,
+            final int initialCapacity,
+            final int maxSize,
+            final ICacheEntryValidityChecker<? super K, ? super V> entryValidityChecker,
+            final Logger logger,
+            BLCICacheExtensionManager extensionManager
+    ) {
         super();
 
         Validate.notEmpty(name, "Name cannot be null or empty");
@@ -144,13 +151,12 @@ public class BroadleafThymeleaf3ICache<K, V> implements ICache<K, V> {
         if (this.logger != null) {
             if (this.maxSize < 0) {
                 this.logger.debug("[THYMELEAF][CACHE_INITIALIZE] Initializing cache {}. Soft references {}.",
-                        this.name, (this.useSoftReferences? "are used" : "not used"));
+                        this.name, (this.useSoftReferences ? "are used" : "not used"));
             } else {
                 this.logger.debug("[THYMELEAF][CACHE_INITIALIZE] Initializing cache {}. Max size: {}. Soft references {}.",
-                        new Object[] {this.name, Integer.valueOf(this.maxSize), (this.useSoftReferences? "are used" : "not used")});
+                        this.name, Integer.valueOf(this.maxSize), (this.useSoftReferences ? "are used" : "not used"));
             }
         }
-
     }
 
     /**
@@ -161,8 +167,10 @@ public class BroadleafThymeleaf3ICache<K, V> implements ICache<K, V> {
      */
     public void defaultPut(final K key, final V value) {
         TemplateCacheKey templateCacheKey = null;
-        if (key instanceof String)  {
-            templateCacheKey = new TemplateCacheKey(null, (String) key, null, 0, 0, null, null);
+        if (key instanceof String) {
+            templateCacheKey = new TemplateCacheKey(
+                    null, (String) key, null, 0, 0, null, null
+            );
         } else if (key instanceof TemplateCacheKey) {
             templateCacheKey = (TemplateCacheKey) key;
         } else {
@@ -178,11 +186,10 @@ public class BroadleafThymeleaf3ICache<K, V> implements ICache<K, V> {
         if (this.traceExecution) {
             this.logger.trace(
                     "[THYMELEAF][{}][{}][CACHE_ADD][{}] Adding cache entry in cache \"{}\" for key \"{}\". New size is {}.",
-                    new Object[] {TemplateEngine.threadIndex(), this.name, Integer.valueOf(newSize), this.name, templateCacheKey, Integer.valueOf(newSize)});
+                    TemplateEngine.threadIndex(), this.name, Integer.valueOf(newSize), this.name, templateCacheKey, Integer.valueOf(newSize));
         }
 
         outputReportIfNeeded();
-
     }
 
     /**
@@ -193,8 +200,10 @@ public class BroadleafThymeleaf3ICache<K, V> implements ICache<K, V> {
      */
     public V defaultGet(final K key) {
         TemplateCacheKey templateCacheKey = null;
-        if (key instanceof String)  {
-            templateCacheKey = new TemplateCacheKey(null, (String) key, null, 0, 0, null, null);
+        if (key instanceof String) {
+            templateCacheKey = new TemplateCacheKey(
+                    null, (String) key, null, 0, 0, null, null
+            );
         } else if (key instanceof TemplateCacheKey) {
             templateCacheKey = (TemplateCacheKey) key;
         } else {
@@ -213,7 +222,7 @@ public class BroadleafThymeleaf3ICache<K, V> implements ICache<K, V> {
     private final String name;
     private final boolean useSoftReferences;
     private final int maxSize;
-    private final CacheDataContainer<K,V> dataContainer;
+    private final CacheDataContainer<K, V> dataContainer;
     private final ICacheEntryValidityChecker<? super K, ? super V> entryValidityChecker;
 
     private final boolean traceExecution;
@@ -236,7 +245,7 @@ public class BroadleafThymeleaf3ICache<K, V> implements ICache<K, V> {
             if (this.traceExecution) {
                 this.logger.trace(
                         "[THYMELEAF][{}][{}][CACHE_MISS] Cache miss in cache \"{}\" for key \"{}\".",
-                        new Object[] {TemplateEngine.threadIndex(), this.name, this.name, key});
+                        TemplateEngine.threadIndex(), this.name, this.name, key);
             }
             outputReportIfNeeded();
             return null;
@@ -249,10 +258,10 @@ public class BroadleafThymeleaf3ICache<K, V> implements ICache<K, V> {
             if (this.traceExecution) {
                 this.logger.trace(
                         "[THYMELEAF][{}][{}][CACHE_REMOVE][{}] Removing cache entry in cache \"{}\" (Entry \"{}\" is not valid anymore). New size is {}.",
-                        new Object[] {TemplateEngine.threadIndex(), this.name, Integer.valueOf(newSize), this.name, key, Integer.valueOf(newSize)});
+                        TemplateEngine.threadIndex(), this.name, Integer.valueOf(newSize), this.name, key, Integer.valueOf(newSize));
                 this.logger.trace(
                         "[THYMELEAF][{}][{}][CACHE_MISS] Cache miss in cache \"{}\" for key \"{}\".",
-                        new Object[] {TemplateEngine.threadIndex(), this.name, this.name, key});
+                        TemplateEngine.threadIndex(), this.name, this.name, key);
             }
             incrementReportEntity(this.missCount);
             outputReportIfNeeded();
@@ -262,21 +271,19 @@ public class BroadleafThymeleaf3ICache<K, V> implements ICache<K, V> {
         if (this.traceExecution) {
             this.logger.trace(
                     "[THYMELEAF][{}][{}][CACHE_HIT] Cache hit in cache \"{}\" for key \"{}\".",
-                    new Object[] {TemplateEngine.threadIndex(), this.name, this.name, key});
+                    TemplateEngine.threadIndex(), this.name, this.name, key);
         }
 
         incrementReportEntity(this.hitCount);
         outputReportIfNeeded();
         return resultValue;
-
     }
-
 
     /**
      * <p>
-     *   Returns all the keys contained in this cache. Note this method might return keys for entries
-     *   that are already invalid, so the result of calling {@link #get(Object)} for these keys might
-     *   be <tt>null</tt>.
+     * Returns all the keys contained in this cache. Note this method might return keys for entries
+     * that are already invalid, so the result of calling {@link #get(Object)} for these keys might
+     * be <tt>null</tt>.
      * </p>
      *
      * @return the complete set of cache keys. Might include keys for already-invalid (non-cleaned) entries.
@@ -287,10 +294,18 @@ public class BroadleafThymeleaf3ICache<K, V> implements ICache<K, V> {
         Set<K> ks = this.dataContainer.keySet();
         Set<K> result = new HashSet<>();
         for (K k : ks) {
-            if(k instanceof TemplateCacheKey){
-                if(((TemplateCacheKey)k).getOwnerTemplate()!=null){
-                    TemplateCacheKey t = (TemplateCacheKey)k;
-                    result.add((K) new TemplateCacheKey(null, t.getTemplate(), t.getTemplateSelectors(), t.getLineOffset(), t.getColOffset(), t.getTemplateMode(), t.getTemplateResolutionAttributes()));
+            if (k instanceof TemplateCacheKey) {
+                if (((TemplateCacheKey) k).getOwnerTemplate() != null) {
+                    TemplateCacheKey t = (TemplateCacheKey) k;
+                    result.add((K) new TemplateCacheKey(
+                            null,
+                            t.getTemplate(),
+                            t.getTemplateSelectors(),
+                            t.getLineOffset(),
+                            t.getColOffset(),
+                            t.getTemplateMode(),
+                            t.getTemplateResolutionAttributes()
+                    ));
                 }
             }
             result.add(k);
@@ -306,9 +321,8 @@ public class BroadleafThymeleaf3ICache<K, V> implements ICache<K, V> {
         if (this.traceExecution) {
             this.logger.trace(
                     "[THYMELEAF][{}][*][{}][CACHE_REMOVE][0] Removing ALL cache entries in cache \"{}\". New size is 0.",
-                    new Object[] {TemplateEngine.threadIndex(), this.name, this.name});
+                    TemplateEngine.threadIndex(), this.name, this.name);
         }
-
     }
 
     @Override
@@ -319,9 +333,8 @@ public class BroadleafThymeleaf3ICache<K, V> implements ICache<K, V> {
         if (this.traceExecution && newSize != -1) {
             this.logger.trace(
                     "[THYMELEAF][{}][*][{}][CACHE_REMOVE][{}] Removed cache entry in cache \"{}\" for key \"{}\". New size is {}.",
-                    new Object[] {TemplateEngine.threadIndex(), this.name, Integer.valueOf(newSize), this.name, key, Integer.valueOf(newSize)});
+                    TemplateEngine.threadIndex(), this.name, Integer.valueOf(newSize), this.name, key, Integer.valueOf(newSize));
         }
-
     }
 
     public String getName() {
@@ -344,13 +357,13 @@ public class BroadleafThymeleaf3ICache<K, V> implements ICache<K, V> {
         return this.dataContainer.size();
     }
 
-    private void incrementReportEntity(final AtomicLong entity) {
+    protected void incrementReportEntity(final AtomicLong entity) {
         if (this.traceExecution) {
             entity.incrementAndGet();
         }
     }
 
-    private void outputReportIfNeeded() {
+    protected void outputReportIfNeeded() {
 
         if (this.traceExecution) { // fail fast
 
@@ -370,12 +383,10 @@ public class BroadleafThymeleaf3ICache<K, V> implements ICache<K, V> {
                     }
                 }
             }
-
         }
-
     }
 
-    static final class CacheDataContainer<K,V> {
+    static final class CacheDataContainer<K, V> {
 
         private final String name;
         private final boolean sizeLimit;
@@ -383,14 +394,17 @@ public class BroadleafThymeleaf3ICache<K, V> implements ICache<K, V> {
         private final boolean traceExecution;
         private final Logger logger;
 
-        private final ConcurrentHashMap<K,CacheEntry<V>> container;
+        private final ConcurrentHashMap<K, CacheEntry<V>> container;
         private final Object[] fifo;
         private int fifoPointer;
 
-
-        CacheDataContainer(final String name, final int initialCapacity,
-                               final int maxSize, final boolean traceExecution, final Logger logger) {
-
+        CacheDataContainer(
+                final String name,
+                final int initialCapacity,
+                final int maxSize,
+                final boolean traceExecution,
+                final Logger logger
+        ) {
             super();
 
             this.name = name;
@@ -406,7 +420,6 @@ public class BroadleafThymeleaf3ICache<K, V> implements ICache<K, V> {
             this.fifoPointer = 0;
             this.traceExecution = traceExecution;
             this.logger = logger;
-
         }
 
         public CacheEntry<V> get(final Object key) {
@@ -425,7 +438,7 @@ public class BroadleafThymeleaf3ICache<K, V> implements ICache<K, V> {
             return putWithoutTracing(key, value);
         }
 
-        private int putWithoutTracing(final K key, final CacheEntry<V> value) {
+        protected int putWithoutTracing(final K key, final CacheEntry<V> value) {
             // If we are not tracing, it's better to avoid the size() operation which has
             // some performance implications in ConcurrentHashMap (iteration and counting these maps
             // is slow if they are big)
@@ -448,10 +461,9 @@ public class BroadleafThymeleaf3ICache<K, V> implements ICache<K, V> {
             }
 
             return -1;
-
         }
 
-        private synchronized int putWithTracing(final K key, final CacheEntry<V> value) {
+        protected synchronized int putWithTracing(final K key, final CacheEntry<V> value) {
 
             final CacheEntry<V> existing = this.container.putIfAbsent(key, value);
             if (existing == null) {
@@ -463,7 +475,7 @@ public class BroadleafThymeleaf3ICache<K, V> implements ICache<K, V> {
                             final Integer newSize = Integer.valueOf(this.container.size());
                             this.logger.trace(
                                     "[THYMELEAF][{}][{}][CACHE_REMOVE][{}] Max size exceeded for cache \"{}\". Removing entry for key \"{}\". New size is {}.",
-                                    new Object[] {TemplateEngine.threadIndex(), this.name, newSize, this.name, removedKey, newSize});
+                                    TemplateEngine.threadIndex(), this.name, newSize, this.name, removedKey, newSize);
                         }
                     }
                     this.fifo[this.fifoPointer] = key;
@@ -471,7 +483,6 @@ public class BroadleafThymeleaf3ICache<K, V> implements ICache<K, V> {
                 }
             }
             return this.container.size();
-
         }
 
         public int remove(final K key) {
@@ -480,22 +491,22 @@ public class BroadleafThymeleaf3ICache<K, V> implements ICache<K, V> {
                 List<K> keyToDelete = new ArrayList<>();
                 if (!container.contains(key)) {
                     Enumeration<K> keys = container.keys();
-                    while (keys.hasMoreElements()){
+                    while (keys.hasMoreElements()) {
                         K next = keys.nextElement();
-                        if(next instanceof TemplateCacheKey && key instanceof TemplateCacheKey){
-                            if(((TemplateCacheKey)next).getTemplate().equals(((TemplateCacheKey)key).getTemplate())){
+                        if (next instanceof TemplateCacheKey && key instanceof TemplateCacheKey) {
+                            if (((TemplateCacheKey) next).getTemplate().equals(((TemplateCacheKey) key).getTemplate())) {
                                 keyToDelete.add(next);
                             }
                         }
                     }
-                }else{
+                } else {
                     keyToDelete.add(key);
                 }
 
                 for (K k : keyToDelete) {
                     if (this.traceExecution) {
                         result = removeWithTracing(k);
-                    }else {
+                    } else {
                         result = removeWithoutTracing(k);
                     }
                 }
@@ -503,7 +514,7 @@ public class BroadleafThymeleaf3ICache<K, V> implements ICache<K, V> {
             return result;
         }
 
-        private int removeWithoutTracing(final K key) {
+        protected int removeWithoutTracing(final K key) {
             // FIFO is also updated to avoid 'removed' keys remaining at FIFO (which could end up reducing cache size to 1)
             final CacheEntry<V> removed = this.container.remove(key);
             if (removed != null) {
@@ -519,7 +530,7 @@ public class BroadleafThymeleaf3ICache<K, V> implements ICache<K, V> {
             return -1;
         }
 
-        private synchronized int removeWithTracing(final K key) {
+        protected synchronized int removeWithTracing(final K key) {
             // FIFO is also updated to avoid 'removed' keys remaining at FIFO (which could end up reducing cache size to 1)
             final CacheEntry<V> removed = this.container.remove(key);
             if (removed == null) {
@@ -544,7 +555,6 @@ public class BroadleafThymeleaf3ICache<K, V> implements ICache<K, V> {
         public int size() {
             return this.container.size();
         }
-
     }
 
     static final class CacheEntry<V> {
@@ -561,7 +571,7 @@ public class BroadleafThymeleaf3ICache<K, V> implements ICache<K, V> {
         CacheEntry(final V cachedValue, final boolean useSoftReferences) {
             super();
             this.cachedValueReference = new SoftReference<>(cachedValue);
-            this.cachedValueAnchor = (!useSoftReferences? cachedValue : null);
+            this.cachedValueAnchor = (!useSoftReferences ? cachedValue : null);
             this.creationTimeInMillis = System.currentTimeMillis();
         }
 
@@ -577,7 +587,7 @@ public class BroadleafThymeleaf3ICache<K, V> implements ICache<K, V> {
                     logger.trace(
                             "[THYMELEAF][{}][*][{}][CACHE_DELETED_REFERENCES] Some entries at cache \"{}\" " +
                                     "seem to have been sacrificed by the Garbage Collector (soft references).",
-                            new Object[] {TemplateEngine.threadIndex(), cacheMapName, cacheMapName});
+                            TemplateEngine.threadIndex(), cacheMapName, cacheMapName);
                 }
                 return null;
             }
