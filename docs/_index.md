@@ -14,6 +14,7 @@ Thymeleaf is a server-side template engine used in both web and standalone appli
 |    2.2.0-GA    |           6.1.0-GA            |
 |    2.3.0-GA    |           6.2.0-GA            |
 |    3.0.0-GA    |           7.0.0-GA            |
+|    3.1.0-GA    |           7.1.0-GA            |
 
 ## Module Dependencies
 
