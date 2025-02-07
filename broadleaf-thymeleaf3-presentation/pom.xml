@@ -29,10 +29,12 @@
             <timezone>-6</timezone>
         </developer>
     </developers>
+
     <properties>
         <project.uri>${project.baseUri}/../</project.uri>
-        <thymeleaf.version>3.1.1.RELEASE</thymeleaf.version>
+        <thymeleaf.version>3.1.3.RELEASE</thymeleaf.version>
     </properties>
+
     <dependencies>
         <dependency>
             <groupId>org.thymeleaf</groupId>
@@ -61,12 +63,20 @@
         <dependency>
             <groupId>nz.net.ultraq.thymeleaf</groupId>
             <artifactId>thymeleaf-layout-dialect</artifactId>
-            <version>3.2.0</version>
+            <version>3.3.0</version>
             <optional>true</optional>
             <exclusions>
                 <exclusion>
                     <groupId>org.thymeleaf</groupId>
                     <artifactId>thymeleaf</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.apache.groovy</groupId>
+                    <artifactId>groovy</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-api</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>
@@ -86,7 +96,7 @@
         <dependency>
             <groupId>org.thymeleaf.extras</groupId>
             <artifactId>thymeleaf-extras-springsecurity6</artifactId>
-            <version>3.1.1.RELEASE</version>
+            <version>3.1.3.RELEASE</version>
             <optional>true</optional>
         </dependency>
 <!--        TODO need update or remove-->
@@ -99,6 +109,10 @@
                 <exclusion>
                     <groupId>org.thymeleaf</groupId>
                     <artifactId>thymeleaf</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-api</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>
