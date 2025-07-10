@@ -26,6 +26,7 @@ import org.broadleafcommerce.presentation.dialect.BroadleafModelModifierProcesso
 import org.broadleafcommerce.presentation.dialect.BroadleafProcessor;
 import org.broadleafcommerce.presentation.dialect.BroadleafTagReplacementProcessor;
 import org.broadleafcommerce.presentation.dialect.BroadleafTagTextModifierProcessor;
+import org.broadleafcommerce.presentation.dialect.BroadleafVariableModifierProcessor;
 import org.broadleafcommerce.presentation.resolver.BroadleafTemplateMode;
 import org.broadleafcommerce.presentation.resolver.BroadleafTemplateResolver;
 import org.broadleafcommerce.presentation.resolver.BroadleafTemplateResolverType;
@@ -34,6 +35,7 @@ import org.broadleafcommerce.presentation.thymeleaf3.dialect.DelegatingThymeleaf
 import org.broadleafcommerce.presentation.thymeleaf3.dialect.DelegatingThymeleaf3ModelModifierProcessor;
 import org.broadleafcommerce.presentation.thymeleaf3.dialect.DelegatingThymeleaf3TagReplacementProcessor;
 import org.broadleafcommerce.presentation.thymeleaf3.dialect.DelegatingThymeleaf3TagTextModifierProcessor;
+import org.broadleafcommerce.presentation.thymeleaf3.dialect.DelegatingThymeleaf3VariableModifierProcessor;
 import org.broadleafcommerce.presentation.thymeleaf3.resolver.BroadleafClassLoaderTemplateResolver;
 import org.broadleafcommerce.presentation.thymeleaf3.resolver.BroadleafThymeleaf3DatabaseTemplateResolver;
 import org.broadleafcommerce.presentation.thymeleaf3.resolver.BroadleafThymeleaf3StringTemplateResolver;
@@ -68,6 +70,8 @@ public class Thymeleaf3ConfigUtils {
         for (BroadleafProcessor proc : blcProcessors) {
             if (BroadleafTagTextModifierProcessor.class.isAssignableFrom(proc.getClass())) {
                 iProcessors.add(createDelegatingTagTextModifierProcessor((BroadleafTagTextModifierProcessor) proc));
+            } else if (BroadleafVariableModifierProcessor.class.isAssignableFrom(proc.getClass())) {
+                iProcessors.add(createDelegatingModelVariableModifierProcessor((BroadleafVariableModifierProcessor) proc));
             } else if (BroadleafTagReplacementProcessor.class.isAssignableFrom(proc.getClass())) {
                 iProcessors.add(createDelegatingTagReplacementProcessor((BroadleafTagReplacementProcessor) proc));
             } else if (BroadleafModelModifierProcessor.class.isAssignableFrom(proc.getClass())) {
@@ -107,6 +111,10 @@ public class Thymeleaf3ConfigUtils {
 
         }
         return emailResovlers;
+    }
+
+    protected DelegatingThymeleaf3VariableModifierProcessor createDelegatingModelVariableModifierProcessor(BroadleafVariableModifierProcessor processor) {
+        return new DelegatingThymeleaf3VariableModifierProcessor(processor.getName(), processor, processor.getPrecedence());
     }
 
     protected DelegatingThymeleaf3TagTextModifierProcessor createDelegatingTagTextModifierProcessor(
