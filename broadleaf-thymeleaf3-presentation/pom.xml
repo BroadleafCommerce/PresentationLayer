@@ -29,12 +29,10 @@
             <timezone>-6</timezone>
         </developer>
     </developers>
-
     <properties>
         <project.uri>${project.baseUri}/../</project.uri>
-        <thymeleaf.version>3.1.4.RELEASE</thymeleaf.version>
+        <thymeleaf.version>3.1.5.RELEASE</thymeleaf.version>
     </properties>
-
     <dependencies>
         <dependency>
             <groupId>org.thymeleaf</groupId>
@@ -96,7 +94,7 @@
         <dependency>
             <groupId>org.thymeleaf.extras</groupId>
             <artifactId>thymeleaf-extras-springsecurity6</artifactId>
-            <version>3.1.5.RELEASE</version>
+            <version>${thymeleaf.version}</version>
             <optional>true</optional>
         </dependency>
 <!--        TODO need update or remove-->
@@ -109,10 +107,6 @@
                 <exclusion>
                     <groupId>org.thymeleaf</groupId>
                     <artifactId>thymeleaf</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.slf4j</groupId>
-                    <artifactId>slf4j-api</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>

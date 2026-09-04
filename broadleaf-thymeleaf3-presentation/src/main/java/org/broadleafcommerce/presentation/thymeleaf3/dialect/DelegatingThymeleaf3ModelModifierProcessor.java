@@ -17,7 +17,7 @@
  */
 package org.broadleafcommerce.presentation.thymeleaf3.dialect;
 
-import org.apache.commons.collections.MapUtils;
+import org.apache.commons.collections4.MapUtils;
 import org.broadleafcommerce.presentation.dialect.BroadleafModelModifierProcessor;
 import org.broadleafcommerce.presentation.model.BroadleafTemplateContext;
 import org.broadleafcommerce.presentation.model.BroadleafTemplateModelModifierDTO;
